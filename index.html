@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcoMetChem — Metallurgical Waste & Secondary Metals Trading</title>
+<meta name="description" content="EcoMetChem — international trading company for metallurgical waste, secondary raw materials and non-ferrous metals across Europe.">
+
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ============================== HEADER ============================== -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="#top" class="brand">
+      <img src="assets/logo.svg" width="40" height="40" alt="EcoMetChem logo">
+      <span class="brand-word"><span class="eco">Eco</span><span class="chem">MetChem</span></span>
+    </a>
+
+    <nav class="nav" id="mainNav">
+      <ul class="nav-links">
+        <li><a href="#about" data-i18n="nav_about">About</a></li>
+        <li><a href="#materials" data-i18n="nav_materials">Materials</a></li>
+        <li><a href="#services" data-i18n="nav_services">Services</a></li>
+        <li><a href="#logistics" data-i18n="nav_logistics">Logistics</a></li>
+        <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+      </ul>
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button data-lang="en" type="button">EN</button>
+        <button data-lang="ru" type="button">RU</button>
+      </div>
+    </nav>
+
+    <button class="menu-toggle" aria-label="Menu" aria-expanded="false" aria-controls="mainNav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ============================== HERO ============================== -->
+<section class="hero" id="top">
+  <div class="container hero-inner reveal">
+    <p class="eyebrow" data-i18n="hero_eyebrow">Metallurgical waste & secondary metals trading</p>
+    <h1 data-i18n="hero_h1">Connecting Europe's metal supply chain</h1>
+    <p class="lede" data-i18n="hero_lede">EcoMetChem is an international trading company...</p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn btn-primary" data-i18n="hero_cta_primary">Request a quote</a>
+      <a href="#materials" class="btn btn-ghost" data-i18n="hero_cta_ghost">View materials</a>
+    </div>
+  </div>
+
+  <svg class="hero-network" viewBox="0 0 500 500" aria-hidden="true">
+    <line x1="80" y1="120" x2="220" y2="90"></line>
+    <line x1="220" y1="90" x2="360" y2="150"></line>
+    <line x1="80" y1="120" x2="150" y2="260"></line>
+    <line x1="150" y1="260" x2="360" y2="150"></line>
+    <line x1="150" y1="260" x2="120" y2="400"></line>
+    <line x1="150" y1="260" x2="300" y2="330"></line>
+    <line x1="360" y1="150" x2="300" y2="330"></line>
+    <line x1="300" y1="330" x2="420" y2="380"></line>
+    <line x1="120" y1="400" x2="300" y2="330"></line>
+    <circle class="node pulse" cx="80" cy="120" r="4"></circle>
+    <circle class="node" cx="220" cy="90" r="3.5"></circle>
+    <circle class="node-alt pulse" cx="360" cy="150" r="4"></circle>
+    <circle class="node" cx="150" cy="260" r="5"></circle>
+    <circle class="node" cx="120" cy="400" r="3.5"></circle>
+    <circle class="node-alt pulse" cx="300" cy="330" r="4"></circle>
+    <circle class="node" cx="420" cy="380" r="3.5"></circle>
+  </svg>
+</section>
+
+<!-- ============================== ABOUT ============================== -->
+<section class="alt-bg" id="about">
+  <div class="container about-grid">
+    <div class="reveal">
+      <p class="eyebrow" data-i18n="about_eyebrow">Who we are</p>
+      <h2 data-i18n="about_h2">A bridge between producers and consumers</h2>
+      <p data-i18n="about_p">We cooperate with metallurgical plants...</p>
+      <ul class="about-list">
+        <li><span class="dot"></span><span data-i18n="about_li1">—</span></li>
+        <li><span class="dot"></span><span data-i18n="about_li2">—</span></li>
+        <li><span class="dot"></span><span data-i18n="about_li3">—</span></li>
+        <li><span class="dot"></span><span data-i18n="about_li4">—</span></li>
+      </ul>
+    </div>
+    <div class="reveal">
+      <div class="element-tile" style="min-height:auto; padding:28px;">
+        <p class="eyebrow" style="margin-bottom:10px" data-i18n="about_goal_label">Our goal</p>
+        <p style="color:var(--ink); font-size:1.05rem; margin:0;" data-i18n="about_goal">—</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== MATERIALS ============================== -->
+<section id="materials">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow" data-i18n="mat_eyebrow">Materials we trade</p>
+      <h2 data-i18n="mat_h2">Browse our material portfolio</h2>
+    </div>
+
+    <div class="tabs reveal">
+      <button class="tab-btn active" data-cat="waste" type="button" data-i18n="mat_tab_waste">Metallurgical waste</button>
+      <button class="tab-btn" data-cat="metal" type="button" data-i18n="mat_tab_metal">Secondary metals & raw materials</button>
+    </div>
+
+    <div class="element-grid reveal" id="elementGrid"></div>
+  </div>
+</section>
+
+<!-- ============================== SERVICES ============================== -->
+<section class="alt-bg" id="services">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow" data-i18n="serv_eyebrow">What we do</p>
+      <h2 data-i18n="serv_h2">Services for our partners</h2>
+    </div>
+
+    <div class="service-list reveal">
+      <div class="service-item"><span class="idx">01</span><h3 data-i18n="serv1_h">Purchase & sale</h3><p data-i18n="serv1_p">—</p></div>
+      <div class="service-item"><span class="idx">02</span><h3 data-i18n="serv2_h">Sourcing & sales network</h3><p data-i18n="serv2_p">—</p></div>
+      <div class="service-item"><span class="idx">03</span><h3 data-i18n="serv3_h">Deal support</h3><p data-i18n="serv3_p">—</p></div>
+      <div class="service-item"><span class="idx">04</span><h3 data-i18n="serv4_h">Supply coordination</h3><p data-i18n="serv4_p">—</p></div>
+      <div class="service-item"><span class="idx">05</span><h3 data-i18n="serv5_h">Regulatory consulting</h3><p data-i18n="serv5_p">—</p></div>
+      <div class="service-item"><span class="idx">06</span><h3 data-i18n="serv6_h">Recycling guidance</h3><p data-i18n="serv6_p">—</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== WHY US ============================== -->
+<section id="why">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow" data-i18n="why_eyebrow">Why EcoMetChem</p>
+      <h2 data-i18n="why_h2">Built on reliability and long-term partnership</h2>
+    </div>
+    <div class="why-grid reveal">
+      <div class="why-card"><h3 data-i18n="why1_h">International experience</h3><p data-i18n="why1_p">—</p></div>
+      <div class="why-card"><h3 data-i18n="why2_h">Wide partner network</h3><p data-i18n="why2_p">—</p></div>
+      <div class="why-card"><h3 data-i18n="why3_h">Comprehensive support</h3><p data-i18n="why3_p">—</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== LOGISTICS ============================== -->
+<section class="alt-bg" id="logistics">
+  <div class="container logistics-inner">
+    <div class="reveal">
+      <p class="eyebrow" data-i18n="log_eyebrow">Logistics</p>
+      <h2 data-i18n="log_h2">Transport you can rely on</h2>
+      <p data-i18n="log_p">—</p>
+      <div class="adr-badge">▲ <span data-i18n="log_adr">ADR-compliant hazardous goods transport</span></div>
+    </div>
+    <svg class="reveal" viewBox="0 0 400 220" aria-hidden="true" style="width:100%; height:auto;">
+      <path d="M20 170 H380" stroke="var(--line)" stroke-width="2"/>
+      <path d="M20 170 Q120 60 200 170 T380 170" fill="none" stroke="var(--blue)" stroke-width="2" stroke-dasharray="6 6"/>
+      <circle cx="20" cy="170" r="6" fill="var(--amber)"/>
+      <circle cx="200" cy="170" r="6" fill="var(--blue)"/>
+      <circle cx="380" cy="170" r="6" fill="var(--green)"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ============================== CONTACT ============================== -->
+<section id="contact">
+  <div class="container contact-grid">
+    <div class="contact-info reveal">
+      <p class="eyebrow" data-i18n="contact_eyebrow">Get in touch</p>
+      <h2 data-i18n="contact_h2">Let's discuss your supply chain</h2>
+      <p data-i18n="contact_p">—</p>
+      <dl>
+        <div><dt data-i18n="contact_company">Company</dt><dd>EcoMetChem</dd></div>
+        <div><dt data-i18n="contact_email">Email</dt><dd>info@ecometchem.eu</dd></div>
+        <div><dt data-i18n="contact_region">Region</dt><dd>Europe-wide</dd></div>
+      </dl>
+    </div>
+
+    <form class="reveal" id="contactForm">
+      <div class="form-field">
+        <label for="f-name" data-i18n="form_name">Your name</label>
+        <input id="f-name" name="name" type="text" required>
+      </div>
+      <div class="form-field">
+        <label for="f-email" data-i18n="form_email">Email</label>
+        <input id="f-email" name="email" type="email" required>
+      </div>
+      <div class="form-field">
+        <label for="f-company" data-i18n="form_company">Company</label>
+        <input id="f-company" name="company" type="text">
+      </div>
+      <div class="form-field">
+        <label for="f-message" data-i18n="form_message">What are you looking for?</label>
+        <textarea id="f-message" name="message" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" data-i18n="form_submit">Send message</button>
+      <p class="form-note" data-i18n="form_note">This form is a working demo...</p>
+      <p class="form-status" id="formStatus"></p>
+    </form>
+  </div>
+</section>
+
+<!-- ============================== FOOTER ============================== -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <span class="brand-word"><span class="eco">Eco</span><span class="chem">MetChem</span></span>
+    <p>© <span id="year"></span> EcoMetChem. <span data-i18n="footer_rights">All rights reserved.</span></p>
+  </div>
+</footer>
+
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+<script src="js/i18n.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
