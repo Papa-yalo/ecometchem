@@ -1,5 +1,5 @@
 /* ==========================================================================
-   EcoMetChem — site behaviour
+   EkoMetChem — site behaviour
    Sections: 1) language  2) mobile nav  3) materials grid  4) reveal-on-scroll
    5) contact form (demo)
    ========================================================================== */
@@ -39,6 +39,7 @@ function applyLang(lang) {
   });
 
   renderMaterials();
+  if (typeof loadNews === "function") loadNews();
 }
 
 document.querySelectorAll(".lang-toggle button").forEach((btn) => {
@@ -65,6 +66,8 @@ document.querySelectorAll(".nav-links a").forEach((link) => {
    --------------------------------------------------------------- */
 let activeCat = "waste";
 
+const marketNoteKey = { waste: "mat_waste_note", metal: "mat_metal_note" };
+
 function renderMaterials() {
   const grid = document.getElementById("elementGrid");
   if (!grid) return;
@@ -84,13 +87,30 @@ function renderMaterials() {
     `;
     grid.appendChild(tile);
   });
+
+  const note = document.getElementById("marketNote");
+  if (note && marketNoteKey[activeCat]) {
+    note.textContent = I18N[currentLang][marketNoteKey[activeCat]];
+  }
 }
+
+const marketPanel = document.getElementById("marketPanel");
+const servicesPanel = document.getElementById("servicesPanel");
 
 document.querySelectorAll(".tab-btn").forEach((btn) => {
   btn.addEventListener("click", () => {
-    activeCat = btn.dataset.cat;
     document.querySelectorAll(".tab-btn").forEach((b) => b.classList.toggle("active", b === btn));
-    renderMaterials();
+    const cat = btn.dataset.cat;
+
+    if (cat === "services") {
+      marketPanel.hidden = true;
+      servicesPanel.hidden = false;
+    } else {
+      servicesPanel.hidden = true;
+      marketPanel.hidden = false;
+      activeCat = cat;
+      renderMaterials();
+    }
   });
 });
 
@@ -133,6 +153,90 @@ contactForm?.addEventListener("submit", (e) => {
 });
 
 /* ---------------------------------------------------------------
+   6) INDUSTRY NEWS — via rss2json.com (free tier, needs an API key)
+
+   SETUP (one-time):
+     1. Create a free account at https://rss2json.com (no credit card)
+     2. Copy your API key from the dashboard
+     3. Paste it below as RSS2JSON_API_KEY
+   Free tier covers ~10 000 requests/month — plenty for a site like this.
+   The feed itself is Google News RSS filtered by "metallurgy" — swap the
+   FEED_URL for any other metals/recycling trade feed if you prefer.
+   --------------------------------------------------------------- */
+const RSS2JSON_API_KEY = "16i4arleuhjyb9z5ec0sf8u8j7ncdwluxae0x1pk"; // <-- replace with your key
+
+const NEWS_FEEDS = {
+  en: "https://news.google.com/rss/search?q=metallurgy+OR+%22non-ferrous+metals%22&hl=en-US&gl=US&ceid=US:en",
+  ru: "https://news.google.com/rss/search?q=металлургия&hl=ru&gl=RU&ceid=RU:ru",
+};
+
+let newsCache = {};
+
+async function loadNews() {
+  const grid = document.getElementById("newsGrid");
+  const status = document.getElementById("newsStatus");
+  if (!grid) return;
+
+  if (RSS2JSON_API_KEY.includes("YOUR_RSS2JSON_KEY")) {
+    status.textContent =
+      currentLang === "ru"
+        ? "Новости пока не подключены: вставьте свой ключ rss2json.com в js/script.js (RSS2JSON_API_KEY)."
+        : "News isn't connected yet: paste your rss2json.com key into js/script.js (RSS2JSON_API_KEY).";
+    return;
+  }
+
+  if (newsCache[currentLang]) {
+    renderNews(newsCache[currentLang]);
+    return;
+  }
+
+  status.textContent = I18N[currentLang].news_loading;
+  status.style.display = "block";
+
+  try {
+    const feedUrl = encodeURIComponent(NEWS_FEEDS[currentLang]);
+    const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${feedUrl}&api_key=${RSS2JSON_API_KEY}&count=6`);
+    const data = await res.json();
+
+    if (data.status !== "ok" || !data.items?.length) throw new Error("empty feed");
+
+    newsCache[currentLang] = data.items;
+    renderNews(data.items);
+  } catch (err) {
+    status.textContent = I18N[currentLang].news_error;
+    status.style.display = "block";
+  }
+}
+
+function renderNews(items) {
+  const grid = document.getElementById("newsGrid");
+  const status = document.getElementById("newsStatus");
+  status.style.display = "none";
+
+  grid.querySelectorAll(".news-card").forEach((el) => el.remove());
+
+  items.slice(0, 6).forEach((item) => {
+    const card = document.createElement("a");
+    card.className = "news-card";
+    card.href = item.link;
+    card.target = "_blank";
+    card.rel = "noopener noreferrer";
+
+    const date = new Date(item.pubDate).toLocaleDateString(currentLang === "ru" ? "ru-RU" : "en-GB", {
+      day: "numeric", month: "short",
+    });
+    const source = item.author || (new URL(item.link).hostname.replace("www.", ""));
+
+    card.innerHTML = `
+      <div class="news-meta">${source} · ${date}</div>
+      <h3>${item.title}</h3>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+/* ---------------------------------------------------------------
    init
    --------------------------------------------------------------- */
 applyLang(currentLang);
+loadNews();

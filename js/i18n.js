@@ -1,5 +1,5 @@
 /* ==========================================================================
-   EcoMetChem — translations (RU / EN)
+   EkoMetChem — translations (RU / EN)
    Add a new language: copy an object below, translate the values,
    then add its code to LANGS in script.js
    ========================================================================== */
@@ -9,26 +9,31 @@ const I18N = {
     nav_about: "About", nav_materials: "Materials", nav_services: "Services",
     nav_logistics: "Logistics", nav_contact: "Contact",
 
-    hero_eyebrow: "Metallurgical waste & secondary metals trading",
-    hero_h1: "Connecting Europe's metal supply chain",
-    hero_lede: "EcoMetChem is an international trading company specializing in the purchase, sale and supply of metallurgical waste, secondary raw materials, non-ferrous metals and special metallurgical materials — linking suppliers and end consumers into one efficient chain.",
+    hero_eyebrow: "Metallurgical, chemical & industrial raw materials trading",
+    hero_h1: "Connecting Europe's metal & chemical supply chain",
+    hero_lede: "EkoMetChem is a reliable international partner for the metallurgical, chemical and recycling industries — trading metallurgical waste, secondary raw materials, chemical raw materials, non-ferrous metals and special industrial materials.",
     hero_cta_primary: "Request a quote",
-    hero_cta_ghost: "View materials",
+    hero_cta_ghost: "View marketplace",
 
     about_eyebrow: "Who we are",
-    about_h2: "A bridge between producers and consumers across Europe",
-    about_p: "We cooperate with metallurgical plants, recyclers, foundries and industrial companies throughout Europe, organizing the full chain from sourcing to delivery.",
-    about_li1: "Purchase, sale and supply of metallurgical waste and secondary raw materials",
-    about_li2: "Direct cooperation with producers, recyclers and industrial enterprises",
-    about_li3: "Support of cross-border export–import transactions",
-    about_li4: "Individual approach to every project, long-term partnerships",
+    about_h2: "A reliable partner for metallurgical, chemical and recycling industries",
+    about_p: "We build efficient supply chains, connecting producers, recyclers and industrial consumers. Our task is finding the optimal solution for every project, ensuring supply reliability, transparent cooperation and long-term partnerships.",
+    about_li1: "International trade in metallurgical, chemical and industrial raw materials",
+    about_li2: "Building partnerships with producers, recyclers and industrial consumers",
+    about_li3: "Organization of export–import deliveries and international logistics",
+    about_li4: "Full deal support and individual solutions for long-term cooperation",
     about_goal_label: "Our goal",
-    about_goal: "Efficient, mutually beneficial solutions in the international trade of metallurgical waste and secondary raw materials — connecting producers, recyclers and consumers across Europe.",
+    about_goal: "Building long-term, mutually beneficial partnerships — connecting producers, recyclers and industrial consumers into one efficient international supply chain for metallurgical waste, secondary raw materials, chemical raw materials and special industrial materials, supporting resource efficiency, the circular economy and environmental protection.",
 
-    mat_eyebrow: "Materials we trade",
-    mat_h2: "Browse our material portfolio",
-    mat_tab_waste: "Metallurgical waste",
-    mat_tab_metal: "Secondary metals & raw materials",
+    mat_eyebrow: "Marketplace",
+    mat_h2: "What we buy and supply",
+    mat_tab_waste: "Procurement",
+    mat_tab_metal: "Sales",
+    mat_tab_services: "Services",
+    mat_waste_note: "Standing demand — materials we purchase on a regular basis. Have something to offer? Get in touch.",
+    mat_metal_note: "Standing supply — materials we can deliver on a regular basis. Need a quote? Get in touch.",
+    mat_requests_label: "Current requests",
+    mat_requests_note: "Active procurement needs and available-now offers change frequently — contact us for today's list.",
 
     serv_eyebrow: "What we do",
     serv_h2: "Services for our partners",
@@ -39,7 +44,12 @@ const I18N = {
     serv5_h: "Regulatory consulting", serv5_p: "Advice on cross-border waste movement and applicable regulations.",
     serv6_h: "Recycling guidance", serv6_p: "Help selecting the optimal solution for further processing and reuse of materials.",
 
-    why_eyebrow: "Why EcoMetChem",
+    serv_requests_label: "Current service requests",
+    serv_requests_note: "What we're actively looking for right now:",
+    req_carriers: "Carriers", req_labs: "Laboratories", req_recyclers: "Recyclers",
+    req_warehouses: "Warehouses", req_contractors: "Contractors", req_other: "Other service requests",
+
+    why_eyebrow: "Why EkoMetChem",
     why_h2: "Built on reliability and long-term partnership",
     why1_h: "International experience", why1_p: "Operating across multiple European markets with cross-border expertise.",
     why2_h: "Wide partner network", why2_p: "A broad network of suppliers, recyclers and consumers throughout Europe.",
@@ -59,32 +69,47 @@ const I18N = {
     form_note: "This form is a working demo — connect it to your email or CRM before going live (see the README).",
 
     footer_rights: "All rights reserved.",
+
+    market_eyebrow: "Live market data",
+    market_h2: "Base metals prices",
+    market_note: "Indicative exchange prices, updated continuously. Not official LME settlement prices.",
+
+    news_eyebrow: "Industry pulse",
+    news_h2: "Metallurgy & metals news",
+    news_loading: "Loading latest headlines...",
+    news_error: "Couldn't load news right now — check back later.",
+    news_source: "Source",
   },
 
   ru: {
     nav_about: "О нас", nav_materials: "Материалы", nav_services: "Услуги",
     nav_logistics: "Логистика", nav_contact: "Контакты",
 
-    hero_eyebrow: "Торговля металлургическими отходами и вторсырьём",
-    hero_h1: "Объединяем цепочку поставок металла по всей Европе",
-    hero_lede: "EcoMetChem — международная торговая компания, специализирующаяся на закупке, продаже и поставке металлургических отходов, вторичного сырья, цветных металлов и специальных металлургических материалов. Объединяем поставщиков и конечных потребителей в единую эффективную цепочку.",
+    hero_eyebrow: "Торговля металлургическим, химическим и промышленным сырьём",
+    hero_h1: "Надёжный партнёр металлургической и химической отрасли Европы",
+    hero_lede: "EkoMetChem — международная торговая компания, специализирующаяся на закупке, продаже и организации поставок металлургических отходов, вторичного сырья, химического сырья, продукции химической промышленности, цветных металлов и специальных промышленных материалов.",
     hero_cta_primary: "Запросить предложение",
-    hero_cta_ghost: "Смотреть материалы",
+    hero_cta_ghost: "Открыть маркетплейс",
 
     about_eyebrow: "Кто мы",
-    about_h2: "Связующее звено между производителями и потребителями по всей Европе",
-    about_p: "Мы сотрудничаем с металлургическими предприятиями, переработчиками, литейными заводами и промышленными компаниями по всей Европе, организуя полную цепочку — от закупки до доставки.",
-    about_li1: "Закупка, продажа и поставка металлургических отходов и вторичного сырья",
-    about_li2: "Прямое сотрудничество с производителями, переработчиками и промышленными предприятиями",
-    about_li3: "Сопровождение международных экспортно-импортных сделок",
-    about_li4: "Индивидуальный подход к каждому проекту, долгосрочное партнёрство",
+    about_h2: "Надёжный партнёр для металлургической, химической и перерабатывающей промышленности",
+    about_p: "Мы создаём эффективные цепочки поставок, объединяя производителей, переработчиков и промышленных потребителей. Наша задача — находить оптимальные решения для каждого проекта, обеспечивая надёжность поставок, прозрачность сотрудничества и долгосрочные партнёрские отношения.",
+    about_li1: "Международная торговля металлургическим, химическим и промышленным сырьём",
+    about_li2: "Поиск и развитие партнёрств с производителями, переработчиками и промышленными потребителями",
+    about_li3: "Организация экспортно-импортных поставок и международной логистики",
+    about_li4: "Комплексное сопровождение сделок и индивидуальные решения для долгосрочного сотрудничества",
     about_goal_label: "Наша цель",
-    about_goal: "Создавать эффективные и взаимовыгодные решения в сфере международной торговли металлургическими отходами и вторичным сырьём, объединяя производителей, переработчиков и потребителей по всей Европе.",
+    about_goal: "Создавать долгосрочные и взаимовыгодные партнёрские отношения, объединяя производителей, переработчиков и промышленных потребителей в единую эффективную международную цепочку поставок металлургических отходов, вторичного сырья, химического сырья и специальных промышленных материалов, способствуя рациональному использованию ресурсов, развитию экономики замкнутого цикла и сохранению окружающей среды.",
 
-    mat_eyebrow: "Материалы, с которыми мы работаем",
-    mat_h2: "Портфель материалов",
-    mat_tab_waste: "Металлургические отходы",
-    mat_tab_metal: "Вторичные металлы и сырьё",
+    mat_eyebrow: "Торговая площадка",
+    mat_h2: "Что мы закупаем и поставляем",
+    mat_tab_waste: "Закупаем",
+    mat_tab_metal: "Предлагаем",
+    mat_tab_services: "Услуги",
+    mat_waste_note: "Постоянный спрос — материалы, которые мы закупаем на регулярной основе. Есть что предложить? Свяжитесь с нами.",
+    mat_metal_note: "Постоянные предложения — материалы, которые мы можем поставлять на регулярной основе. Нужна котировка? Свяжитесь с нами.",
+    mat_requests_label: "Актуальные запросы",
+    mat_requests_note: "Список актуальных закупок и доступных к немедленной поставке материалов часто обновляется — уточняйте у нас список на сегодня.",
 
     serv_eyebrow: "Чем мы занимаемся",
     serv_h2: "Услуги для партнёров",
@@ -95,7 +120,12 @@ const I18N = {
     serv5_h: "Консультации по регулированию", serv5_p: "Консультируем по трансграничному перемещению отходов и применимым нормам.",
     serv6_h: "Подбор решений для переработки", serv6_p: "Помогаем подобрать оптимальное решение для дальнейшей переработки и использования материалов.",
 
-    why_eyebrow: "Почему EcoMetChem",
+    serv_requests_label: "Актуальные запросы на услуги",
+    serv_requests_note: "Что мы сейчас активно ищем:",
+    req_carriers: "Перевозчики", req_labs: "Лаборатории", req_recyclers: "Переработчики",
+    req_warehouses: "Склады", req_contractors: "Подрядчики", req_other: "Другие сервисные запросы",
+
+    why_eyebrow: "Почему EkoMetChem",
     why_h2: "Надёжность и долгосрочное партнёрство",
     why1_h: "Международный опыт", why1_p: "Работаем на нескольких европейских рынках с опытом трансграничных сделок.",
     why2_h: "Широкая сеть партнёров", why2_p: "Обширная сеть поставщиков, переработчиков и потребителей по всей Европе.",
@@ -115,6 +145,16 @@ const I18N = {
     form_note: "Эта форма — рабочий макет. Перед запуском подключите её к почте или CRM (см. README).",
 
     footer_rights: "Все права защищены.",
+
+    market_eyebrow: "Рыночные данные",
+    market_h2: "Цены на цветные металлы",
+    market_note: "Индикативные биржевые цены, обновляются в реальном времени. Не являются официальными расчётными ценами LME.",
+
+    news_eyebrow: "Пульс отрасли",
+    news_h2: "Новости металлургии",
+    news_loading: "Загружаем свежие новости...",
+    news_error: "Не удалось загрузить новости — загляните позже.",
+    news_source: "Источник",
   },
 };
 

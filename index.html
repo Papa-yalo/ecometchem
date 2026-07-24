@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EcoMetChem — Metallurgical Waste & Secondary Metals Trading</title>
-<meta name="description" content="EcoMetChem — international trading company for metallurgical waste, secondary raw materials and non-ferrous metals across Europe.">
+<title>EkoMetChem — Metallurgical Waste & Secondary Metals Trading</title>
+<meta name="description" content="EkoMetChem — international trading company for metallurgical waste, secondary raw materials and non-ferrous metals across Europe.">
 
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,8 +18,8 @@
 <header class="site-header">
   <div class="container header-inner">
     <a href="#top" class="brand">
-      <img src="assets/logo.svg" width="40" height="40" alt="EcoMetChem logo">
-      <span class="brand-word"><span class="eco">Eco</span><span class="chem">MetChem</span></span>
+      <img src="assets/logo.svg" width="40" height="40" alt="EkoMetChem logo">
+      <span class="brand-word"><span class="eco">Eko</span><span class="chem">MetChem</span></span>
     </a>
 
     <nav class="nav" id="mainNav">
@@ -42,12 +42,36 @@
   </div>
 </header>
 
+<!-- ============================== MARKET TICKER ============================== -->
+<div class="ticker-wrap">
+  <div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+  </div>
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embed/embed-widget-ticker-tape.js" async>
+  {
+    "symbols": [
+      { "proName": "CURRENCYCOM:ALUMINUM", "title": "Aluminium" },
+      { "proName": "CURRENCYCOM:COPPER", "title": "Copper" },
+      { "proName": "CURRENCYCOM:ZINC", "title": "Zinc" },
+      { "proName": "CURRENCYCOM:NICKEL", "title": "Nickel" },
+      { "proName": "CURRENCYCOM:LEAD", "title": "Lead" }
+    ],
+    "showSymbolLogo": false,
+    "colorTheme": "dark",
+    "isTransparent": true,
+    "displayMode": "compact",
+    "locale": "en"
+  }
+  </script>
+  <p class="ticker-caption" data-i18n="market_note">—</p>
+</div>
+
 <!-- ============================== HERO ============================== -->
 <section class="hero" id="top">
   <div class="container hero-inner reveal">
     <p class="eyebrow" data-i18n="hero_eyebrow">Metallurgical waste & secondary metals trading</p>
     <h1 data-i18n="hero_h1">Connecting Europe's metal supply chain</h1>
-    <p class="lede" data-i18n="hero_lede">EcoMetChem is an international trading company...</p>
+    <p class="lede" data-i18n="hero_lede">EkoMetChem is an international trading company...</p>
     <div class="hero-cta">
       <a href="#contact" class="btn btn-primary" data-i18n="hero_cta_primary">Request a quote</a>
       <a href="#materials" class="btn btn-ghost" data-i18n="hero_cta_ghost">View materials</a>
@@ -55,22 +79,58 @@
   </div>
 
   <svg class="hero-network" viewBox="0 0 500 500" aria-hidden="true">
-    <line x1="80" y1="120" x2="220" y2="90"></line>
-    <line x1="220" y1="90" x2="360" y2="150"></line>
-    <line x1="80" y1="120" x2="150" y2="260"></line>
-    <line x1="150" y1="260" x2="360" y2="150"></line>
-    <line x1="150" y1="260" x2="120" y2="400"></line>
-    <line x1="150" y1="260" x2="300" y2="330"></line>
-    <line x1="360" y1="150" x2="300" y2="330"></line>
-    <line x1="300" y1="330" x2="420" y2="380"></line>
-    <line x1="120" y1="400" x2="300" y2="330"></line>
-    <circle class="node pulse" cx="80" cy="120" r="4"></circle>
-    <circle class="node" cx="220" cy="90" r="3.5"></circle>
-    <circle class="node-alt pulse" cx="360" cy="150" r="4"></circle>
-    <circle class="node" cx="150" cy="260" r="5"></circle>
-    <circle class="node" cx="120" cy="400" r="3.5"></circle>
-    <circle class="node-alt pulse" cx="300" cy="330" r="4"></circle>
-    <circle class="node" cx="420" cy="380" r="3.5"></circle>
+    <defs>
+      <linearGradient id="pourGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#FFD27A"/>
+        <stop offset="55%" stop-color="var(--amber)"/>
+        <stop offset="100%" stop-color="var(--amber-deep)"/>
+      </linearGradient>
+      <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="6" result="blur"/>
+        <feMerge>
+          <feMergeNode in="blur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+
+    <!-- ladle -->
+    <path d="M330 40 L430 25 L455 55 L360 85 Z" fill="var(--surface-alt)" stroke="var(--line)" stroke-width="1.5"/>
+    <line x1="360" y1="85" x2="345" y2="115" stroke="var(--line)" stroke-width="3"/>
+
+    <!-- molten stream -->
+    <path id="pourStream" d="M348 108 C 344 160, 352 200, 346 260 C 342 300, 350 330, 344 360"
+      fill="none" stroke="url(#pourGrad)" stroke-width="6" stroke-linecap="round"
+      filter="url(#glow)" class="pour-stream"/>
+
+    <!-- molds -->
+    <g class="molds">
+      <rect x="290" y="360" width="46" height="26" rx="2" fill="var(--surface-alt)" stroke="var(--line)"/>
+      <rect x="296" y="366" width="34" height="14" rx="1" class="mold-glow" fill="var(--amber)"/>
+
+      <rect x="355" y="368" width="46" height="26" rx="2" fill="var(--surface-alt)" stroke="var(--line)"/>
+      <rect x="361" y="374" width="34" height="14" rx="1" class="mold-glow mold-glow-2" fill="var(--amber)"/>
+
+      <rect x="420" y="362" width="46" height="26" rx="2" fill="var(--surface-alt)" stroke="var(--line)"/>
+      <rect x="426" y="368" width="34" height="14" rx="1" class="mold-glow mold-glow-3" fill="var(--amber)"/>
+    </g>
+
+    <!-- rising embers -->
+    <circle class="ember ember-1" cx="345" cy="200" r="2.4" fill="var(--amber)"/>
+    <circle class="ember ember-2" cx="352" cy="260" r="1.8" fill="#FFD27A"/>
+    <circle class="ember ember-3" cx="340" cy="320" r="2.1" fill="var(--amber)"/>
+    <circle class="ember ember-4" cx="358" cy="230" r="1.6" fill="#FFD27A"/>
+
+    <!-- faint network, echoing supply chain -->
+    <g class="net-lines">
+      <line x1="60" y1="120" x2="200" y2="150"/>
+      <line x1="200" y1="150" x2="150" y2="280"/>
+      <line x1="150" y1="280" x2="100" y2="420"/>
+      <circle class="node" cx="60" cy="120" r="3.5"/>
+      <circle class="node" cx="200" cy="150" r="3"/>
+      <circle class="node" cx="150" cy="280" r="4"/>
+      <circle class="node" cx="100" cy="420" r="3"/>
+    </g>
   </svg>
 </section>
 
@@ -97,47 +157,62 @@
   </div>
 </section>
 
-<!-- ============================== MATERIALS ============================== -->
+<!-- ============================== MARKETPLACE ============================== -->
 <section id="materials">
   <div class="container">
     <div class="section-head reveal">
-      <p class="eyebrow" data-i18n="mat_eyebrow">Materials we trade</p>
-      <h2 data-i18n="mat_h2">Browse our material portfolio</h2>
+      <p class="eyebrow" data-i18n="mat_eyebrow">Marketplace</p>
+      <h2 data-i18n="mat_h2">What we buy and supply</h2>
     </div>
 
     <div class="tabs reveal">
-      <button class="tab-btn active" data-cat="waste" type="button" data-i18n="mat_tab_waste">Metallurgical waste</button>
-      <button class="tab-btn" data-cat="metal" type="button" data-i18n="mat_tab_metal">Secondary metals & raw materials</button>
+      <button class="tab-btn active" data-cat="waste" type="button" data-i18n="mat_tab_waste">Procurement</button>
+      <button class="tab-btn" data-cat="metal" type="button" data-i18n="mat_tab_metal">Sales</button>
+      <button class="tab-btn" data-cat="services" type="button" data-i18n="mat_tab_services">Services</button>
     </div>
 
-    <div class="element-grid reveal" id="elementGrid"></div>
+    <!-- Procurement / Sales panel -->
+    <div id="marketPanel" class="reveal">
+      <p class="market-note" id="marketNote" data-i18n="mat_waste_note">—</p>
+      <div class="element-grid" id="elementGrid"></div>
+      <div class="requests-box">
+        <span class="requests-label" data-i18n="mat_requests_label">Current requests</span>
+        <p data-i18n="mat_requests_note">—</p>
+      </div>
+    </div>
+
+    <!-- Services panel -->
+    <div id="servicesPanel" class="reveal" hidden>
+      <div class="service-list">
+        <div class="service-item"><span class="idx">01</span><h3 data-i18n="serv1_h">Purchase & sale</h3><p data-i18n="serv1_p">—</p></div>
+        <div class="service-item"><span class="idx">02</span><h3 data-i18n="serv2_h">Sourcing & sales network</h3><p data-i18n="serv2_p">—</p></div>
+        <div class="service-item"><span class="idx">03</span><h3 data-i18n="serv3_h">Deal support</h3><p data-i18n="serv3_p">—</p></div>
+        <div class="service-item"><span class="idx">04</span><h3 data-i18n="serv4_h">Supply coordination</h3><p data-i18n="serv4_p">—</p></div>
+        <div class="service-item"><span class="idx">05</span><h3 data-i18n="serv5_h">Regulatory consulting</h3><p data-i18n="serv5_p">—</p></div>
+        <div class="service-item"><span class="idx">06</span><h3 data-i18n="serv6_h">Recycling guidance</h3><p data-i18n="serv6_p">—</p></div>
+      </div>
+      <div class="requests-box">
+        <span class="requests-label" data-i18n="serv_requests_label">Current service requests</span>
+        <p data-i18n="serv_requests_note">—</p>
+        <div class="request-tags">
+          <span data-i18n="req_carriers">Carriers</span>
+          <span data-i18n="req_labs">Laboratories</span>
+          <span data-i18n="req_recyclers">Recyclers</span>
+          <span data-i18n="req_warehouses">Warehouses</span>
+          <span data-i18n="req_contractors">Contractors</span>
+          <span data-i18n="req_other">Other</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ============================== SERVICES ============================== -->
-<section class="alt-bg" id="services">
-  <div class="container">
-    <div class="section-head reveal">
-      <p class="eyebrow" data-i18n="serv_eyebrow">What we do</p>
-      <h2 data-i18n="serv_h2">Services for our partners</h2>
-    </div>
-
-    <div class="service-list reveal">
-      <div class="service-item"><span class="idx">01</span><h3 data-i18n="serv1_h">Purchase & sale</h3><p data-i18n="serv1_p">—</p></div>
-      <div class="service-item"><span class="idx">02</span><h3 data-i18n="serv2_h">Sourcing & sales network</h3><p data-i18n="serv2_p">—</p></div>
-      <div class="service-item"><span class="idx">03</span><h3 data-i18n="serv3_h">Deal support</h3><p data-i18n="serv3_p">—</p></div>
-      <div class="service-item"><span class="idx">04</span><h3 data-i18n="serv4_h">Supply coordination</h3><p data-i18n="serv4_p">—</p></div>
-      <div class="service-item"><span class="idx">05</span><h3 data-i18n="serv5_h">Regulatory consulting</h3><p data-i18n="serv5_p">—</p></div>
-      <div class="service-item"><span class="idx">06</span><h3 data-i18n="serv6_h">Recycling guidance</h3><p data-i18n="serv6_p">—</p></div>
-    </div>
-  </div>
-</section>
 
 <!-- ============================== WHY US ============================== -->
 <section id="why">
   <div class="container">
     <div class="section-head reveal">
-      <p class="eyebrow" data-i18n="why_eyebrow">Why EcoMetChem</p>
+      <p class="eyebrow" data-i18n="why_eyebrow">Why EkoMetChem</p>
       <h2 data-i18n="why_h2">Built on reliability and long-term partnership</h2>
     </div>
     <div class="why-grid reveal">
@@ -167,6 +242,19 @@
   </div>
 </section>
 
+<!-- ============================== NEWS ============================== -->
+<section class="alt-bg" id="news">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow" data-i18n="news_eyebrow">Industry pulse</p>
+      <h2 data-i18n="news_h2">Metallurgy & metals news</h2>
+    </div>
+    <div class="news-grid reveal" id="newsGrid">
+      <p class="news-status" id="newsStatus" data-i18n="news_loading">Loading latest headlines...</p>
+    </div>
+  </div>
+</section>
+
 <!-- ============================== CONTACT ============================== -->
 <section id="contact">
   <div class="container contact-grid">
@@ -175,8 +263,8 @@
       <h2 data-i18n="contact_h2">Let's discuss your supply chain</h2>
       <p data-i18n="contact_p">—</p>
       <dl>
-        <div><dt data-i18n="contact_company">Company</dt><dd>EcoMetChem</dd></div>
-        <div><dt data-i18n="contact_email">Email</dt><dd>info@ecometchem.eu</dd></div>
+        <div><dt data-i18n="contact_company">Company</dt><dd>EkoMetChem</dd></div>
+        <div><dt data-i18n="contact_email">Email</dt><dd>info@ekometchem.com</dd></div>
         <div><dt data-i18n="contact_region">Region</dt><dd>Europe-wide</dd></div>
       </dl>
     </div>
@@ -208,8 +296,8 @@
 <!-- ============================== FOOTER ============================== -->
 <footer class="site-footer">
   <div class="container footer-inner">
-    <span class="brand-word"><span class="eco">Eco</span><span class="chem">MetChem</span></span>
-    <p>© <span id="year"></span> EcoMetChem. <span data-i18n="footer_rights">All rights reserved.</span></p>
+    <span class="brand-word"><span class="eco">Eko</span><span class="chem">MetChem</span></span>
+    <p>© <span id="year"></span> EkoMetChem. <span data-i18n="footer_rights">All rights reserved.</span></p>
   </div>
 </footer>
 

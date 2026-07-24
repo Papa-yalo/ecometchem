@@ -1,20 +1,21 @@
 /* ==========================================================================
-   EcoMetChem — design tokens
+   EkoMetChem — design tokens
    ========================================================================== */
 :root {
-  /* color */
-  --bg: #F4F7F4;
-  --surface: #FFFFFF;
-  --surface-alt: #E9F0EA;
-  --ink: #13221D;
-  --ink-muted: #4B5D56;
-  --line: #D7E0DA;
+  /* color — dark industrial / molten metal theme */
+  --bg: #12161A;
+  --surface: #1A2024;
+  --surface-alt: #1E2529;
+  --ink: #ECEFEE;
+  --ink-muted: #9AA6A3;
+  --line: #2B3438;
 
-  --blue: #0E76A8;
-  --blue-deep: #0A5A82;
-  --green: #2E7D46;
-  --green-deep: #1F5E33;
-  --amber: #B8863B;
+  --blue: #4FB3E0;
+  --blue-deep: #2C90BC;
+  --green: #55B77C;
+  --green-deep: #3A8F5C;
+  --amber: #FF8C42;
+  --amber-deep: #E56C1E;
 
   /* type */
   --font-display: 'Space Grotesk', sans-serif;
@@ -108,7 +109,7 @@ p { margin: 0 0 1em; color: var(--ink-muted); }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(244, 247, 244, 0.92);
+  background: rgba(18, 22, 26, 0.88);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
 }
@@ -196,19 +197,46 @@ p { margin: 0 0 1em; color: var(--ink-muted); }
   z-index: 1;
   opacity: 0.9;
 }
-.hero-network .node { fill: var(--blue); }
-.hero-network .node-alt { fill: var(--amber); }
-.hero-network line {
+.hero-network .node { fill: var(--blue); opacity: 0.6; }
+.net-lines line {
   stroke: var(--blue);
   stroke-width: 1;
-  opacity: 0.35;
+  opacity: 0.25;
 }
-.hero-network .pulse {
-  animation: pulse 3.2s ease-in-out infinite;
+
+.pour-stream {
+  stroke-dasharray: 14 8;
+  animation: pourFlow 1.1s linear infinite;
 }
-@keyframes pulse {
-  0%, 100% { opacity: 0.25; r: 3; }
-  50% { opacity: 0.9; r: 5; }
+@keyframes pourFlow {
+  to { stroke-dashoffset: -22; }
+}
+
+.mold-glow {
+  transform-origin: center;
+  animation: moldGlow 2.4s ease-in-out infinite;
+}
+.mold-glow-2 { animation-delay: 0.5s; }
+.mold-glow-3 { animation-delay: 1s; }
+@keyframes moldGlow {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.95; }
+}
+
+.ember {
+  animation: emberRise 3.5s ease-in infinite;
+}
+.ember-2 { animation-delay: 0.8s; }
+.ember-3 { animation-delay: 1.6s; }
+.ember-4 { animation-delay: 2.3s; }
+@keyframes emberRise {
+  0% { transform: translate(0, 0); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translate(6px, -70px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pour-stream, .mold-glow, .ember { animation: none; }
 }
 
 /* ---------- generic section ---------- */
@@ -264,7 +292,7 @@ section { padding: 88px 0; }
   cursor: pointer;
   color: var(--ink-muted);
 }
-.tab-btn.active { border-color: var(--blue); color: var(--blue); background: #fff; }
+.tab-btn.active { border-color: var(--blue); color: var(--blue); background: var(--surface); }
 
 .element-grid {
   display: grid;
@@ -308,8 +336,8 @@ section { padding: 88px 0; }
   position: absolute;
   left: 0; right: 0; bottom: 100%;
   margin-bottom: 8px;
-  background: var(--ink);
-  color: #fff;
+  background: var(--amber);
+  color: #12161A;
   font-size: 0.78rem;
   padding: 10px 12px;
   border-radius: var(--radius);
@@ -324,7 +352,35 @@ section { padding: 88px 0; }
   transform: translateY(0);
 }
 
-/* ---------- services ---------- */
+.market-note {
+  max-width: 620px;
+  font-size: 0.95rem;
+  margin-bottom: 24px;
+  color: var(--ink-muted);
+}
+.requests-box {
+  margin-top: 32px;
+  border: 1.5px dashed var(--line);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+}
+.requests-box p { margin: 6px 0 0; font-size: 0.9rem; }
+.requests-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--amber);
+}
+.request-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.request-tags span {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  border: 1px solid var(--line);
+  color: var(--ink-muted);
+  padding: 5px 11px;
+  border-radius: 999px;
+}
 .service-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -422,6 +478,52 @@ section { padding: 88px 0; }
 .form-note { font-size: 0.8rem; color: var(--ink-muted); margin-top: 12px; }
 .form-status { font-size: 0.88rem; margin-top: 12px; display: none; }
 .form-status.show { display: block; }
+
+/* ---------- ticker ---------- */
+.ticker-wrap {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  padding: 6px 0 4px;
+}
+.ticker-caption {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--ink-muted);
+  margin: 4px 0 0;
+  opacity: 0.75;
+}
+
+/* ---------- news ---------- */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+}
+.news-status { color: var(--ink-muted); font-size: 0.92rem; }
+.news-card {
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-decoration: none;
+  display: block;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.news-card:hover { border-color: var(--amber); transform: translateY(-2px); }
+.news-card h3 {
+  font-size: 0.98rem;
+  color: var(--ink);
+  margin: 0 0 10px;
+  line-height: 1.35;
+}
+.news-card .news-meta {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--amber);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
 
 /* ---------- footer ---------- */
 .site-footer {
