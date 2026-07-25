@@ -14,24 +14,6 @@
 </head>
 <body>
 
-<!-- Ambient molten-metal background, fixed behind all content -->
-<div class="molten-bg" aria-hidden="true">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
-  <svg class="fissures" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
-    <defs>
-      <filter id="fissureGlow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="3" result="b"/>
-        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
-    </defs>
-    <path class="fissure f1" d="M-50 620 C 200 560, 320 680, 520 600 S 900 520, 1250 590" filter="url(#fissureGlow)"/>
-    <path class="fissure f2" d="M-50 200 C 250 260, 400 140, 650 220 S 1000 300, 1250 180" filter="url(#fissureGlow)"/>
-    <path class="fissure f3" d="M-50 420 C 300 380, 500 460, 750 400 S 1050 340, 1250 410" filter="url(#fissureGlow)"/>
-  </svg>
-</div>
-
 <!-- ============================== HEADER ============================== -->
 <header class="site-header">
   <div class="container header-inner">
@@ -47,9 +29,19 @@
         <li><a href="#logistics" data-i18n="nav_logistics">Logistics</a></li>
         <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
       </ul>
-      <div class="lang-toggle" role="group" aria-label="Language">
-        <button data-lang="en" type="button">EN</button>
-        <button data-lang="ru" type="button">RU</button>
+      <div class="lang-dropdown" id="langDropdown">
+        <button class="lang-current" id="langCurrentBtn" type="button" aria-haspopup="listbox" aria-expanded="false">
+          <span id="langCurrentLabel">EN</span>
+          <svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+        </button>
+        <ul class="lang-options" id="langOptions" role="listbox">
+          <li><button type="button" data-lang="en">EN <span>English</span></button></li>
+          <li><button type="button" data-lang="ru">RU <span>Русский</span></button></li>
+          <li><button type="button" data-lang="pl">PL <span>Polski</span></button></li>
+          <li><button type="button" data-lang="de">DE <span>Deutsch</span></button></li>
+          <li><button type="button" data-lang="it">IT <span>Italiano</span></button></li>
+          <li><button type="button" data-lang="fr">FR <span>Français</span></button></li>
+        </ul>
       </div>
     </nav>
 

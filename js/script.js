@@ -4,7 +4,7 @@
    5) contact form (demo)
    ========================================================================== */
 
-const LANGS = ["en", "ru"];
+const LANGS = ["en", "ru", "pl", "de", "it", "fr"];
 
 /* ---------------------------------------------------------------
    1) LANGUAGE — auto-detect on first visit, then remember choice
@@ -34,7 +34,8 @@ function applyLang(lang) {
     if (dict[key] !== undefined) el.setAttribute("placeholder", dict[key]);
   });
 
-  document.querySelectorAll(".lang-toggle button").forEach((btn) => {
+  document.getElementById("langCurrentLabel").textContent = lang.toUpperCase();
+  document.querySelectorAll(".lang-options button").forEach((btn) => {
     btn.classList.toggle("active", btn.dataset.lang === lang);
   });
 
@@ -42,8 +43,29 @@ function applyLang(lang) {
   if (typeof loadNews === "function") loadNews();
 }
 
-document.querySelectorAll(".lang-toggle button").forEach((btn) => {
-  btn.addEventListener("click", () => applyLang(btn.dataset.lang));
+/* dropdown open/close + selection */
+const langDropdown = document.getElementById("langDropdown");
+const langCurrentBtn = document.getElementById("langCurrentBtn");
+
+langCurrentBtn?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  const isOpen = langDropdown.classList.toggle("open");
+  langCurrentBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+});
+
+document.querySelectorAll(".lang-options button").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    applyLang(btn.dataset.lang);
+    langDropdown.classList.remove("open");
+    langCurrentBtn.setAttribute("aria-expanded", "false");
+  });
+});
+
+document.addEventListener("click", (e) => {
+  if (langDropdown && !langDropdown.contains(e.target)) {
+    langDropdown.classList.remove("open");
+    langCurrentBtn?.setAttribute("aria-expanded", "false");
+  }
 });
 
 /* ---------------------------------------------------------------
@@ -163,11 +185,15 @@ contactForm?.addEventListener("submit", (e) => {
    The feed itself is Google News RSS filtered by "metallurgy" — swap the
    FEED_URL for any other metals/recycling trade feed if you prefer.
    --------------------------------------------------------------- */
-const RSS2JSON_API_KEY = "16i4arleuhjyb9z5ec0sf8u8j7ncdwluxae0x1pk"; // <-- replace with your key
+const RSS2JSON_API_KEY = "YOUR_RSS2JSON_KEY"; // <-- replace with your key
 
 const NEWS_FEEDS = {
-  en: "https://news.google.com/rss/search?q=metallurgy+OR+%22non-ferrous+metals%22&hl=en-US&gl=US&ceid=US:en",
-  ru: "https://news.google.com/rss/search?q=металлургия&hl=ru&gl=RU&ceid=RU:ru",
+  en: "https://news.google.com/rss/search?q=metallurgy+OR+%22non-ferrous+metals%22+Europe&hl=en-GB&gl=GB&ceid=GB:en",
+  ru: "https://news.google.com/rss/search?q=металлургия+Европа+OR+ЕС+OR+европейский+рынок+металлов&hl=ru&gl=PL&ceid=PL:ru",
+  pl: "https://news.google.com/rss/search?q=metalurgia+OR+hutnictwo+Europa&hl=pl&gl=PL&ceid=PL:pl",
+  de: "https://news.google.com/rss/search?q=Metallurgie+OR+NE-Metalle+Europa&hl=de&gl=DE&ceid=DE:de",
+  it: "https://news.google.com/rss/search?q=metallurgia+OR+metalli+non+ferrosi+Europa&hl=it&gl=IT&ceid=IT:it",
+  fr: "https://news.google.com/rss/search?q=métallurgie+OR+métaux+non+ferreux+Europe&hl=fr&gl=FR&ceid=FR:fr",
 };
 
 let newsCache = {};
@@ -222,7 +248,8 @@ function renderNews(items) {
     card.target = "_blank";
     card.rel = "noopener noreferrer";
 
-    const date = new Date(item.pubDate).toLocaleDateString(currentLang === "ru" ? "ru-RU" : "en-GB", {
+    const localeMap = { ru: "ru-RU", pl: "pl-PL", de: "de-DE", it: "it-IT", fr: "fr-FR", en: "en-GB" };
+    const date = new Date(item.pubDate).toLocaleDateString(localeMap[currentLang] || "en-GB", {
       day: "numeric", month: "short",
     });
     const source = item.author || (new URL(item.link).hostname.replace("www.", ""));
