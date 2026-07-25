@@ -86,61 +86,6 @@
       <a href="#materials" class="btn btn-ghost" data-i18n="hero_cta_ghost">View materials</a>
     </div>
   </div>
-
-  <svg class="hero-network" viewBox="0 0 500 500" aria-hidden="true">
-    <defs>
-      <linearGradient id="pourGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#FFD27A"/>
-        <stop offset="55%" stop-color="var(--amber)"/>
-        <stop offset="100%" stop-color="var(--amber-deep)"/>
-      </linearGradient>
-      <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
-        <feGaussianBlur stdDeviation="6" result="blur"/>
-        <feMerge>
-          <feMergeNode in="blur"/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-    </defs>
-
-    <!-- ladle -->
-    <path d="M330 40 L430 25 L455 55 L360 85 Z" fill="var(--surface-alt)" stroke="var(--line)" stroke-width="1.5"/>
-    <line x1="360" y1="85" x2="345" y2="115" stroke="var(--line)" stroke-width="3"/>
-
-    <!-- molten stream -->
-    <path id="pourStream" d="M348 108 C 344 160, 352 200, 346 260 C 342 300, 350 330, 344 360"
-      fill="none" stroke="url(#pourGrad)" stroke-width="6" stroke-linecap="round"
-      filter="url(#glow)" class="pour-stream"/>
-
-    <!-- molds -->
-    <g class="molds">
-      <rect x="290" y="360" width="46" height="26" rx="2" fill="var(--surface-alt)" stroke="var(--line)"/>
-      <rect x="296" y="366" width="34" height="14" rx="1" class="mold-glow" fill="var(--amber)"/>
-
-      <rect x="355" y="368" width="46" height="26" rx="2" fill="var(--surface-alt)" stroke="var(--line)"/>
-      <rect x="361" y="374" width="34" height="14" rx="1" class="mold-glow mold-glow-2" fill="var(--amber)"/>
-
-      <rect x="420" y="362" width="46" height="26" rx="2" fill="var(--surface-alt)" stroke="var(--line)"/>
-      <rect x="426" y="368" width="34" height="14" rx="1" class="mold-glow mold-glow-3" fill="var(--amber)"/>
-    </g>
-
-    <!-- rising embers -->
-    <circle class="ember ember-1" cx="345" cy="200" r="2.4" fill="var(--amber)"/>
-    <circle class="ember ember-2" cx="352" cy="260" r="1.8" fill="#FFD27A"/>
-    <circle class="ember ember-3" cx="340" cy="320" r="2.1" fill="var(--amber)"/>
-    <circle class="ember ember-4" cx="358" cy="230" r="1.6" fill="#FFD27A"/>
-
-    <!-- faint network, echoing supply chain -->
-    <g class="net-lines">
-      <line x1="60" y1="120" x2="200" y2="150"/>
-      <line x1="200" y1="150" x2="150" y2="280"/>
-      <line x1="150" y1="280" x2="100" y2="420"/>
-      <circle class="node" cx="60" cy="120" r="3.5"/>
-      <circle class="node" cx="200" cy="150" r="3"/>
-      <circle class="node" cx="150" cy="280" r="4"/>
-      <circle class="node" cx="100" cy="420" r="3"/>
-    </g>
-  </svg>
 </section>
 
 <!-- ============================== ABOUT ============================== -->
