@@ -6,7 +6,7 @@
 <title>EkoMetChem — Metallurgical Waste & Secondary Metals Trading</title>
 <meta name="description" content="EkoMetChem — international trading company for metallurgical waste, secondary raw materials and non-ferrous metals across Europe.">
 
-<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="icon" href="assets/logo.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -14,12 +14,29 @@
 </head>
 <body>
 
+<!-- Ambient molten-metal background, fixed behind all content -->
+<div class="molten-bg" aria-hidden="true">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <svg class="fissures" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <filter id="fissureGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="3" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <path class="fissure f1" d="M-50 620 C 200 560, 320 680, 520 600 S 900 520, 1250 590" filter="url(#fissureGlow)"/>
+    <path class="fissure f2" d="M-50 200 C 250 260, 400 140, 650 220 S 1000 300, 1250 180" filter="url(#fissureGlow)"/>
+    <path class="fissure f3" d="M-50 420 C 300 380, 500 460, 750 400 S 1050 340, 1250 410" filter="url(#fissureGlow)"/>
+  </svg>
+</div>
+
 <!-- ============================== HEADER ============================== -->
 <header class="site-header">
   <div class="container header-inner">
     <a href="#top" class="brand">
-      <img src="assets/logo.svg" width="40" height="40" alt="EkoMetChem logo">
-      <span class="brand-word"><span class="eco">Eko</span><span class="chem">MetChem</span></span>
+      <img src="assets/logo.png" class="brand-logo-img" alt="EkoMetChem">
     </a>
 
     <nav class="nav" id="mainNav">
@@ -296,7 +313,7 @@
 <!-- ============================== FOOTER ============================== -->
 <footer class="site-footer">
   <div class="container footer-inner">
-    <span class="brand-word"><span class="eco">Eko</span><span class="chem">MetChem</span></span>
+    <img src="assets/logo.png" class="footer-logo-img" alt="EkoMetChem">
     <p>© <span id="year"></span> EkoMetChem. <span data-i18n="footer_rights">All rights reserved.</span></p>
   </div>
 </footer>
