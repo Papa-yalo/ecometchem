@@ -77,6 +77,11 @@
 
 <!-- ============================== HERO ============================== -->
 <section class="hero" id="top">
+  <video class="hero-video" autoplay muted loop playsinline aria-hidden="true">
+    <source src="assets/video/hero-loop.mp4" type="video/mp4">
+  </video>
+  <div class="hero-video-overlay" aria-hidden="true"></div>
+
   <div class="container hero-inner reveal">
     <p class="eyebrow" data-i18n="hero_eyebrow">Metallurgical waste & secondary metals trading</p>
     <h1 data-i18n="hero_h1">Connecting Europe's metal supply chain</h1>
@@ -120,47 +125,46 @@
     </div>
 
     <div class="tabs reveal">
-      <button class="tab-btn active" data-cat="waste" type="button" data-i18n="mat_tab_waste">Procurement</button>
-      <button class="tab-btn" data-cat="metal" type="button" data-i18n="mat_tab_metal">Sales</button>
-      <button class="tab-btn" data-cat="services" type="button" data-i18n="mat_tab_services">Services</button>
+      <button class="tab-btn active" data-cat="catalog" type="button" data-i18n="mat_tab_waste">Procurement / Sales</button>
+      <button class="tab-btn" data-cat="services" type="button" data-i18n="mat_tab_services">Partnership & Services</button>
     </div>
 
-    <!-- Procurement / Sales panel -->
+    <!-- Procurement / Sales catalog -->
     <div id="marketPanel" class="reveal">
-      <p class="market-note" id="marketNote" data-i18n="mat_waste_note">—</p>
       <div class="element-grid" id="elementGrid"></div>
-      <div class="requests-box">
-        <span class="requests-label" data-i18n="mat_requests_label">Current requests</span>
-        <p data-i18n="mat_requests_note">—</p>
-      </div>
     </div>
 
-    <!-- Services panel -->
+    <!-- Partnership & Services panel -->
     <div id="servicesPanel" class="reveal" hidden>
-      <div class="service-list">
-        <div class="service-item"><span class="idx">01</span><h3 data-i18n="serv1_h">Purchase & sale</h3><p data-i18n="serv1_p">—</p></div>
-        <div class="service-item"><span class="idx">02</span><h3 data-i18n="serv2_h">Sourcing & sales network</h3><p data-i18n="serv2_p">—</p></div>
-        <div class="service-item"><span class="idx">03</span><h3 data-i18n="serv3_h">Deal support</h3><p data-i18n="serv3_p">—</p></div>
-        <div class="service-item"><span class="idx">04</span><h3 data-i18n="serv4_h">Supply coordination</h3><p data-i18n="serv4_p">—</p></div>
-        <div class="service-item"><span class="idx">05</span><h3 data-i18n="serv5_h">Regulatory consulting</h3><p data-i18n="serv5_p">—</p></div>
-        <div class="service-item"><span class="idx">06</span><h3 data-i18n="serv6_h">Recycling guidance</h3><p data-i18n="serv6_p">—</p></div>
-      </div>
-      <div class="requests-box">
-        <span class="requests-label" data-i18n="serv_requests_label">Current service requests</span>
-        <p data-i18n="serv_requests_note">—</p>
-        <div class="request-tags">
-          <span data-i18n="req_carriers">Carriers</span>
-          <span data-i18n="req_labs">Laboratories</span>
-          <span data-i18n="req_recyclers">Recyclers</span>
-          <span data-i18n="req_warehouses">Warehouses</span>
-          <span data-i18n="req_contractors">Contractors</span>
-          <span data-i18n="req_other">Other</span>
+      <div class="partner-cols">
+        <div class="partner-col">
+          <span class="requests-label" data-i18n="serv_offer_label">We offer</span>
+          <ul class="partner-list">
+            <li data-i18n="serv_offer_1">—</li>
+            <li data-i18n="serv_offer_2">—</li>
+          </ul>
+        </div>
+        <div class="partner-col">
+          <span class="requests-label" data-i18n="serv_need_label">We are looking for</span>
+          <ul class="partner-list">
+            <li data-i18n="serv_need_1">—</li>
+            <li data-i18n="serv_need_2">—</li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- Image lightbox for material photos -->
+<div class="lightbox" id="lightbox" hidden>
+  <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+  <div class="lightbox-panel">
+    <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close">✕</button>
+    <h3 class="lightbox-title" id="lightboxTitle"></h3>
+    <div class="lightbox-grid" id="lightboxGrid"></div>
+  </div>
+</div>
 
 <!-- ============================== WHY US ============================== -->
 <section id="why">

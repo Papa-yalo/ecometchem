@@ -84,37 +84,58 @@ document.querySelectorAll(".nav-links a").forEach((link) => {
 });
 
 /* ---------------------------------------------------------------
-   3) MATERIALS GRID (element-table signature section)
+   3) MATERIALS CATALOG + LIGHTBOX
    --------------------------------------------------------------- */
-let activeCat = "waste";
-
-const marketNoteKey = { waste: "mat_waste_note", metal: "mat_metal_note" };
-
 function renderMaterials() {
   const grid = document.getElementById("elementGrid");
   if (!grid) return;
 
   grid.innerHTML = "";
-  const items = MATERIALS.filter((m) => m.cat === activeCat);
 
-  items.forEach((m, i) => {
-    const tile = document.createElement("div");
-    tile.className = `element-tile cat-${m.cat}`;
-    tile.tabIndex = 0;
+  MATERIALS.forEach((m) => {
+    const tile = document.createElement("button");
+    tile.type = "button";
+    tile.className = "element-tile";
     tile.innerHTML = `
-      <div class="num">No. ${String(i + 1).padStart(2, "0")}</div>
-      <div class="sym">${m.code}</div>
-      <div class="name">${m[currentLang]}</div>
-      <div class="tip">${m[currentLang]}</div>
+      <div class="num">No. ${m.code}</div>
+      <div class="sym">${m.name}</div>
     `;
+    tile.addEventListener("click", () => openLightbox(m));
     grid.appendChild(tile);
   });
-
-  const note = document.getElementById("marketNote");
-  if (note && marketNoteKey[activeCat]) {
-    note.textContent = I18N[currentLang][marketNoteKey[activeCat]];
-  }
 }
+
+const lightbox = document.getElementById("lightbox");
+const lightboxGrid = document.getElementById("lightboxGrid");
+const lightboxTitle = document.getElementById("lightboxTitle");
+const lightboxClose = document.getElementById("lightboxClose");
+const lightboxBackdrop = document.getElementById("lightboxBackdrop");
+
+function openLightbox(material) {
+  lightboxTitle.textContent = material.name;
+  lightboxGrid.innerHTML = "";
+  lightboxGrid.classList.toggle("single", material.images.length === 1);
+  material.images.forEach((src) => {
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = material.name;
+    img.loading = "lazy";
+    lightboxGrid.appendChild(img);
+  });
+  lightbox.hidden = false;
+  document.body.classList.add("lightbox-open");
+}
+
+function closeLightbox() {
+  lightbox.hidden = true;
+  document.body.classList.remove("lightbox-open");
+}
+
+lightboxClose?.addEventListener("click", closeLightbox);
+lightboxBackdrop?.addEventListener("click", closeLightbox);
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !lightbox.hidden) closeLightbox();
+});
 
 const marketPanel = document.getElementById("marketPanel");
 const servicesPanel = document.getElementById("servicesPanel");
@@ -130,8 +151,6 @@ document.querySelectorAll(".tab-btn").forEach((btn) => {
     } else {
       servicesPanel.hidden = true;
       marketPanel.hidden = false;
-      activeCat = cat;
-      renderMaterials();
     }
   });
 });
