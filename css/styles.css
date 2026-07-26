@@ -377,14 +377,15 @@ section { padding: 88px 0; }
 
 /* ---------- lightbox ---------- */
 .lightbox {
+  display: none;
   position: fixed;
   inset: 0;
   z-index: 200;
-  display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
 }
+.lightbox:not([hidden]) { display: flex; }
 body.lightbox-open { overflow: hidden; }
 .lightbox-backdrop {
   position: absolute;
