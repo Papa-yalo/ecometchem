@@ -93,6 +93,10 @@ const I18N = {
     form_error: "Something went wrong. Please try again or email us directly.",
 
     footer_rights: "All rights reserved.",
+    footer_privacy: "Privacy Policy",
+    cookie_text: "We use cookies for basic analytics to understand how visitors use this site. No personal profiling, no ad tracking.",
+    cookie_accept: "Accept",
+    cookie_decline: "Decline",
 
     market_eyebrow: "Live market data",
     market_h2: "Base metals prices",
@@ -194,6 +198,10 @@ const I18N = {
     form_error: "Что-то пошло не так. Попробуйте ещё раз или напишите нам напрямую на почту.",
 
     footer_rights: "Все права защищены.",
+    footer_privacy: "Политика конфиденциальности",
+    cookie_text: "Мы используем базовую аналитику, чтобы понимать, как посетители пользуются сайтом. Без персональной слежки и рекламного трекинга.",
+    cookie_accept: "Принять",
+    cookie_decline: "Отклонить",
 
     market_eyebrow: "Рыночные данные",
     market_h2: "Цены на цветные металлы",
@@ -295,6 +303,10 @@ const I18N = {
     form_error: "Coś poszło nie tak. Spróbuj ponownie lub napisz do nas bezpośrednio.",
 
     footer_rights: "Wszelkie prawa zastrzeżone.",
+    footer_privacy: "Polityka prywatności",
+    cookie_text: "Używamy podstawowej analityki, aby zrozumieć, jak odwiedzający korzystają ze strony. Bez profilowania i śledzenia reklamowego.",
+    cookie_accept: "Akceptuję",
+    cookie_decline: "Odrzucam",
 
     market_eyebrow: "Dane rynkowe na żywo",
     market_h2: "Ceny metali nieżelaznych",
@@ -396,6 +408,10 @@ const I18N = {
     form_error: "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut oder schreiben Sie uns direkt.",
 
     footer_rights: "Alle Rechte vorbehalten.",
+    footer_privacy: "Datenschutzerklärung",
+    cookie_text: "Wir verwenden grundlegende Analysen, um zu verstehen, wie Besucher diese Seite nutzen. Kein persönliches Profiling, kein Werbe-Tracking.",
+    cookie_accept: "Akzeptieren",
+    cookie_decline: "Ablehnen",
 
     market_eyebrow: "Live-Marktdaten",
     market_h2: "Preise für Nichteisenmetalle",
@@ -497,6 +513,10 @@ const I18N = {
     form_error: "Qualcosa è andato storto. Riprova o scrivici direttamente.",
 
     footer_rights: "Tutti i diritti riservati.",
+    footer_privacy: "Informativa sulla privacy",
+    cookie_text: "Utilizziamo un'analisi di base per capire come i visitatori usano questo sito. Nessuna profilazione personale, nessun tracciamento pubblicitario.",
+    cookie_accept: "Accetta",
+    cookie_decline: "Rifiuta",
 
     market_eyebrow: "Dati di mercato in tempo reale",
     market_h2: "Prezzi dei metalli non ferrosi",
@@ -598,6 +618,10 @@ const I18N = {
     form_error: "Une erreur s'est produite. Veuillez réessayer ou nous écrire directement.",
 
     footer_rights: "Tous droits réservés.",
+    footer_privacy: "Politique de confidentialité",
+    cookie_text: "Nous utilisons une analyse de base pour comprendre comment les visiteurs utilisent ce site. Aucun profilage personnel, aucun suivi publicitaire.",
+    cookie_accept: "Accepter",
+    cookie_decline: "Refuser",
 
     market_eyebrow: "Données de marché en direct",
     market_h2: "Prix des métaux non ferreux",

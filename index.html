@@ -285,11 +285,22 @@
 <footer class="site-footer">
   <div class="container footer-inner">
     <img src="assets/logo.png" class="footer-logo-img" alt="EkoMetChem">
-    <p>© <span id="year"></span> EkoMetChem. <span data-i18n="footer_rights">All rights reserved.</span></p>
+    <p>© <span id="year"></span> EkoMetChem. <span data-i18n="footer_rights">All rights reserved.</span> · <a href="privacy.html" data-i18n="footer_privacy">Privacy Policy</a></p>
   </div>
 </footer>
 
 <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+<!-- ============================== COOKIE CONSENT ============================== -->
+<div class="cookie-banner" id="cookieBanner" hidden>
+  <div class="cookie-banner-inner">
+    <p data-i18n="cookie_text">We use cookies for basic analytics to understand how visitors use this site. You can accept or decline.</p>
+    <div class="cookie-actions">
+      <button type="button" class="btn btn-ghost" id="cookieDecline" data-i18n="cookie_decline">Decline</button>
+      <button type="button" class="btn btn-primary" id="cookieAccept" data-i18n="cookie_accept">Accept</button>
+    </div>
+  </div>
+</div>
+
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
   if (window.netlifyIdentity) {

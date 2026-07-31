@@ -535,9 +535,82 @@ function renderUpdatesFeed(collections) {
 }
 
 /* ---------------------------------------------------------------
+   8) GOOGLE ANALYTICS 4 + COOKIE CONSENT (GDPR)
+   Analytics only loads after the visitor explicitly accepts — required
+   for EU visitors under GDPR. Choice is remembered in localStorage.
+
+   SETUP (one-time): create a free GA4 property at https://analytics.google.com,
+   copy the Measurement ID (looks like G-XXXXXXXXXX), paste it below.
+   --------------------------------------------------------------- */
+const GA_MEASUREMENT_ID = "G-FHP1K3Q7DT";
+
+function loadGoogleAnalytics() {
+  if (GA_MEASUREMENT_ID.includes("XXXXXXXXXX")) return; // not configured yet
+
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+  document.head.appendChild(script);
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () { window.dataLayer.push(arguments); };
+  gtag("js", new Date());
+  gtag("config", GA_MEASUREMENT_ID);
+}
+
+function trackEvent(name, params) {
+  if (typeof window.gtag === "function") window.gtag("event", name, params || {});
+}
+
+const cookieBanner = document.getElementById("cookieBanner");
+const cookieAccept = document.getElementById("cookieAccept");
+const cookieDecline = document.getElementById("cookieDecline");
+const CONSENT_KEY = "emc_cookie_consent";
+
+function initConsent() {
+  const saved = localStorage.getItem(CONSENT_KEY);
+  if (saved === "accepted") {
+    loadGoogleAnalytics();
+  } else if (saved !== "declined") {
+    cookieBanner.hidden = false;
+  }
+}
+
+cookieAccept?.addEventListener("click", () => {
+  localStorage.setItem(CONSENT_KEY, "accepted");
+  cookieBanner.hidden = true;
+  loadGoogleAnalytics();
+});
+
+cookieDecline?.addEventListener("click", () => {
+  localStorage.setItem(CONSENT_KEY, "declined");
+  cookieBanner.hidden = true;
+});
+
+/* ---- event tracking: "Подробнее" clicks + catalog search ---- */
+document.addEventListener("click", (e) => {
+  const link = e.target.closest(".dyn-card .btn, .dyn-card a");
+  if (link) {
+    const title = link.closest(".dyn-card")?.querySelector("h3")?.textContent || "";
+    trackEvent("click_learn_more", { item_title: title });
+  }
+});
+
+let searchTrackTimer;
+document.getElementById("catSearch")?.addEventListener("input", (e) => {
+  clearTimeout(searchTrackTimer);
+  const q = e.target.value.trim();
+  if (q.length < 2) return;
+  searchTrackTimer = setTimeout(() => {
+    trackEvent("search", { search_term: q });
+  }, 800);
+});
+
+/* ---------------------------------------------------------------
    init
    --------------------------------------------------------------- */
 applyLang(currentLang);
 loadNews();
 loadDynamicBlocks();
 loadMetalsTicker();
+initConsent();

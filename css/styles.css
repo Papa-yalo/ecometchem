@@ -788,6 +788,31 @@ body.lightbox-open { overflow: hidden; }
   letter-spacing: 0.06em;
 }
 
+/* ---------- cookie consent ---------- */
+.cookie-banner {
+  display: none;
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 300;
+  background: var(--surface);
+  border-top: 1.5px solid var(--line);
+  padding: 18px 0;
+}
+.cookie-banner:not([hidden]) { display: block; }
+.cookie-banner-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.cookie-banner-inner p { margin: 0; font-size: 0.88rem; max-width: 640px; color: var(--ink-muted); }
+.cookie-actions { display: flex; gap: 10px; flex-shrink: 0; }
+.cookie-actions .btn { padding: 9px 18px; font-size: 0.85rem; }
+
 /* ---------- footer ---------- */
 .site-footer {
   border-top: 1px solid var(--line);
