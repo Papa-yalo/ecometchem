@@ -116,55 +116,59 @@
   </div>
 </section>
 
-<!-- ============================== MARKETPLACE ============================== -->
+<!-- ============================== MATERIALS & PRODUCTS ============================== -->
 <section id="materials">
   <div class="container">
     <div class="section-head reveal">
-      <p class="eyebrow" data-i18n="mat_eyebrow">Marketplace</p>
-      <h2 data-i18n="mat_h2">What we buy and supply</h2>
+      <p class="eyebrow" data-i18n="mat_eyebrow">Materials & Products</p>
+      <h2 data-i18n="mat_h2">Our product catalog</h2>
     </div>
 
-    <div class="tabs reveal">
-      <button class="tab-btn active" data-cat="catalog" type="button" data-i18n="mat_tab_waste">Procurement / Sales</button>
-      <button class="tab-btn" data-cat="services" type="button" data-i18n="mat_tab_services">Partnership & Services</button>
+    <div class="cat-search reveal">
+      <input type="text" id="catSearch" data-i18n-placeholder="mat_search_placeholder" placeholder="Search materials...">
+      <div class="cat-search-results" id="catSearchResults" hidden></div>
     </div>
 
-    <!-- Procurement / Sales catalog -->
-    <div id="marketPanel" class="reveal">
-      <div class="element-grid" id="elementGrid"></div>
-    </div>
-
-    <!-- Partnership & Services panel -->
-    <div id="servicesPanel" class="reveal" hidden>
-      <div class="partner-cols">
-        <div class="partner-col">
-          <span class="requests-label" data-i18n="serv_offer_label">We offer</span>
-          <ul class="partner-list">
-            <li data-i18n="serv_offer_1">—</li>
-            <li data-i18n="serv_offer_2">—</li>
-          </ul>
-        </div>
-        <div class="partner-col">
-          <span class="requests-label" data-i18n="serv_need_label">We are looking for</span>
-          <ul class="partner-list">
-            <li data-i18n="serv_need_1">—</li>
-            <li data-i18n="serv_need_2">—</li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    <div class="element-grid reveal" id="categoryGrid"></div>
   </div>
 </section>
 
-<!-- Image lightbox for material photos -->
+<!-- Category / material lightbox -->
 <div class="lightbox" id="lightbox" hidden>
   <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
   <div class="lightbox-panel">
     <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close">✕</button>
     <h3 class="lightbox-title" id="lightboxTitle"></h3>
     <div class="lightbox-grid" id="lightboxGrid"></div>
+    <p class="lightbox-items" id="lightboxItems"></p>
   </div>
 </div>
+
+<!-- ============================== PARTNERSHIP & SERVICES ============================== -->
+<section class="alt-bg" id="services">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow" data-i18n="serv_eyebrow">What we do</p>
+      <h2 data-i18n="serv_h2">Partnership & Services</h2>
+    </div>
+    <div class="partner-cols reveal">
+      <div class="partner-col">
+        <span class="requests-label" data-i18n="serv_offer_label">We offer</span>
+        <ul class="partner-list">
+          <li data-i18n="serv_offer_1">—</li>
+          <li data-i18n="serv_offer_2">—</li>
+        </ul>
+      </div>
+      <div class="partner-col">
+        <span class="requests-label" data-i18n="serv_need_label">We are looking for</span>
+        <ul class="partner-list">
+          <li data-i18n="serv_need_1">—</li>
+          <li data-i18n="serv_need_2">—</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ============================== WHY US ============================== -->
 <section id="why">

@@ -339,6 +339,58 @@ section { padding: 88px 0; }
 }
 .tab-btn.active { border-color: var(--blue); color: var(--blue); background: var(--surface); }
 
+.cat-search {
+  position: relative;
+  max-width: 420px;
+  margin-bottom: 28px;
+}
+.cat-search input {
+  width: 100%;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+.cat-search input:focus { outline: none; border-color: var(--amber); }
+.cat-search-results {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0; right: 0;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 30;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+}
+.cat-search-results button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  padding: 10px 14px;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--ink);
+  cursor: pointer;
+}
+.cat-search-results button:last-child { border-bottom: none; }
+.cat-search-results button:hover { background: var(--surface-alt); }
+.cat-search-results button span {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--ink-muted);
+  margin-top: 2px;
+}
+.cat-search-empty { padding: 12px 14px; font-size: 0.85rem; color: var(--ink-muted); }
+
 .element-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -435,6 +487,13 @@ body.lightbox-open { overflow: hidden; }
   border-radius: var(--radius);
   border: 1px solid var(--line);
 }
+.lightbox-items {
+  font-size: 0.95rem;
+  color: var(--ink-muted);
+  line-height: 1.9;
+  margin: 0;
+}
+.lightbox-items .mark { color: var(--ink); }
 
 /* ---------- partnership & services blocks ---------- */
 .partner-cols {

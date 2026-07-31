@@ -39,7 +39,7 @@ function applyLang(lang) {
     btn.classList.toggle("active", btn.dataset.lang === lang);
   });
 
-  renderMaterials();
+  renderCategories();
   if (typeof loadNews === "function") loadNews();
 }
 
@@ -84,23 +84,23 @@ document.querySelectorAll(".nav-links a").forEach((link) => {
 });
 
 /* ---------------------------------------------------------------
-   3) MATERIALS CATALOG + LIGHTBOX
+   3) MATERIALS CATALOG (12 categories) + SEARCH + LIGHTBOX
    --------------------------------------------------------------- */
-function renderMaterials() {
-  const grid = document.getElementById("elementGrid");
+function renderCategories() {
+  const grid = document.getElementById("categoryGrid");
   if (!grid) return;
 
   grid.innerHTML = "";
 
-  MATERIALS.forEach((m) => {
+  CATEGORIES.forEach((cat) => {
     const tile = document.createElement("button");
     tile.type = "button";
     tile.className = "element-tile";
     tile.innerHTML = `
-      <div class="num">No. ${m.code}</div>
-      <div class="sym">${m.name}</div>
+      <div class="num">No. ${cat.code}</div>
+      <div class="sym">${I18N[currentLang][cat.titleKey]}</div>
     `;
-    tile.addEventListener("click", () => openLightbox(m));
+    tile.addEventListener("click", () => openCategory(cat));
     grid.appendChild(tile);
   });
 }
@@ -108,20 +108,14 @@ function renderMaterials() {
 const lightbox = document.getElementById("lightbox");
 const lightboxGrid = document.getElementById("lightboxGrid");
 const lightboxTitle = document.getElementById("lightboxTitle");
+const lightboxItems = document.getElementById("lightboxItems");
 const lightboxClose = document.getElementById("lightboxClose");
 const lightboxBackdrop = document.getElementById("lightboxBackdrop");
 
-function openLightbox(material) {
-  lightboxTitle.textContent = material.name;
+function openCategory(cat) {
+  lightboxTitle.textContent = I18N[currentLang][cat.titleKey];
   lightboxGrid.innerHTML = "";
-  lightboxGrid.classList.toggle("single", material.images.length === 1);
-  material.images.forEach((src) => {
-    const img = document.createElement("img");
-    img.src = src;
-    img.alt = material.name;
-    img.loading = "lazy";
-    lightboxGrid.appendChild(img);
-  });
+  lightboxItems.innerHTML = cat.items.join(" · ") + " · " + I18N[currentLang].mat_more_items;
   lightbox.hidden = false;
   document.body.classList.add("lightbox-open");
 }
@@ -137,22 +131,48 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && !lightbox.hidden) closeLightbox();
 });
 
-const marketPanel = document.getElementById("marketPanel");
-const servicesPanel = document.getElementById("servicesPanel");
+/* ---- catalog search: matches item names across all 12 categories ---- */
+const catSearchInput = document.getElementById("catSearch");
+const catSearchResults = document.getElementById("catSearchResults");
 
-document.querySelectorAll(".tab-btn").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".tab-btn").forEach((b) => b.classList.toggle("active", b === btn));
-    const cat = btn.dataset.cat;
+catSearchInput?.addEventListener("input", () => {
+  const q = catSearchInput.value.trim().toLowerCase();
+  if (q.length < 2) {
+    catSearchResults.hidden = true;
+    catSearchResults.innerHTML = "";
+    return;
+  }
 
-    if (cat === "services") {
-      marketPanel.hidden = true;
-      servicesPanel.hidden = false;
-    } else {
-      servicesPanel.hidden = true;
-      marketPanel.hidden = false;
-    }
+  const matches = [];
+  CATEGORIES.forEach((cat) => {
+    cat.items.forEach((item) => {
+      if (item.toLowerCase().includes(q)) matches.push({ item, cat });
+    });
   });
+
+  catSearchResults.innerHTML = "";
+  if (matches.length === 0) {
+    catSearchResults.innerHTML = `<div class="cat-search-empty">${I18N[currentLang].mat_no_results}</div>`;
+  } else {
+    matches.slice(0, 12).forEach(({ item, cat }) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.innerHTML = `${item}<span>${I18N[currentLang][cat.titleKey]}</span>`;
+      btn.addEventListener("click", () => {
+        catSearchResults.hidden = true;
+        catSearchInput.value = "";
+        openCategory(cat);
+      });
+      catSearchResults.appendChild(btn);
+    });
+  }
+  catSearchResults.hidden = false;
+});
+
+document.addEventListener("click", (e) => {
+  if (catSearchResults && !catSearchInput.contains(e.target) && !catSearchResults.contains(e.target)) {
+    catSearchResults.hidden = true;
+  }
 });
 
 /* ---------------------------------------------------------------
