@@ -421,37 +421,56 @@ function formatEntryDate(dateStr) {
   });
 }
 
-function renderCardGrid(containerId, entries) {
-  const grid = document.getElementById(containerId);
-  if (!grid) return;
+function renderOfferList(containerId, entries) {
+  const list = document.getElementById(containerId);
+  if (!list) return;
   const visible = sortEntries(entries);
 
   if (visible.length === 0) {
-    grid.innerHTML = `<p class="dyn-status">${I18N[currentLang].dyn_empty}</p>`;
+    list.innerHTML = `<p class="dyn-status">${I18N[currentLang].dyn_empty}</p>`;
     return;
   }
 
-  grid.innerHTML = "";
+  list.innerHTML = "";
   visible.forEach((e) => {
-    const card = document.createElement("div");
-    card.className = "dyn-card" + (e.pinned ? " pinned" : "");
-    const metaParts = [];
-    if (e.quantity) metaParts.push(`<span>${I18N[currentLang].dyn_qty}: <strong>${e.quantity}</strong></span>`);
-    if (e.country) metaParts.push(`<span>${I18N[currentLang].dyn_country}: <strong>${e.country}</strong></span>`);
-
-    card.innerHTML = `
-      ${e.pinned ? `<span class="pin-badge">${I18N[currentLang].dyn_pinned}</span>` : ""}
-      ${e.photo ? `<img class="dyn-photo" src="${e.photo}" alt="${e.title || ""}" loading="lazy">` : ""}
-      <div class="dyn-body">
-        <h3>${e.title || ""}</h3>
-        ${e.description ? `<p class="desc">${e.description}</p>` : ""}
-        ${metaParts.length ? `<div class="dyn-meta">${metaParts.join("")}</div>` : ""}
-        <span class="dyn-date">${formatEntryDate(e.date)}</span>
-        <a class="btn btn-ghost" href="${e.link || "#contact"}" ${e.link ? 'target="_blank" rel="noopener"' : ""}>${I18N[currentLang].dyn_more}</a>
-      </div>
+    const row = document.createElement("div");
+    row.className = "dyn-list-item" + (e.pinned ? " pinned" : "");
+    row.innerHTML = `
+      <span class="txt">${e.pinned ? `<span class="pin-badge" style="position:static; margin-right:8px;">${I18N[currentLang].dyn_pinned}</span>` : ""}${e.title || ""}</span>
+      <span class="dyn-date">${formatEntryDate(e.date)}</span>
+      <button type="button" class="btn btn-ghost btn-sm">${I18N[currentLang].dyn_more}</button>
     `;
-    grid.appendChild(card);
+    row.querySelector("button").addEventListener("click", () => openOfferDetail(e));
+    list.appendChild(row);
   });
+}
+
+function openOfferDetail(e) {
+  lightboxTitle.textContent = e.title || "";
+  lightboxGrid.innerHTML = "";
+  if (e.photo) {
+    lightboxGrid.classList.add("single");
+    const img = document.createElement("img");
+    img.src = e.photo;
+    img.alt = e.title || "";
+    lightboxGrid.appendChild(img);
+  } else {
+    lightboxGrid.classList.remove("single");
+  }
+
+  const metaParts = [];
+  if (e.quantity) metaParts.push(`${I18N[currentLang].dyn_qty}: <span class="mark">${e.quantity}</span>`);
+  if (e.country) metaParts.push(`${I18N[currentLang].dyn_country}: <span class="mark">${e.country}</span>`);
+
+  lightboxItems.innerHTML = `
+    ${e.description ? `<p style="margin:0 0 12px;">${e.description}</p>` : ""}
+    ${metaParts.length ? `<p style="margin:0 0 12px;">${metaParts.join(" · ")}</p>` : ""}
+    <p style="margin:0 0 16px; opacity:.7;">${formatEntryDate(e.date)}</p>
+    <a class="btn btn-primary" href="${e.link || "#contact"}" ${e.link ? 'target="_blank" rel="noopener"' : ""}>${I18N[currentLang].hero_cta_primary}</a>
+  `;
+
+  lightbox.hidden = false;
+  document.body.classList.add("lightbox-open");
 }
 
 function renderSimpleList(containerId, entries) {
@@ -496,49 +515,10 @@ function renderDynamicBlocks() {
   if (!dynamicDataCache) return;
   const { offers, procurement, servicesActive, servicesNeeded } = dynamicDataCache;
 
-  renderCardGrid("offersGrid", offers);
-  renderCardGrid("procurementGrid", procurement);
+  renderOfferList("offersGrid", offers);
+  renderOfferList("procurementGrid", procurement);
   renderSimpleList("servicesActiveList", servicesActive);
   renderSimpleList("servicesNeededList", servicesNeeded);
-  renderUpdatesFeed({ offers, procurement, servicesActive, servicesNeeded });
-}
-
-function renderUpdatesFeed(collections) {
-  const feed = document.getElementById("updatesFeed");
-  if (!feed) return;
-
-  const typeMeta = {
-    offers: { dot: "dot-green", labelKey: "updates_type_offer" },
-    procurement: { dot: "dot-blue", labelKey: "updates_type_procurement" },
-    servicesActive: { dot: "dot-orange", labelKey: "updates_type_service" },
-    servicesNeeded: { dot: "dot-purple", labelKey: "updates_type_needed" },
-  };
-
-  let all = [];
-  Object.keys(collections).forEach((key) => {
-    collections[key]
-      .filter((e) => !e.hidden)
-      .forEach((e) => all.push({ ...e, _type: key }));
-  });
-  all.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
-  all = all.slice(0, 10);
-
-  if (all.length === 0) {
-    feed.innerHTML = `<p class="dyn-status">${I18N[currentLang].dyn_empty}</p>`;
-    return;
-  }
-
-  feed.innerHTML = "";
-  all.forEach((e) => {
-    const meta = typeMeta[e._type];
-    const row = document.createElement("div");
-    row.className = "update-row";
-    row.innerHTML = `
-      <span class="dyn-date">${formatEntryDate(e.date)}</span>
-      <span class="txt"><span class="dot ${meta.dot}"></span> ${I18N[currentLang][meta.labelKey]} — <strong>${e.title || ""}</strong></span>
-    `;
-    feed.appendChild(row);
-  });
 }
 
 /* ---------------------------------------------------------------

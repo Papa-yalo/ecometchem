@@ -138,12 +138,12 @@ body::before {
 
 /* ---------- brand logo images ---------- */
 .brand-logo-img {
-  height: 68px;
+  height: 82px;
   width: auto;
   display: block;
   animation: logoGlow 4.5s ease-in-out infinite;
 }
-.footer-logo-img { height: 46px; width: auto; display: block; }
+.footer-logo-img { height: 54px; width: auto; display: block; }
 @keyframes logoGlow {
   0%, 100% { filter: drop-shadow(0 0 0 rgba(255,140,66,0)); }
   50% { filter: drop-shadow(0 0 9px rgba(255,140,66,0.45)); }
@@ -163,7 +163,7 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 92px;
+  height: 100px;
 }
 .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
 .brand-word { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; }
@@ -402,7 +402,9 @@ section { padding: 88px 0; }
   border: 1.5px solid var(--line);
   border-radius: var(--radius);
   padding: 18px 16px;
-  min-height: 108px;
+  height: 132px;
+  display: flex;
+  flex-direction: column;
   cursor: pointer;
   text-align: left;
   font-family: inherit;
@@ -425,6 +427,10 @@ section { padding: 88px 0; }
   color: var(--ink);
   margin-top: 8px;
   line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* ---------- lightbox ---------- */
@@ -573,8 +579,9 @@ body.lightbox-open { overflow: hidden; }
 .dyn-list { display: grid; gap: 10px; }
 .dyn-list-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 12px;
   background: var(--surface);
   border: 1.5px solid var(--line);
@@ -582,8 +589,9 @@ body.lightbox-open { overflow: hidden; }
   padding: 14px 18px;
 }
 .dyn-list-item.pinned { border-color: var(--amber); }
-.dyn-list-item .txt { font-size: 0.95rem; color: var(--ink); }
-.dyn-list-item .dyn-date { white-space: nowrap; }
+.dyn-list-item .txt { font-size: 0.95rem; color: var(--ink); flex: 1; min-width: 180px; }
+.dyn-list-item .dyn-date { white-space: nowrap; flex-shrink: 0; }
+.dyn-list-item .btn-sm { flex-shrink: 0; padding: 7px 16px; font-size: 0.82rem; }
 
 .updates-feed { display: grid; gap: 10px; max-width: 720px; }
 .update-row {
@@ -877,7 +885,7 @@ body.lightbox-open { overflow: hidden; }
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 92px; left: 0; right: 0;
+    top: 100px; left: 0; right: 0;
     background: var(--surface);
     border-bottom: 1px solid var(--line);
     padding: 20px 24px;
