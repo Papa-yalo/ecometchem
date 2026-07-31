@@ -227,7 +227,9 @@
       </dl>
     </div>
 
-    <form class="reveal" id="contactForm">
+    <form class="reveal" id="contactForm" name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="contact">
+      <p class="hp-field"><label>Don't fill this out: <input name="bot-field"></label></p>
       <div class="form-field">
         <label for="f-name" data-i18n="form_name">Your name</label>
         <input id="f-name" name="name" type="text" required>
@@ -245,7 +247,6 @@
         <textarea id="f-message" name="message" required></textarea>
       </div>
       <button type="submit" class="btn btn-primary" data-i18n="form_submit">Send message</button>
-      <p class="form-note" data-i18n="form_note">This form is a working demo...</p>
       <p class="form-status" id="formStatus"></p>
     </form>
   </div>

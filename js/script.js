@@ -173,24 +173,50 @@ const revealObserver = new IntersectionObserver(
 document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
 
 /* ---------------------------------------------------------------
-   5) CONTACT FORM (demo only — no backend wired up yet)
-   To make this send real emails, the simplest options are:
-     - Formspree (https://formspree.io) — set the <form action="..."> to
-       your Formspree endpoint and remove the preventDefault() below.
-     - EmailJS (https://www.emailjs.com) — send via their JS SDK here.
-   See README.md for step-by-step instructions.
+   5) CONTACT FORM — submits to Netlify Forms (built into this hosting,
+   no external service needed). Netlify's build bot detects the
+   data-netlify="true" attribute on the <form> in index.html and starts
+   accepting submissions automatically after deploy — nothing to
+   configure here. Submissions show up in the Netlify dashboard under
+   the "Forms" tab; enable email notifications there
+   (Site configuration → Forms → Form notifications).
    --------------------------------------------------------------- */
 const contactForm = document.getElementById("contactForm");
 const formStatus = document.getElementById("formStatus");
+const submitBtn = contactForm?.querySelector("button[type=submit]");
 
-contactForm?.addEventListener("submit", (e) => {
+function encodeFormData(form) {
+  return new URLSearchParams(new FormData(form)).toString();
+}
+
+contactForm?.addEventListener("submit", async (e) => {
   e.preventDefault();
-  formStatus.textContent =
-    currentLang === "ru"
-      ? "Демо-режим: форма пока не подключена к почте. Инструкция в README.md."
-      : "Demo mode: this form isn't wired up to an inbox yet. See README.md.";
+
+  const originalLabel = submitBtn.textContent;
+  submitBtn.disabled = true;
+  submitBtn.textContent = I18N[currentLang].form_sending;
+  formStatus.classList.remove("show");
+
+  try {
+    const response = await fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: encodeFormData(contactForm),
+    });
+
+    if (response.ok) {
+      formStatus.textContent = I18N[currentLang].form_success;
+      contactForm.reset();
+    } else {
+      formStatus.textContent = I18N[currentLang].form_error;
+    }
+  } catch (err) {
+    formStatus.textContent = I18N[currentLang].form_error;
+  }
+
   formStatus.classList.add("show");
-  contactForm.reset();
+  submitBtn.disabled = false;
+  submitBtn.textContent = originalLabel;
 });
 
 /* ---------------------------------------------------------------

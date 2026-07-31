@@ -56,7 +56,9 @@ const I18N = {
     contact_company: "Company", contact_email: "Email", contact_region: "Region",
     form_name: "Your name", form_email: "Email", form_company: "Company",
     form_message: "What are you looking for?", form_submit: "Send message",
-    form_note: "This form is a working demo — connect it to your email or CRM before going live (see the README).",
+    form_sending: "Sending...",
+    form_success: "Thanks — your message has been sent. We'll get back to you shortly.",
+    form_error: "Something went wrong. Please try again or email us directly.",
 
     footer_rights: "All rights reserved.",
 
@@ -122,7 +124,9 @@ const I18N = {
     contact_company: "Компания", contact_email: "Email", contact_region: "Регион",
     form_name: "Ваше имя", form_email: "Email", form_company: "Компания",
     form_message: "Что вас интересует?", form_submit: "Отправить",
-    form_note: "Эта форма — рабочий макет. Перед запуском подключите её к почте или CRM (см. README).",
+    form_sending: "Отправляем...",
+    form_success: "Спасибо — заявка отправлена. Мы свяжемся с вами в ближайшее время.",
+    form_error: "Что-то пошло не так. Попробуйте ещё раз или напишите нам напрямую на почту.",
 
     footer_rights: "Все права защищены.",
 
@@ -188,7 +192,9 @@ const I18N = {
     contact_company: "Firma", contact_email: "Email", contact_region: "Region",
     form_name: "Twoje imię", form_email: "Email", form_company: "Firma",
     form_message: "Czego szukasz?", form_submit: "Wyślij wiadomość",
-    form_note: "Ten formularz to działający makiet — podłącz go do e-maila lub CRM przed uruchomieniem (zobacz README).",
+    form_sending: "Wysyłanie...",
+    form_success: "Dziękujemy — wiadomość została wysłana. Odpowiemy wkrótce.",
+    form_error: "Coś poszło nie tak. Spróbuj ponownie lub napisz do nas bezpośrednio.",
 
     footer_rights: "Wszelkie prawa zastrzeżone.",
 
@@ -254,7 +260,9 @@ const I18N = {
     contact_company: "Unternehmen", contact_email: "E-Mail", contact_region: "Region",
     form_name: "Ihr Name", form_email: "E-Mail", form_company: "Unternehmen",
     form_message: "Wonach suchen Sie?", form_submit: "Nachricht senden",
-    form_note: "Dieses Formular ist eine funktionsfähige Demo — verbinden Sie es vor dem Livegang mit Ihrer E-Mail oder Ihrem CRM (siehe README).",
+    form_sending: "Wird gesendet...",
+    form_success: "Danke — Ihre Nachricht wurde gesendet. Wir melden uns in Kürze.",
+    form_error: "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut oder schreiben Sie uns direkt.",
 
     footer_rights: "Alle Rechte vorbehalten.",
 
@@ -320,7 +328,9 @@ const I18N = {
     contact_company: "Azienda", contact_email: "Email", contact_region: "Regione",
     form_name: "Il tuo nome", form_email: "Email", form_company: "Azienda",
     form_message: "Cosa stai cercando?", form_submit: "Invia messaggio",
-    form_note: "Questo modulo è una demo funzionante — collegalo alla tua email o al CRM prima del lancio (vedi README).",
+    form_sending: "Invio in corso...",
+    form_success: "Grazie — il tuo messaggio è stato inviato. Ti risponderemo a breve.",
+    form_error: "Qualcosa è andato storto. Riprova o scrivici direttamente.",
 
     footer_rights: "Tutti i diritti riservati.",
 
@@ -386,7 +396,9 @@ const I18N = {
     contact_company: "Entreprise", contact_email: "Email", contact_region: "Région",
     form_name: "Votre nom", form_email: "Email", form_company: "Entreprise",
     form_message: "Que recherchez-vous ?", form_submit: "Envoyer le message",
-    form_note: "Ce formulaire est une démo fonctionnelle — connectez-le à votre email ou CRM avant la mise en ligne (voir le README).",
+    form_sending: "Envoi en cours...",
+    form_success: "Merci — votre message a été envoyé. Nous vous répondrons rapidement.",
+    form_error: "Une erreur s'est produite. Veuillez réessayer ou nous écrire directement.",
 
     footer_rights: "Tous droits réservés.",
 
