@@ -42,6 +42,7 @@ function applyLang(lang) {
   renderCategories();
   if (typeof loadNews === "function") loadNews();
   if (typeof renderDynamicBlocks === "function") renderDynamicBlocks();
+  if (typeof renderMetalsTicker === "function") renderMetalsTicker();
 }
 
 /* dropdown open/close + selection */
@@ -241,44 +242,21 @@ contactForm?.addEventListener("submit", async (e) => {
 });
 
 /* ---------------------------------------------------------------
-   6) INDUSTRY NEWS — via rss2json.com (free tier, needs an API key)
-
-   SETUP (one-time):
-     1. Create a free account at https://rss2json.com (no credit card)
-     2. Copy your API key from the dashboard
-     3. Paste it below as RSS2JSON_API_KEY
-   Free tier covers ~10 000 requests/month — plenty for a site like this.
-   The feed itself is Google News RSS filtered by "metallurgy" — swap the
-   FEED_URL for any other metals/recycling trade feed if you prefer.
+   6) INDUSTRY NEWS — reads the pre-fetched cache from our own
+   Netlify Function (netlify/functions/get-news.js). The function itself
+   pulls from Mining.com, Kitco News and Google News on a schedule
+   (see update-news.js) — the browser never talks to those sites directly,
+   and never re-fetches on every visit.
    --------------------------------------------------------------- */
-const RSS2JSON_API_KEY = "YOUR_RSS2JSON_KEY"; // <-- replace with your key
-
-const NEWS_FEEDS = {
-  en: "https://news.google.com/rss/search?q=metallurgy+OR+%22non-ferrous+metals%22+Europe&hl=en-GB&gl=GB&ceid=GB:en",
-  ru: "https://news.google.com/rss/search?q=металлургия+Европа+OR+ЕС+OR+европейский+рынок+металлов&hl=ru&gl=PL&ceid=PL:ru",
-  pl: "https://news.google.com/rss/search?q=metalurgia+OR+hutnictwo+Europa&hl=pl&gl=PL&ceid=PL:pl",
-  de: "https://news.google.com/rss/search?q=Metallurgie+OR+NE-Metalle+Europa&hl=de&gl=DE&ceid=DE:de",
-  it: "https://news.google.com/rss/search?q=metallurgia+OR+metalli+non+ferrosi+Europa&hl=it&gl=IT&ceid=IT:it",
-  fr: "https://news.google.com/rss/search?q=métallurgie+OR+métaux+non+ferreux+Europe&hl=fr&gl=FR&ceid=FR:fr",
-};
-
-let newsCache = {};
+let newsCache = null;
 
 async function loadNews() {
   const grid = document.getElementById("newsGrid");
   const status = document.getElementById("newsStatus");
   if (!grid) return;
 
-  if (RSS2JSON_API_KEY.includes("YOUR_RSS2JSON_KEY")) {
-    status.textContent =
-      currentLang === "ru"
-        ? "Новости пока не подключены: вставьте свой ключ rss2json.com в js/script.js (RSS2JSON_API_KEY)."
-        : "News isn't connected yet: paste your rss2json.com key into js/script.js (RSS2JSON_API_KEY).";
-    return;
-  }
-
-  if (newsCache[currentLang]) {
-    renderNews(newsCache[currentLang]);
+  if (newsCache) {
+    renderNews(newsCache);
     return;
   }
 
@@ -286,13 +264,12 @@ async function loadNews() {
   status.style.display = "block";
 
   try {
-    const feedUrl = encodeURIComponent(NEWS_FEEDS[currentLang]);
-    const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${feedUrl}&api_key=${RSS2JSON_API_KEY}&count=6`);
+    const res = await fetch("/.netlify/functions/get-news");
     const data = await res.json();
 
-    if (data.status !== "ok" || !data.items?.length) throw new Error("empty feed");
+    if (!data.items || data.items.length === 0) throw new Error("empty cache");
 
-    newsCache[currentLang] = data.items;
+    newsCache = data.items;
     renderNews(data.items);
   } catch (err) {
     status.textContent = I18N[currentLang].news_error;
@@ -307,7 +284,7 @@ function renderNews(items) {
 
   grid.querySelectorAll(".news-card").forEach((el) => el.remove());
 
-  items.slice(0, 6).forEach((item) => {
+  items.slice(0, 9).forEach((item) => {
     const card = document.createElement("a");
     card.className = "news-card";
     card.href = item.link;
@@ -318,14 +295,71 @@ function renderNews(items) {
     const date = new Date(item.pubDate).toLocaleDateString(localeMap[currentLang] || "en-GB", {
       day: "numeric", month: "short",
     });
-    const source = item.author || (new URL(item.link).hostname.replace("www.", ""));
 
     card.innerHTML = `
-      <div class="news-meta">${source} · ${date}</div>
+      <div class="news-meta">${item.source} · ${date}</div>
       <h3>${item.title}</h3>
     `;
     grid.appendChild(card);
   });
+}
+
+/* ---------------------------------------------------------------
+   6b) LME METALS TICKER — same caching pattern as the news block
+   --------------------------------------------------------------- */
+const METAL_LABELS = {
+  aluminium: { en: "Aluminium", ru: "Алюминий", pl: "Aluminium", de: "Aluminium", it: "Alluminio", fr: "Aluminium" },
+  copper: { en: "Copper", ru: "Медь", pl: "Miedź", de: "Kupfer", it: "Rame", fr: "Cuivre" },
+  zinc: { en: "Zinc", ru: "Цинк", pl: "Cynk", de: "Zink", it: "Zinco", fr: "Zinc" },
+  lead: { en: "Lead", ru: "Свинец", pl: "Ołów", de: "Blei", it: "Piombo", fr: "Plomb" },
+  nickel: { en: "Nickel", ru: "Никель", pl: "Nikiel", de: "Nickel", it: "Nichel", fr: "Nickel" },
+  tin: { en: "Tin", ru: "Олово", pl: "Cyna", de: "Zinn", it: "Stagno", fr: "Étain" },
+};
+
+let metalsCache = null;
+
+async function loadMetalsTicker() {
+  const ticker = document.getElementById("metalsTicker");
+  if (!ticker) return;
+
+  if (!metalsCache) {
+    try {
+      const res = await fetch("/.netlify/functions/get-metals");
+      metalsCache = await res.json();
+    } catch {
+      metalsCache = { prices: {}, updatedAt: null };
+    }
+  }
+  renderMetalsTicker();
+}
+
+function renderMetalsTicker() {
+  const ticker = document.getElementById("metalsTicker");
+  const caption = document.getElementById("tickerCaption");
+  if (!ticker || !metalsCache) return;
+
+  const entries = Object.entries(metalsCache.prices || {});
+  if (entries.length === 0) {
+    ticker.innerHTML = `<span class="ticker-loading">${I18N[currentLang].dyn_empty}</span>`;
+    return;
+  }
+
+  ticker.innerHTML = entries
+    .map(([metal, price]) => {
+      const label = (METAL_LABELS[metal] && METAL_LABELS[metal][currentLang]) || metal;
+      return `<span class="metal-item"><span class="metal-name">${label}</span><span class="metal-price">$${price.toLocaleString("en-US")}/t</span></span>`;
+    })
+    .join("");
+
+  if (caption) {
+    const localeMap = { ru: "ru-RU", pl: "pl-PL", de: "de-DE", it: "it-IT", fr: "fr-FR", en: "en-GB" };
+    const updated = metalsCache.updatedAt
+      ? new Date(metalsCache.updatedAt).toLocaleString(localeMap[currentLang] || "en-GB", {
+          day: "numeric", month: "short", hour: "2-digit", minute: "2-digit",
+        })
+      : "—";
+    caption.textContent = `${I18N[currentLang].market_note} ${I18N[currentLang].market_updated}: ${updated}`;
+  }
 }
 
 /* ---------------------------------------------------------------
@@ -506,3 +540,4 @@ function renderUpdatesFeed(collections) {
 applyLang(currentLang);
 loadNews();
 loadDynamicBlocks();
+loadMetalsTicker();

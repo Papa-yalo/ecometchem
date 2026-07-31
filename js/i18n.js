@@ -96,7 +96,8 @@ const I18N = {
 
     market_eyebrow: "Live market data",
     market_h2: "Base metals prices",
-    market_note: "Indicative exchange prices, updated continuously. Not official LME settlement prices.",
+    market_note: "Indicative exchange prices, refreshed every few hours. Not official LME settlement prices.",
+    market_updated: "Updated",
 
     news_eyebrow: "Industry pulse",
     news_h2: "Metallurgy & metals news",
@@ -196,7 +197,8 @@ const I18N = {
 
     market_eyebrow: "Рыночные данные",
     market_h2: "Цены на цветные металлы",
-    market_note: "Индикативные биржевые цены, обновляются в реальном времени. Не являются официальными расчётными ценами LME.",
+    market_note: "Индикативные биржевые цены, обновляются каждые несколько часов. Не являются официальными расчётными ценами LME.",
+    market_updated: "Обновлено",
 
     news_eyebrow: "Пульс отрасли",
     news_h2: "Новости металлургии",
@@ -296,7 +298,8 @@ const I18N = {
 
     market_eyebrow: "Dane rynkowe na żywo",
     market_h2: "Ceny metali nieżelaznych",
-    market_note: "Orientacyjne ceny giełdowe, aktualizowane na bieżąco. Nie są oficjalnymi cenami rozliczeniowymi LME.",
+    market_note: "Orientacyjne ceny giełdowe, aktualizowane co kilka godzin. Nie są oficjalnymi cenami rozliczeniowymi LME.",
+    market_updated: "Zaktualizowano",
 
     news_eyebrow: "Puls branży",
     news_h2: "Wiadomości z branży metalurgicznej",
@@ -396,7 +399,8 @@ const I18N = {
 
     market_eyebrow: "Live-Marktdaten",
     market_h2: "Preise für Nichteisenmetalle",
-    market_note: "Indikative Börsenpreise, laufend aktualisiert. Keine offiziellen LME-Abrechnungspreise.",
+    market_note: "Indikative Börsenpreise, alle paar Stunden aktualisiert. Keine offiziellen LME-Abrechnungspreise.",
+    market_updated: "Aktualisiert",
 
     news_eyebrow: "Branchenpuls",
     news_h2: "Metallurgie- & Metallnachrichten",
@@ -496,7 +500,8 @@ const I18N = {
 
     market_eyebrow: "Dati di mercato in tempo reale",
     market_h2: "Prezzi dei metalli non ferrosi",
-    market_note: "Prezzi di borsa indicativi, aggiornati continuamente. Non sono prezzi di regolamento ufficiali LME.",
+    market_note: "Prezzi di borsa indicativi, aggiornati ogni poche ore. Non sono prezzi di regolamento ufficiali LME.",
+    market_updated: "Aggiornato",
 
     news_eyebrow: "Il polso del settore",
     news_h2: "Notizie su metallurgia e metalli",
@@ -596,7 +601,8 @@ const I18N = {
 
     market_eyebrow: "Données de marché en direct",
     market_h2: "Prix des métaux non ferreux",
-    market_note: "Prix de marché indicatifs, mis à jour en continu. Ne constituent pas les prix de règlement officiels du LME.",
+    market_note: "Prix de marché indicatifs, mis à jour toutes les quelques heures. Ne constituent pas les prix de règlement officiels du LME.",
+    market_updated: "Mis à jour",
 
     news_eyebrow: "Pouls du secteur",
     news_h2: "Actualités de la métallurgie",
