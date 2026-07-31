@@ -1,0 +1,85 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Where uploaded photos are stored / served from
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+# Site-wide UI language for the admin panel itself (content stays in English,
+# as per site convention for material/trade terms)
+locale: "ru"
+
+collections:
+
+  # 🟢 Актуальные предложения — what the company is selling right now
+  - name: "offers"
+    label: "🟢 Актуальные предложения"
+    label_singular: "Предложение"
+    folder: "content/offers"
+    create: true
+    format: "json"
+    slug: "{{year}}{{month}}{{day}}-{{slug}}"
+    summary: "{{title}} — {{date}}"
+    fields:
+      - { label: "Название", name: "title", widget: "string" }
+      - { label: "Описание", name: "description", widget: "text" }
+      - { label: "Фото", name: "photo", widget: "image", required: false }
+      - { label: "Количество / объём", name: "quantity", widget: "string", required: false }
+      - { label: "Страна происхождения", name: "country", widget: "string", required: false }
+      - { label: "Дата публикации", name: "date", widget: "datetime", default: "" }
+      - { label: "Закрепить вверху", name: "pinned", widget: "boolean", default: false }
+      - { label: "Скрыть (не удаляя)", name: "hidden", widget: "boolean", default: false }
+      - { label: "Ссылка «Подробнее» (необязательно)", name: "link", widget: "string", required: false, hint: "Если пусто — кнопка ведёт в раздел Контакты" }
+
+  # 🔵 Актуальные закупки — what the company is buying right now
+  - name: "procurement"
+    label: "🔵 Актуальные закупки"
+    label_singular: "Закупка"
+    folder: "content/procurement"
+    create: true
+    format: "json"
+    slug: "{{year}}{{month}}{{day}}-{{slug}}"
+    summary: "{{title}} — {{date}}"
+    fields:
+      - { label: "Название", name: "title", widget: "string" }
+      - { label: "Описание", name: "description", widget: "text" }
+      - { label: "Фото", name: "photo", widget: "image", required: false }
+      - { label: "Количество / объём", name: "quantity", widget: "string", required: false }
+      - { label: "Страна происхождения", name: "country", widget: "string", required: false }
+      - { label: "Дата публикации", name: "date", widget: "datetime", default: "" }
+      - { label: "Закрепить вверху", name: "pinned", widget: "boolean", default: false }
+      - { label: "Скрыть (не удаляя)", name: "hidden", widget: "boolean", default: false }
+      - { label: "Ссылка «Подробнее» (необязательно)", name: "link", widget: "string", required: false, hint: "Если пусто — кнопка ведёт в раздел Контакты" }
+
+  # 🟠 Актуальные услуги — services offered right now (changes often)
+  - name: "services_active"
+    label: "🟠 Актуальные услуги"
+    label_singular: "Услуга"
+    folder: "content/services-active"
+    create: true
+    format: "json"
+    slug: "{{year}}{{month}}{{day}}-{{slug}}"
+    summary: "{{title}} — {{date}}"
+    fields:
+      - { label: "Текст", name: "title", widget: "string", hint: "Например: Принимаем на утилизацию — деревянные железнодорожные шпалы" }
+      - { label: "Дата публикации", name: "date", widget: "datetime", default: "" }
+      - { label: "Закрепить вверху", name: "pinned", widget: "boolean", default: false }
+      - { label: "Скрыть (не удаляя)", name: "hidden", widget: "boolean", default: false }
+      - { label: "Ссылка «Подробнее» (необязательно)", name: "link", widget: "string", required: false }
+
+  # 🟣 Требуются услуги — contractors/partners needed right now
+  - name: "services_needed"
+    label: "🟣 Требуются услуги"
+    label_singular: "Запрос"
+    folder: "content/services-needed"
+    create: true
+    format: "json"
+    slug: "{{year}}{{month}}{{day}}-{{slug}}"
+    summary: "{{title}} — {{date}}"
+    fields:
+      - { label: "Текст", name: "title", widget: "string", hint: "Например: Требуется — ADR Transport" }
+      - { label: "Дата публикации", name: "date", widget: "datetime", default: "" }
+      - { label: "Закрепить вверху", name: "pinned", widget: "boolean", default: false }
+      - { label: "Скрыть (не удаляя)", name: "hidden", widget: "boolean", default: false }
+      - { label: "Ссылка «Подробнее» (необязательно)", name: "link", widget: "string", required: false }

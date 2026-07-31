@@ -144,6 +144,32 @@
   </div>
 </div>
 
+<!-- ============================== CURRENT OFFERS 🟢 ============================== -->
+<section class="alt-bg dyn-block dyn-green" id="offers">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow"><span class="dot dot-green"></span> <span data-i18n="offers_eyebrow">Available now</span></p>
+      <h2 data-i18n="offers_h2">Current offers</h2>
+    </div>
+    <div class="dyn-grid reveal" id="offersGrid">
+      <p class="dyn-status" data-i18n="dyn_loading">Loading...</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== CURRENT PROCUREMENT 🔵 ============================== -->
+<section class="dyn-block dyn-blue" id="procurement">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow"><span class="dot dot-blue"></span> <span data-i18n="procurement_eyebrow">Buying now</span></p>
+      <h2 data-i18n="procurement_h2">Current procurement</h2>
+    </div>
+    <div class="dyn-grid reveal" id="procurementGrid">
+      <p class="dyn-status" data-i18n="dyn_loading">Loading...</p>
+    </div>
+  </div>
+</section>
+
 <!-- ============================== PARTNERSHIP & SERVICES ============================== -->
 <section class="alt-bg" id="services">
   <div class="container">
@@ -151,21 +177,36 @@
       <p class="eyebrow" data-i18n="serv_eyebrow">What we do</p>
       <h2 data-i18n="serv_h2">Partnership & Services</h2>
     </div>
-    <div class="partner-cols reveal">
-      <div class="partner-col">
-        <span class="requests-label" data-i18n="serv_offer_label">We offer</span>
-        <ul class="partner-list">
-          <li data-i18n="serv_offer_1">—</li>
-          <li data-i18n="serv_offer_2">—</li>
-        </ul>
-      </div>
-      <div class="partner-col">
-        <span class="requests-label" data-i18n="serv_need_label">We are looking for</span>
-        <ul class="partner-list">
-          <li data-i18n="serv_need_1">—</li>
-          <li data-i18n="serv_need_2">—</li>
-        </ul>
-      </div>
+
+    <!-- 🟠 Актуальные услуги -->
+    <div class="dyn-subhead reveal">
+      <span class="dot dot-orange"></span>
+      <h3 data-i18n="services_active_h3">We offer right now</h3>
+    </div>
+    <div class="dyn-list reveal" id="servicesActiveList">
+      <p class="dyn-status" data-i18n="dyn_loading">Loading...</p>
+    </div>
+
+    <!-- 🟣 Требуются услуги -->
+    <div class="dyn-subhead reveal">
+      <span class="dot dot-purple"></span>
+      <h3 data-i18n="services_needed_h3">We are looking for right now</h3>
+    </div>
+    <div class="dyn-list reveal" id="servicesNeededList">
+      <p class="dyn-status" data-i18n="dyn_loading">Loading...</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== LATEST UPDATES FEED ============================== -->
+<section class="alt-bg" id="updates">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow" data-i18n="updates_eyebrow">Latest updates</p>
+      <h2 data-i18n="updates_h2">What's new</h2>
+    </div>
+    <div class="updates-feed reveal" id="updatesFeed">
+      <p class="dyn-status" data-i18n="dyn_loading">Loading...</p>
     </div>
   </div>
 </section>
@@ -265,6 +306,18 @@
 </footer>
 
 <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", (user) => {
+      if (!user) {
+        window.netlifyIdentity.on("login", () => {
+          document.location.href = "/admin/";
+        });
+      }
+    });
+  }
+</script>
 <script src="js/i18n.js"></script>
 <script src="js/script.js"></script>
 </body>

@@ -495,6 +495,108 @@ body.lightbox-open { overflow: hidden; }
 }
 .lightbox-items .mark { color: var(--ink); }
 
+/* ---------- dynamic blocks (offers / procurement / services / updates) ---------- */
+.dot {
+  display: inline-block;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  margin-right: 2px;
+  vertical-align: middle;
+}
+.dot-green { background: #4CAF6D; }
+.dot-blue { background: #4FB3E0; }
+.dot-orange { background: var(--amber); }
+.dot-purple { background: #B27CE0; }
+
+.dyn-status { color: var(--ink-muted); font-size: 0.92rem; }
+
+.dyn-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+}
+.dyn-card {
+  position: relative;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.dyn-card.pinned { border-color: var(--amber); }
+.dyn-card .pin-badge {
+  position: absolute;
+  top: 10px; left: 10px;
+  z-index: 2;
+  background: var(--amber);
+  color: #12161A;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  padding: 3px 8px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.dyn-card .dyn-photo {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--surface-alt);
+}
+.dyn-card .dyn-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.dyn-card h3 { font-size: 1.02rem; margin: 0; }
+.dyn-card p.desc { font-size: 0.88rem; color: var(--ink-muted); margin: 0; flex: 1; }
+.dyn-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+}
+.dyn-meta span strong { color: var(--ink); font-weight: 500; }
+.dyn-date { font-size: 0.7rem; color: var(--ink-muted); opacity: 0.75; }
+.dyn-card .btn { align-self: flex-start; margin-top: 4px; padding: 8px 16px; font-size: 0.85rem; }
+
+.dyn-subhead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 36px 0 16px;
+}
+.dyn-subhead:first-of-type { margin-top: 0; }
+.dyn-subhead h3 { font-size: 1.1rem; margin: 0; }
+
+.dyn-list { display: grid; gap: 10px; }
+.dyn-list-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+}
+.dyn-list-item.pinned { border-color: var(--amber); }
+.dyn-list-item .txt { font-size: 0.95rem; color: var(--ink); }
+.dyn-list-item .dyn-date { white-space: nowrap; }
+
+.updates-feed { display: grid; gap: 10px; max-width: 720px; }
+.update-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.9rem;
+}
+.update-row:last-child { border-bottom: none; }
+.update-row .dyn-date { flex-shrink: 0; width: 80px; }
+.update-row .txt { color: var(--ink-muted); }
+.update-row .txt strong { color: var(--ink); font-weight: 500; }
+
 /* ---------- partnership & services blocks ---------- */
 .partner-cols {
   display: grid;

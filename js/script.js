@@ -41,6 +41,7 @@ function applyLang(lang) {
 
   renderCategories();
   if (typeof loadNews === "function") loadNews();
+  if (typeof renderDynamicBlocks === "function") renderDynamicBlocks();
 }
 
 /* dropdown open/close + selection */
@@ -328,7 +329,180 @@ function renderNews(items) {
 }
 
 /* ---------------------------------------------------------------
+   7) DYNAMIC BLOCKS — Актуальные предложения/закупки/услуги/требуются
+   Content is managed by staff through the admin panel at /admin
+   (Decap CMS) and stored as JSON files in this GitHub repo. The page
+   reads that content straight from GitHub at load time — no backend,
+   no database, no build step needed.
+   --------------------------------------------------------------- */
+const GITHUB_REPO = "Papa-yalo/ecometchem";
+const GITHUB_BRANCH = "main";
+
+async function fetchCollection(folder) {
+  try {
+    const listRes = await fetch(
+      `https://api.github.com/repos/${GITHUB_REPO}/contents/content/${folder}?ref=${GITHUB_BRANCH}`
+    );
+    if (!listRes.ok) return []; // folder doesn't exist yet = no entries yet
+    const files = await listRes.json();
+    if (!Array.isArray(files)) return [];
+
+    const entries = await Promise.all(
+      files
+        .filter((f) => f.name.endsWith(".json"))
+        .map(async (f) => {
+          try {
+            const res = await fetch(f.download_url);
+            return await res.json();
+          } catch {
+            return null;
+          }
+        })
+    );
+    return entries.filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
+function sortEntries(entries) {
+  return entries
+    .filter((e) => !e.hidden)
+    .sort((a, b) => {
+      if (!!a.pinned !== !!b.pinned) return a.pinned ? -1 : 1;
+      return new Date(b.date || 0) - new Date(a.date || 0);
+    });
+}
+
+function formatEntryDate(dateStr) {
+  if (!dateStr) return "";
+  const localeMap = { ru: "ru-RU", pl: "pl-PL", de: "de-DE", it: "it-IT", fr: "fr-FR", en: "en-GB" };
+  return new Date(dateStr).toLocaleDateString(localeMap[currentLang] || "en-GB", {
+    day: "numeric", month: "short", year: "numeric",
+  });
+}
+
+function renderCardGrid(containerId, entries) {
+  const grid = document.getElementById(containerId);
+  if (!grid) return;
+  const visible = sortEntries(entries);
+
+  if (visible.length === 0) {
+    grid.innerHTML = `<p class="dyn-status">${I18N[currentLang].dyn_empty}</p>`;
+    return;
+  }
+
+  grid.innerHTML = "";
+  visible.forEach((e) => {
+    const card = document.createElement("div");
+    card.className = "dyn-card" + (e.pinned ? " pinned" : "");
+    const metaParts = [];
+    if (e.quantity) metaParts.push(`<span>${I18N[currentLang].dyn_qty}: <strong>${e.quantity}</strong></span>`);
+    if (e.country) metaParts.push(`<span>${I18N[currentLang].dyn_country}: <strong>${e.country}</strong></span>`);
+
+    card.innerHTML = `
+      ${e.pinned ? `<span class="pin-badge">${I18N[currentLang].dyn_pinned}</span>` : ""}
+      ${e.photo ? `<img class="dyn-photo" src="${e.photo}" alt="${e.title || ""}" loading="lazy">` : ""}
+      <div class="dyn-body">
+        <h3>${e.title || ""}</h3>
+        ${e.description ? `<p class="desc">${e.description}</p>` : ""}
+        ${metaParts.length ? `<div class="dyn-meta">${metaParts.join("")}</div>` : ""}
+        <span class="dyn-date">${formatEntryDate(e.date)}</span>
+        <a class="btn btn-ghost" href="${e.link || "#contact"}" ${e.link ? 'target="_blank" rel="noopener"' : ""}>${I18N[currentLang].dyn_more}</a>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderSimpleList(containerId, entries) {
+  const list = document.getElementById(containerId);
+  if (!list) return;
+  const visible = sortEntries(entries);
+
+  if (visible.length === 0) {
+    list.innerHTML = `<p class="dyn-status">${I18N[currentLang].dyn_empty}</p>`;
+    return;
+  }
+
+  list.innerHTML = "";
+  visible.forEach((e) => {
+    const row = document.createElement("div");
+    row.className = "dyn-list-item" + (e.pinned ? " pinned" : "");
+    row.innerHTML = `
+      <span class="txt">${e.pinned ? `<span class="pin-badge" style="position:static; margin-right:8px;">${I18N[currentLang].dyn_pinned}</span>` : ""}${e.title || ""}</span>
+      <span class="dyn-date">${formatEntryDate(e.date)}</span>
+    `;
+    list.appendChild(row);
+  });
+}
+
+let dynamicDataCache = null;
+
+async function loadDynamicBlocks() {
+  const [offers, procurement, servicesActive, servicesNeeded] = await Promise.all([
+    fetchCollection("offers"),
+    fetchCollection("procurement"),
+    fetchCollection("services-active"),
+    fetchCollection("services-needed"),
+  ]);
+
+  dynamicDataCache = { offers, procurement, servicesActive, servicesNeeded };
+  renderDynamicBlocks();
+}
+
+function renderDynamicBlocks() {
+  if (!dynamicDataCache) return;
+  const { offers, procurement, servicesActive, servicesNeeded } = dynamicDataCache;
+
+  renderCardGrid("offersGrid", offers);
+  renderCardGrid("procurementGrid", procurement);
+  renderSimpleList("servicesActiveList", servicesActive);
+  renderSimpleList("servicesNeededList", servicesNeeded);
+  renderUpdatesFeed({ offers, procurement, servicesActive, servicesNeeded });
+}
+
+function renderUpdatesFeed(collections) {
+  const feed = document.getElementById("updatesFeed");
+  if (!feed) return;
+
+  const typeMeta = {
+    offers: { dot: "dot-green", labelKey: "updates_type_offer" },
+    procurement: { dot: "dot-blue", labelKey: "updates_type_procurement" },
+    servicesActive: { dot: "dot-orange", labelKey: "updates_type_service" },
+    servicesNeeded: { dot: "dot-purple", labelKey: "updates_type_needed" },
+  };
+
+  let all = [];
+  Object.keys(collections).forEach((key) => {
+    collections[key]
+      .filter((e) => !e.hidden)
+      .forEach((e) => all.push({ ...e, _type: key }));
+  });
+  all.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+  all = all.slice(0, 10);
+
+  if (all.length === 0) {
+    feed.innerHTML = `<p class="dyn-status">${I18N[currentLang].dyn_empty}</p>`;
+    return;
+  }
+
+  feed.innerHTML = "";
+  all.forEach((e) => {
+    const meta = typeMeta[e._type];
+    const row = document.createElement("div");
+    row.className = "update-row";
+    row.innerHTML = `
+      <span class="dyn-date">${formatEntryDate(e.date)}</span>
+      <span class="txt"><span class="dot ${meta.dot}"></span> ${I18N[currentLang][meta.labelKey]} — <strong>${e.title || ""}</strong></span>
+    `;
+    feed.appendChild(row);
+  });
+}
+
+/* ---------------------------------------------------------------
    init
    --------------------------------------------------------------- */
 applyLang(currentLang);
 loadNews();
+loadDynamicBlocks();
