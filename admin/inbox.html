@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Заявки — EkoMetChem</title>
+<link rel="icon" href="../assets/logo.png" type="image/png">
+<style>
+  :root {
+    --bg:#12161A; --surface:#1A2024; --line:#2B3438; --ink:#ECEFEE; --ink-muted:#9AA6A3; --amber:#FF8C42;
+  }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:Arial,Helvetica,sans-serif; }
+  .wrap { max-width:900px; margin:0 auto; padding:40px 20px 100px; }
+  h1 { font-size:1.5rem; margin-bottom:4px; }
+  .sub { color:var(--ink-muted); font-size:0.9rem; margin-bottom:28px; }
+  .login-box { text-align:center; padding:80px 20px; }
+  .login-box button { background:var(--amber); color:#12161A; border:none; padding:12px 24px; border-radius:4px; font-size:1rem; cursor:pointer; font-weight:600; }
+  .filters { display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap; }
+  .filters button { background:transparent; border:1.5px solid var(--line); color:var(--ink-muted); padding:7px 14px; border-radius:999px; font-size:0.82rem; cursor:pointer; }
+  .filters button.active { border-color:var(--amber); color:var(--amber); }
+  .card { background:var(--surface); border:1.5px solid var(--line); border-radius:6px; padding:18px 20px; margin-bottom:12px; }
+  .card .row { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap; }
+  .card .name { font-weight:600; font-size:1.02rem; }
+  .card .meta { color:var(--ink-muted); font-size:0.82rem; margin-top:2px; }
+  .card .msg { margin-top:10px; font-size:0.92rem; color:var(--ink); white-space:pre-wrap; }
+  select { background:var(--bg); color:var(--ink); border:1.5px solid var(--line); border-radius:4px; padding:6px 10px; font-size:0.82rem; }
+  .empty { text-align:center; color:var(--ink-muted); padding:60px 20px; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <h1>📥 Заявки</h1>
+  <p class="sub">Лёгкая CRM — статусы заявок с сайта EkoMetChem.</p>
+
+  <div id="loginBox" class="login-box">
+    <button id="loginBtn">Войти</button>
+  </div>
+
+  <div id="app" hidden>
+    <div class="filters" id="filters">
+      <button data-filter="all" class="active">Все</button>
+      <button data-filter="new">🆕 Новая</button>
+      <button data-filter="in_progress">⏳ В работе</button>
+      <button data-filter="done">✅ Обработана</button>
+      <button data-filter="rejected">🚫 Отклонена</button>
+    </div>
+    <div id="list"></div>
+  </div>
+</div>
+
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  const STATUS_LABELS = { new: "🆕 Новая", in_progress: "⏳ В работе", done: "✅ Обработана", rejected: "🚫 Отклонена" };
+  let records = [];
+  let activeFilter = "all";
+
+  function fmtDate(iso) {
+    return new Date(iso).toLocaleString("ru-RU", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+  }
+
+  function render() {
+    const list = document.getElementById("list");
+    const visible = activeFilter === "all" ? records : records.filter((r) => r.status === activeFilter);
+
+    if (visible.length === 0) {
+      list.innerHTML = '<p class="empty">Заявок пока нет.</p>';
+      return;
+    }
+
+    list.innerHTML = visible
+      .map(
+        (r) => `
+      <div class="card">
+        <div class="row">
+          <div>
+            <div class="name">${r.name || "(без имени)"}</div>
+            <div class="meta">${r.email || ""}${r.company ? " · " + r.company : ""} · ${fmtDate(r.createdAt)}</div>
+          </div>
+          <select data-id="${r.id}">
+            ${Object.entries(STATUS_LABELS)
+              .map(([val, label]) => `<option value="${val}" ${r.status === val ? "selected" : ""}>${label}</option>`)
+              .join("")}
+          </select>
+        </div>
+        ${r.message ? `<div class="msg">${r.message}</div>` : ""}
+      </div>
+    `
+      )
+      .join("");
+
+    list.querySelectorAll("select").forEach((sel) => {
+      sel.addEventListener("change", async (e) => {
+        const id = e.target.dataset.id;
+        const status = e.target.value;
+        const user = netlifyIdentity.currentUser();
+        await fetch("/.netlify/functions/crm-update", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token.access_token}`,
+          },
+          body: JSON.stringify({ id, status }),
+        });
+        const rec = records.find((r) => r.id === id);
+        if (rec) rec.status = status;
+        render();
+      });
+    });
+  }
+
+  async function loadRecords() {
+    const user = netlifyIdentity.currentUser();
+    const res = await fetch("/.netlify/functions/crm-list", {
+      headers: { Authorization: `Bearer ${user.token.access_token}` },
+    });
+    records = await res.json();
+    render();
+  }
+
+  document.querySelectorAll("#filters button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("#filters button").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeFilter = btn.dataset.filter;
+      render();
+    });
+  });
+
+  document.getElementById("loginBtn").addEventListener("click", () => netlifyIdentity.open());
+
+  netlifyIdentity.on("init", (user) => {
+    if (user) {
+      document.getElementById("loginBox").hidden = true;
+      document.getElementById("app").hidden = false;
+      loadRecords();
+    }
+  });
+  netlifyIdentity.on("login", () => {
+    document.getElementById("loginBox").hidden = true;
+    document.getElementById("app").hidden = false;
+    loadRecords();
+    netlifyIdentity.close();
+  });
+  netlifyIdentity.init();
+</script>
+</body>
+</html>

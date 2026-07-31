@@ -18,7 +18,7 @@ const I18N = {
 
     about_eyebrow: "Who we are",
     about_h2: "A reliable partner for metallurgical, chemical and recycling industries",
-    about_p: "We build efficient supply chains, connecting producers, recyclers and industrial consumers. Our task is finding the optimal solution for every project, ensuring supply reliability, transparent cooperation and long-term partnerships.",
+    about_p: "EkoMetChem operates at the intersection of metallurgy and chemistry, structuring reliable cross-border supply chains for secondary raw materials and industrial inputs. We work directly with producers, recyclers and end users across Europe — managing sourcing, logistics and compliance so our partners can focus on their core business.",
     about_li1: "International trade in metallurgical, chemical and industrial raw materials",
     about_li2: "Building partnerships with producers, recyclers and industrial consumers",
     about_li3: "Organization of export–import deliveries and international logistics",
@@ -78,6 +78,17 @@ const I18N = {
     why2_h: "Wide partner network", why2_p: "A broad network of suppliers, recyclers and consumers throughout Europe.",
     why3_h: "Comprehensive support", why3_p: "End-to-end accompaniment of every deal, from first contact to delivery.",
 
+    industries_eyebrow: "What we serve",
+    industries_h2: "Industries we work with",
+    industry_steel: "Steel", industry_aluminium: "Aluminium", industry_copper: "Copper",
+    industry_zinc: "Zinc", industry_chemical: "Chemical", industry_fertilizer: "Fertilizer", industry_recycling: "Recycling",
+
+    markets_eyebrow: "Where we operate",
+    markets_h2: "Markets we serve",
+    market_central_eu: "Central Europe", market_western_eu: "Western Europe",
+    market_southern_eu: "Southern Europe", market_northern_eu: "Northern Europe",
+    market_eastern_eu: "Eastern Europe", market_export: "Overseas export",
+
     log_eyebrow: "Logistics",
     log_h2: "Transport you can rely on",
     log_p: "We work with trusted European transport companies to organize road delivery of metallurgical materials, including the transport of hazardous goods, in full compliance with international regulations.",
@@ -95,6 +106,17 @@ const I18N = {
 
     footer_rights: "All rights reserved.",
     footer_privacy: "Privacy Policy",
+    footer_services: "Standing Services",
+
+    svcpage_eyebrow: "What we always do",
+    svcpage_h1: "Standing services",
+    svcpage_lede: "Beyond day-to-day trading, EkoMetChem offers a consistent set of services to partners across the supply chain — available at any time, independent of current offers or requests.",
+    cs1_h: "Sourcing & buyer network", cs1_p: "Finding reliable suppliers and end buyers across the European market for metallurgical, chemical and recycled materials.",
+    cs2_h: "International logistics & customs", cs2_p: "Organizing road, rail and sea transport across Europe, including ADR-compliant hazardous goods transport and customs support.",
+    cs3_h: "Laboratory analysis & QC", cs3_p: "Coordinating sampling, laboratory analysis and quality control for materials before and after shipment.",
+    cs4_h: "Deal & contract support", cs4_p: "Full support of international contracts and export–import transactions, from first contact to delivery.",
+    cs5_h: "Regulatory consulting", cs5_p: "Advice on cross-border waste movement and applicable European regulations.",
+    cs6_h: "Recycling & processing guidance", cs6_p: "Helping partners choose the optimal solution for further processing and reuse of materials.",
     cookie_text: "We use cookies for basic analytics to understand how visitors use this site. No personal profiling, no ad tracking.",
     cookie_accept: "Accept",
     cookie_decline: "Decline",
@@ -124,7 +146,7 @@ const I18N = {
 
     about_eyebrow: "Кто мы",
     about_h2: "Надёжный партнёр для металлургической, химической и перерабатывающей промышленности",
-    about_p: "Мы создаём эффективные цепочки поставок, объединяя производителей, переработчиков и промышленных потребителей. Наша задача — находить оптимальные решения для каждого проекта, обеспечивая надёжность поставок, прозрачность сотрудничества и долгосрочные партнёрские отношения.",
+    about_p: "EkoMetChem работает на стыке металлургии и химии, выстраивая надёжные трансграничные цепочки поставок вторичного сырья и промышленных материалов. Мы работаем напрямую с производителями, переработчиками и конечными потребителями по всей Европе — берём на себя закупку, логистику и оформление, чтобы партнёры могли сосредоточиться на своём основном бизнесе.",
     about_li1: "Международная торговля металлургическим, химическим и промышленным сырьём",
     about_li2: "Поиск и развитие партнёрств с производителями, переработчиками и промышленными потребителями",
     about_li3: "Организация экспортно-импортных поставок и международной логистики",
@@ -184,6 +206,17 @@ const I18N = {
     why2_h: "Широкая сеть партнёров", why2_p: "Обширная сеть поставщиков, переработчиков и потребителей по всей Европе.",
     why3_h: "Комплексное сопровождение", why3_p: "Сопровождаем сделку целиком — от первого контакта до доставки.",
 
+    industries_eyebrow: "Кому мы полезны",
+    industries_h2: "Отрасли, с которыми мы работаем",
+    industry_steel: "Сталь", industry_aluminium: "Алюминий", industry_copper: "Медь",
+    industry_zinc: "Цинк", industry_chemical: "Химия", industry_fertilizer: "Удобрения", industry_recycling: "Переработка",
+
+    markets_eyebrow: "Где мы работаем",
+    markets_h2: "Рынки",
+    market_central_eu: "Центральная Европа", market_western_eu: "Западная Европа",
+    market_southern_eu: "Южная Европа", market_northern_eu: "Северная Европа",
+    market_eastern_eu: "Восточная Европа", market_export: "Экспорт за пределы Европы",
+
     log_eyebrow: "Логистика",
     log_h2: "Перевозки, на которые можно положиться",
     log_p: "Сотрудничаем с проверенными европейскими транспортными компаниями и организуем автомобильные перевозки металлургических материалов, включая перевозку опасных грузов, в полном соответствии с требованиями международного законодательства.",
@@ -201,6 +234,17 @@ const I18N = {
 
     footer_rights: "Все права защищены.",
     footer_privacy: "Политика конфиденциальности",
+    footer_services: "Постоянные услуги",
+
+    svcpage_eyebrow: "Чем мы занимаемся всегда",
+    svcpage_h1: "Постоянные услуги",
+    svcpage_lede: "Помимо текущей торговли, EkoMetChem предлагает партнёрам постоянный набор услуг по всей цепочке поставок — доступен в любой момент, независимо от актуальных предложений или запросов.",
+    cs1_h: "Поиск поставщиков и покупателей", cs1_p: "Находим надёжных поставщиков и конечных покупателей на европейском рынке металлургического, химического и вторичного сырья.",
+    cs2_h: "Международная логистика и таможня", cs2_p: "Организуем автомобильные, железнодорожные и морские перевозки по Европе, включая перевозку опасных грузов по ADR и таможенное оформление.",
+    cs3_h: "Лабораторный анализ и контроль качества", cs3_p: "Координируем отбор проб, лабораторный анализ и контроль качества материалов до и после отгрузки.",
+    cs4_h: "Сопровождение сделок и контрактов", cs4_p: "Полное сопровождение международных контрактов и экспортно-импортных операций — от первого контакта до доставки.",
+    cs5_h: "Консультации по регулированию", cs5_p: "Консультируем по трансграничному перемещению отходов и применимым европейским нормам.",
+    cs6_h: "Подбор решений для переработки", cs6_p: "Помогаем партнёрам подобрать оптимальное решение для дальнейшей переработки и использования материалов.",
     cookie_text: "Мы используем базовую аналитику, чтобы понимать, как посетители пользуются сайтом. Без персональной слежки и рекламного трекинга.",
     cookie_accept: "Принять",
     cookie_decline: "Отклонить",
@@ -230,7 +274,7 @@ const I18N = {
 
     about_eyebrow: "Kim jesteśmy",
     about_h2: "Zaufany partner dla przemysłu metalurgicznego, chemicznego i recyklingowego",
-    about_p: "Budujemy efektywne łańcuchy dostaw, łącząc producentów, przetwórców i odbiorców przemysłowych. Naszym zadaniem jest znalezienie optymalnego rozwiązania dla każdego projektu przy zachowaniu niezawodności dostaw, przejrzystości współpracy i długoterminowego partnerstwa.",
+    about_p: "EkoMetChem działa na styku metalurgii i chemii, budując niezawodne, transgraniczne łańcuchy dostaw surowców wtórnych i materiałów przemysłowych. Współpracujemy bezpośrednio z producentami, przetwórcami i odbiorcami końcowymi w całej Europie — przejmujemy zakupy, logistykę i formalności, aby partnerzy mogli skupić się na swojej podstawowej działalności.",
     about_li1: "Międzynarodowy handel surowcami metalurgicznymi, chemicznymi i przemysłowymi",
     about_li2: "Budowanie partnerstw z producentami, przetwórcami i odbiorcami przemysłowymi",
     about_li3: "Organizacja dostaw eksportowo-importowych i logistyki międzynarodowej",
@@ -290,6 +334,17 @@ const I18N = {
     why2_h: "Szeroka sieć partnerów", why2_p: "Rozbudowana sieć dostawców, przetwórców i odbiorców w całej Europie.",
     why3_h: "Kompleksowe wsparcie", why3_p: "Towarzyszymy transakcji od pierwszego kontaktu aż po dostawę.",
 
+    industries_eyebrow: "Dla kogo pracujemy",
+    industries_h2: "Branże, z którymi współpracujemy",
+    industry_steel: "Stal", industry_aluminium: "Aluminium", industry_copper: "Miedź",
+    industry_zinc: "Cynk", industry_chemical: "Chemia", industry_fertilizer: "Nawozy", industry_recycling: "Recykling",
+
+    markets_eyebrow: "Gdzie działamy",
+    markets_h2: "Rynki",
+    market_central_eu: "Europa Środkowa", market_western_eu: "Europa Zachodnia",
+    market_southern_eu: "Europa Południowa", market_northern_eu: "Europa Północna",
+    market_eastern_eu: "Europa Wschodnia", market_export: "Eksport poza Europę",
+
     log_eyebrow: "Logistyka",
     log_h2: "Transport, na którym można polegać",
     log_p: "Współpracujemy ze sprawdzonymi europejskimi firmami transportowymi, organizując transport drogowy materiałów metalurgicznych, w tym przewóz towarów niebezpiecznych, w pełnej zgodności z przepisami międzynarodowymi.",
@@ -307,6 +362,17 @@ const I18N = {
 
     footer_rights: "Wszelkie prawa zastrzeżone.",
     footer_privacy: "Polityka prywatności",
+    footer_services: "Usługi stałe",
+
+    svcpage_eyebrow: "Czym zajmujemy się zawsze",
+    svcpage_h1: "Usługi stałe",
+    svcpage_lede: "Poza bieżącym handlem, EkoMetChem oferuje partnerom stały zestaw usług w całym łańcuchu dostaw — dostępny w każdej chwili, niezależnie od aktualnych ofert czy zapytań.",
+    cs1_h: "Wyszukiwanie dostawców i odbiorców", cs1_p: "Znajdujemy wiarygodnych dostawców i odbiorców końcowych na europejskim rynku surowców metalurgicznych, chemicznych i wtórnych.",
+    cs2_h: "Logistyka międzynarodowa i cło", cs2_p: "Organizujemy transport drogowy, kolejowy i morski w Europie, w tym zgodny z ADR transport towarów niebezpiecznych oraz obsługę celną.",
+    cs3_h: "Analiza laboratoryjna i kontrola jakości", cs3_p: "Koordynujemy pobieranie próbek, analizy laboratoryjne i kontrolę jakości materiałów przed i po wysyłce.",
+    cs4_h: "Wsparcie transakcji i kontraktów", cs4_p: "Pełne wsparcie kontraktów międzynarodowych i transakcji eksportowo-importowych — od pierwszego kontaktu po dostawę.",
+    cs5_h: "Doradztwo regulacyjne", cs5_p: "Doradzamy w zakresie transgranicznego przemieszczania odpadów i obowiązujących przepisów europejskich.",
+    cs6_h: "Dobór rozwiązań recyklingowych", cs6_p: "Pomagamy partnerom dobrać optymalne rozwiązanie do dalszego przetwarzania i wykorzystania materiałów.",
     cookie_text: "Używamy podstawowej analityki, aby zrozumieć, jak odwiedzający korzystają ze strony. Bez profilowania i śledzenia reklamowego.",
     cookie_accept: "Akceptuję",
     cookie_decline: "Odrzucam",
@@ -336,7 +402,7 @@ const I18N = {
 
     about_eyebrow: "Wer wir sind",
     about_h2: "Verlässlicher Partner für Metallurgie-, Chemie- und Recyclingindustrie",
-    about_p: "Wir bauen effiziente Lieferketten auf und verbinden Hersteller, Recycler und industrielle Abnehmer. Unsere Aufgabe ist es, für jedes Projekt die optimale Lösung zu finden und dabei Liefersicherheit, transparente Zusammenarbeit und langfristige Partnerschaften zu gewährleisten.",
+    about_p: "EkoMetChem agiert an der Schnittstelle von Metallurgie und Chemie und strukturiert verlässliche, grenzüberschreitende Lieferketten für Sekundärrohstoffe und industrielle Vorprodukte. Wir arbeiten direkt mit Herstellern, Recyclern und Endabnehmern in ganz Europa zusammen — wir übernehmen Beschaffung, Logistik und Compliance, damit sich unsere Partner auf ihr Kerngeschäft konzentrieren können.",
     about_li1: "Internationaler Handel mit metallurgischen, chemischen und industriellen Rohstoffen",
     about_li2: "Aufbau von Partnerschaften mit Herstellern, Recyclern und industriellen Abnehmern",
     about_li3: "Organisation von Export-Import-Lieferungen und internationaler Logistik",
@@ -396,6 +462,17 @@ const I18N = {
     why2_h: "Breites Partnernetzwerk", why2_p: "Ein weitreichendes Netzwerk aus Lieferanten, Recyclern und Abnehmern in ganz Europa.",
     why3_h: "Umfassende Betreuung", why3_p: "Wir begleiten jede Transaktion vom ersten Kontakt bis zur Lieferung.",
 
+    industries_eyebrow: "Für wen wir arbeiten",
+    industries_h2: "Branchen, mit denen wir arbeiten",
+    industry_steel: "Stahl", industry_aluminium: "Aluminium", industry_copper: "Kupfer",
+    industry_zinc: "Zink", industry_chemical: "Chemie", industry_fertilizer: "Dünger", industry_recycling: "Recycling",
+
+    markets_eyebrow: "Wo wir tätig sind",
+    markets_h2: "Märkte",
+    market_central_eu: "Mitteleuropa", market_western_eu: "Westeuropa",
+    market_southern_eu: "Südeuropa", market_northern_eu: "Nordeuropa",
+    market_eastern_eu: "Osteuropa", market_export: "Export außerhalb Europas",
+
     log_eyebrow: "Logistik",
     log_h2: "Transport, auf den Sie sich verlassen können",
     log_p: "Wir arbeiten mit bewährten europäischen Transportunternehmen zusammen und organisieren den Straßentransport metallurgischer Materialien, einschließlich Gefahrguttransport, in voller Übereinstimmung mit internationalen Vorschriften.",
@@ -413,6 +490,17 @@ const I18N = {
 
     footer_rights: "Alle Rechte vorbehalten.",
     footer_privacy: "Datenschutzerklärung",
+    footer_services: "Ständige Leistungen",
+
+    svcpage_eyebrow: "Was wir immer tun",
+    svcpage_h1: "Ständige Leistungen",
+    svcpage_lede: "Neben dem laufenden Handel bietet EkoMetChem Partnern ein beständiges Leistungsangebot entlang der gesamten Lieferkette — jederzeit verfügbar, unabhängig von aktuellen Angeboten oder Anfragen.",
+    cs1_h: "Lieferanten- und Abnehmersuche", cs1_p: "Wir finden verlässliche Lieferanten und Endabnehmer auf dem europäischen Markt für metallurgische, chemische und recycelte Materialien.",
+    cs2_h: "Internationale Logistik & Zoll", cs2_p: "Organisation von Straßen-, Schienen- und Seetransport in Europa, einschließlich ADR-konformem Gefahrguttransport und Zollabwicklung.",
+    cs3_h: "Laboranalyse & Qualitätskontrolle", cs3_p: "Koordination von Probenahme, Laboranalyse und Qualitätskontrolle vor und nach dem Versand.",
+    cs4_h: "Abwicklungs- und Vertragsunterstützung", cs4_p: "Vollständige Begleitung internationaler Verträge und Export-Import-Transaktionen — vom ersten Kontakt bis zur Lieferung.",
+    cs5_h: "Regulatorische Beratung", cs5_p: "Beratung zu grenzüberschreitender Abfallverbringung und geltenden europäischen Vorschriften.",
+    cs6_h: "Recycling-Beratung", cs6_p: "Wir helfen Partnern bei der Wahl der optimalen Lösung für Weiterverarbeitung und Wiederverwendung von Materialien.",
     cookie_text: "Wir verwenden grundlegende Analysen, um zu verstehen, wie Besucher diese Seite nutzen. Kein persönliches Profiling, kein Werbe-Tracking.",
     cookie_accept: "Akzeptieren",
     cookie_decline: "Ablehnen",
@@ -442,7 +530,7 @@ const I18N = {
 
     about_eyebrow: "Chi siamo",
     about_h2: "Partner affidabile per l'industria metallurgica, chimica e del riciclo",
-    about_p: "Costruiamo catene di fornitura efficienti, collegando produttori, riciclatori e consumatori industriali. Il nostro compito è trovare la soluzione ottimale per ogni progetto, garantendo affidabilità delle forniture, trasparenza nella collaborazione e partnership di lungo termine.",
+    about_p: "EkoMetChem opera all'incrocio tra metallurgia e chimica, strutturando catene di fornitura transfrontaliere affidabili per materie prime seconde e input industriali. Lavoriamo direttamente con produttori, riciclatori e utilizzatori finali in tutta Europa — gestendo approvvigionamento, logistica e conformità, così i nostri partner possono concentrarsi sul proprio core business.",
     about_li1: "Commercio internazionale di materie prime metallurgiche, chimiche e industriali",
     about_li2: "Sviluppo di partnership con produttori, riciclatori e consumatori industriali",
     about_li3: "Organizzazione di forniture export-import e logistica internazionale",
@@ -502,6 +590,17 @@ const I18N = {
     why2_h: "Ampia rete di partner", why2_p: "Una vasta rete di fornitori, riciclatori e consumatori in tutta Europa.",
     why3_h: "Assistenza completa", why3_p: "Accompagniamo ogni trattativa dal primo contatto fino alla consegna.",
 
+    industries_eyebrow: "Per chi lavoriamo",
+    industries_h2: "Settori con cui collaboriamo",
+    industry_steel: "Acciaio", industry_aluminium: "Alluminio", industry_copper: "Rame",
+    industry_zinc: "Zinco", industry_chemical: "Chimica", industry_fertilizer: "Fertilizzanti", industry_recycling: "Riciclo",
+
+    markets_eyebrow: "Dove operiamo",
+    markets_h2: "Mercati",
+    market_central_eu: "Europa Centrale", market_western_eu: "Europa Occidentale",
+    market_southern_eu: "Europa Meridionale", market_northern_eu: "Europa Settentrionale",
+    market_eastern_eu: "Europa Orientale", market_export: "Esportazione fuori Europa",
+
     log_eyebrow: "Logistica",
     log_h2: "Trasporti su cui puoi contare",
     log_p: "Collaboriamo con affidabili aziende di trasporto europee per organizzare il trasporto su strada di materiali metallurgici, compreso il trasporto di merci pericolose, in piena conformità con le normative internazionali.",
@@ -519,6 +618,17 @@ const I18N = {
 
     footer_rights: "Tutti i diritti riservati.",
     footer_privacy: "Informativa sulla privacy",
+    footer_services: "Servizi permanenti",
+
+    svcpage_eyebrow: "Cosa facciamo sempre",
+    svcpage_h1: "Servizi permanenti",
+    svcpage_lede: "Oltre al commercio quotidiano, EkoMetChem offre ai partner una gamma costante di servizi lungo tutta la catena di fornitura — disponibile in qualsiasi momento, indipendentemente dalle offerte o richieste attuali.",
+    cs1_h: "Ricerca fornitori e acquirenti", cs1_p: "Troviamo fornitori affidabili e acquirenti finali sul mercato europeo di materiali metallurgici, chimici e riciclati.",
+    cs2_h: "Logistica internazionale e dogana", cs2_p: "Organizziamo trasporto su strada, ferrovia e mare in Europa, incluso il trasporto di merci pericolose conforme ADR e l'assistenza doganale.",
+    cs3_h: "Analisi di laboratorio e controllo qualità", cs3_p: "Coordiniamo campionamento, analisi di laboratorio e controllo qualità dei materiali prima e dopo la spedizione.",
+    cs4_h: "Assistenza a trattative e contratti", cs4_p: "Assistenza completa a contratti internazionali e operazioni export-import — dal primo contatto alla consegna.",
+    cs5_h: "Consulenza normativa", cs5_p: "Consulenza sul trasferimento transfrontaliero di rifiuti e sulle normative europee applicabili.",
+    cs6_h: "Consulenza sul riciclo", cs6_p: "Aiutiamo i partner a scegliere la soluzione ottimale per l'ulteriore lavorazione e riutilizzo dei materiali.",
     cookie_text: "Utilizziamo un'analisi di base per capire come i visitatori usano questo sito. Nessuna profilazione personale, nessun tracciamento pubblicitario.",
     cookie_accept: "Accetta",
     cookie_decline: "Rifiuta",
@@ -548,7 +658,7 @@ const I18N = {
 
     about_eyebrow: "Qui sommes-nous",
     about_h2: "Partenaire fiable pour les industries métallurgique, chimique et du recyclage",
-    about_p: "Nous construisons des chaînes d'approvisionnement efficaces, en connectant producteurs, recycleurs et consommateurs industriels. Notre mission est de trouver la solution optimale pour chaque projet, en garantissant la fiabilité des livraisons, une collaboration transparente et des partenariats durables.",
+    about_p: "EkoMetChem opère à la croisée de la métallurgie et de la chimie, en structurant des chaînes d'approvisionnement transfrontalières fiables pour les matières premières secondaires et les intrants industriels. Nous travaillons directement avec des producteurs, recycleurs et utilisateurs finaux à travers l'Europe — en prenant en charge l'approvisionnement, la logistique et la conformité, afin que nos partenaires puissent se concentrer sur leur cœur de métier.",
     about_li1: "Négoce international de matières premières métallurgiques, chimiques et industrielles",
     about_li2: "Développement de partenariats avec producteurs, recycleurs et consommateurs industriels",
     about_li3: "Organisation des livraisons export-import et de la logistique internationale",
@@ -608,6 +718,17 @@ const I18N = {
     why2_h: "Large réseau de partenaires", why2_p: "Un vaste réseau de fournisseurs, recycleurs et consommateurs dans toute l'Europe.",
     why3_h: "Accompagnement complet", why3_p: "Nous accompagnons chaque transaction, du premier contact jusqu'à la livraison.",
 
+    industries_eyebrow: "Pour qui nous travaillons",
+    industries_h2: "Secteurs avec lesquels nous travaillons",
+    industry_steel: "Acier", industry_aluminium: "Aluminium", industry_copper: "Cuivre",
+    industry_zinc: "Zinc", industry_chemical: "Chimie", industry_fertilizer: "Engrais", industry_recycling: "Recyclage",
+
+    markets_eyebrow: "Où nous opérons",
+    markets_h2: "Marchés",
+    market_central_eu: "Europe centrale", market_western_eu: "Europe occidentale",
+    market_southern_eu: "Europe du Sud", market_northern_eu: "Europe du Nord",
+    market_eastern_eu: "Europe de l'Est", market_export: "Export hors Europe",
+
     log_eyebrow: "Logistique",
     log_h2: "Un transport sur lequel vous pouvez compter",
     log_p: "Nous travaillons avec des transporteurs européens de confiance pour organiser le transport routier de matériaux métallurgiques, y compris le transport de marchandises dangereuses, en pleine conformité avec la réglementation internationale.",
@@ -625,6 +746,17 @@ const I18N = {
 
     footer_rights: "Tous droits réservés.",
     footer_privacy: "Politique de confidentialité",
+    footer_services: "Services permanents",
+
+    svcpage_eyebrow: "Ce que nous faisons toujours",
+    svcpage_h1: "Services permanents",
+    svcpage_lede: "Au-delà du négoce quotidien, EkoMetChem propose à ses partenaires un ensemble constant de services tout au long de la chaîne d'approvisionnement — disponible à tout moment, indépendamment des offres ou demandes actuelles.",
+    cs1_h: "Recherche de fournisseurs et acheteurs", cs1_p: "Nous trouvons des fournisseurs fiables et des acheteurs finaux sur le marché européen des matériaux métallurgiques, chimiques et recyclés.",
+    cs2_h: "Logistique internationale et douane", cs2_p: "Organisation du transport routier, ferroviaire et maritime en Europe, y compris le transport de marchandises dangereuses conforme ADR et l'assistance douanière.",
+    cs3_h: "Analyse de laboratoire et contrôle qualité", cs3_p: "Coordination de l'échantillonnage, des analyses de laboratoire et du contrôle qualité des matériaux avant et après expédition.",
+    cs4_h: "Accompagnement des transactions et contrats", cs4_p: "Accompagnement complet des contrats internationaux et des opérations export-import — du premier contact à la livraison.",
+    cs5_h: "Conseil réglementaire", cs5_p: "Conseil sur le transfert transfrontalier de déchets et la réglementation européenne applicable.",
+    cs6_h: "Conseil en recyclage", cs6_p: "Nous aidons les partenaires à choisir la solution optimale pour le traitement ultérieur et la réutilisation des matériaux.",
     cookie_text: "Nous utilisons une analyse de base pour comprendre comment les visiteurs utilisent ce site. Aucun profilage personnel, aucun suivi publicitaire.",
     cookie_accept: "Accepter",
     cookie_decline: "Refuser",

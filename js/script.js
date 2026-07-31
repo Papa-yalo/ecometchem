@@ -135,7 +135,7 @@ function closeLightbox() {
 lightboxClose?.addEventListener("click", closeLightbox);
 lightboxBackdrop?.addEventListener("click", closeLightbox);
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && !lightbox.hidden) closeLightbox();
+  if (e.key === "Escape" && lightbox && !lightbox.hidden) closeLightbox();
 });
 
 /* ---- catalog search: matches item names across all 12 categories ---- */
@@ -479,6 +479,8 @@ function renderSimpleList(containerId, entries) {
 let dynamicDataCache = null;
 
 async function loadDynamicBlocks() {
+  if (!document.getElementById("offersGrid")) return;
+
   const [offers, procurement, servicesActive, servicesNeeded] = await Promise.all([
     fetchCollection("offers"),
     fetchCollection("procurement"),
@@ -573,6 +575,7 @@ const cookieDecline = document.getElementById("cookieDecline");
 const CONSENT_KEY = "emc_cookie_consent";
 
 function initConsent() {
+  if (!cookieBanner) return;
   const saved = localStorage.getItem(CONSENT_KEY);
   if (saved === "accepted") {
     loadGoogleAnalytics();

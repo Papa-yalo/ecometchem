@@ -1,0 +1,8 @@
+{
+  "sources": [
+    { "name": "Mining.com", "url": "https://www.mining.com/feed" },
+    { "name": "Kitco News", "url": "https://www.kitco.com/news/category/mining/rss" },
+    { "name": "Google News", "url": "https://news.google.com/rss/search?q=metal+recycling+OR+non-ferrous+Europe&hl=en-GB&gl=GB&ceid=GB:en" }
+  ],
+  "note": "Update frequency (metals ticker + news) is fixed in code at every 8 hours for the ticker and every 4 hours for news, to respect the Metals.Dev free-tier request limit. Changing frequency requires a code change + redeploy — ask your developer."
+}

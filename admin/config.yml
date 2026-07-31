@@ -12,6 +12,22 @@ locale: "ru"
 
 collections:
 
+  # ⚙️ Settings — editable news sources (no code changes needed)
+  - name: "settings"
+    label: "⚙️ Настройки"
+    files:
+      - name: "feeds"
+        label: "Источники новостей"
+        file: "content/settings/feeds.json"
+        fields:
+          - label: "Источники (RSS)"
+            name: "sources"
+            widget: "list"
+            fields:
+              - { label: "Название", name: "name", widget: "string" }
+              - { label: "RSS-ссылка", name: "url", widget: "string" }
+          - { label: "Примечание", name: "note", widget: "text", required: false }
+
   # 🟢 Актуальные предложения — what the company is selling right now
   - name: "offers"
     label: "🟢 Актуальные предложения"

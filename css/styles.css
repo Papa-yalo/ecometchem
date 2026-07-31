@@ -653,6 +653,42 @@ body.lightbox-open { overflow: hidden; }
 .why-card h3 { font-size: 1rem; margin-bottom: 8px; }
 .why-card p { font-size: 0.9rem; }
 
+/* ---------- industries ---------- */
+.industries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 20px;
+}
+.industry-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 22px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.industry-item:hover { border-color: var(--amber); transform: translateY(-2px); }
+.industry-item svg { width: 34px; height: 34px; color: var(--blue); }
+.industry-item span { font-size: 0.82rem; color: var(--ink-muted); text-align: center; }
+
+/* ---------- markets ---------- */
+.markets-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.market-item {
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--ink);
+}
+
 /* ---------- logistics ---------- */
 .logistics-inner {
   display: grid;
