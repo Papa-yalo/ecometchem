@@ -318,6 +318,25 @@ section { padding: 88px 0; }
   background: var(--amber);
   margin-top: 7px;
 }
+.goal-box {
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  padding: 28px;
+}
+.service-tile {
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 16px;
+}
+.service-tile .sym {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--ink);
+}
+.service-tile .desc { color: var(--ink-muted); }
 
 /* ---------- element grid (signature) ---------- */
 .tabs {
