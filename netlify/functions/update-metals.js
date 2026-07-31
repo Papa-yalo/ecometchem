@@ -62,4 +62,7 @@ export default async () => {
   }
 };
 
-export const config = { schedule: "0 */4 * * *" };
+// Runs every 8 hours (3x/day = ~90 calls/month, within Metals.Dev's free
+// 100 requests/month cap — the free plan doesn't leave room for 4-hour
+// updates). Bump to every 4h ("0 */4 * * *") if you upgrade the plan.
+export const config = { schedule: "0 */8 * * *" };
