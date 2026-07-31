@@ -141,13 +141,12 @@ body::before {
   height: 68px;
   width: auto;
   display: block;
-  animation: logoBreathe 4.5s ease-in-out infinite;
-  transform-origin: center;
+  animation: logoGlow 4.5s ease-in-out infinite;
 }
 .footer-logo-img { height: 46px; width: auto; display: block; }
-@keyframes logoBreathe {
-  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(255,140,66,0)); }
-  50% { transform: scale(1.045); filter: drop-shadow(0 0 10px rgba(255,140,66,0.35)); }
+@keyframes logoGlow {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(255,140,66,0)); }
+  50% { filter: drop-shadow(0 0 9px rgba(255,140,66,0.45)); }
 }
 @media (prefers-reduced-motion: reduce) {
   .brand-logo-img { animation: none; }
@@ -341,6 +340,7 @@ section { padding: 88px 0; }
 
 .cat-search {
   position: relative;
+  z-index: 40;
   max-width: 420px;
   margin-bottom: 28px;
 }
