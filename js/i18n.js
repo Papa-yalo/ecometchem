@@ -11,6 +11,7 @@ const I18N = {
 
     hero_eyebrow: "Metallurgical, chemical & industrial raw materials trading",
     hero_h1: "Connecting Europe's metal & chemical supply chain",
+    meta_description: "EkoMetChem — international trading company for metallurgical waste, secondary raw materials, chemicals and non-ferrous metals across Europe.",
     hero_lede: "EkoMetChem is a reliable international partner for the metallurgical, chemical and recycling industries — trading metallurgical waste, secondary raw materials, chemical raw materials, non-ferrous metals and special industrial materials.",
     hero_cta_primary: "Request a quote",
     hero_cta_ghost: "View marketplace",
@@ -116,6 +117,7 @@ const I18N = {
 
     hero_eyebrow: "Торговля металлургическим, химическим и промышленным сырьём",
     hero_h1: "Надёжный партнёр металлургической и химической отрасли Европы",
+    meta_description: "EkoMetChem — международная торговая компания: металлургические отходы, вторичное сырьё, химическая продукция и цветные металлы по всей Европе.",
     hero_lede: "EkoMetChem — международная торговая компания, специализирующаяся на закупке, продаже и организации поставок металлургических отходов, вторичного сырья, химического сырья, продукции химической промышленности, цветных металлов и специальных промышленных материалов.",
     hero_cta_primary: "Запросить предложение",
     hero_cta_ghost: "Открыть маркетплейс",
@@ -221,6 +223,7 @@ const I18N = {
 
     hero_eyebrow: "Handel surowcami metalurgicznymi, chemicznymi i przemysłowymi",
     hero_h1: "Zaufany partner branży metalurgicznej i chemicznej w Europie",
+    meta_description: "EkoMetChem — międzynarodowa firma handlowa: odpady metalurgiczne, surowce wtórne, produkty chemiczne i metale nieżelazne w całej Europie.",
     hero_lede: "EkoMetChem to międzynarodowa firma handlowa specjalizująca się w skupie, sprzedaży i organizacji dostaw odpadów metalurgicznych, surowców wtórnych, surowców chemicznych, produktów przemysłu chemicznego, metali nieżelaznych i specjalnych materiałów przemysłowych.",
     hero_cta_primary: "Zapytaj o ofertę",
     hero_cta_ghost: "Zobacz marketplace",
@@ -326,6 +329,7 @@ const I18N = {
 
     hero_eyebrow: "Handel mit metallurgischen, chemischen und industriellen Rohstoffen",
     hero_h1: "Verlässlicher Partner für Europas Metall- und Chemieindustrie",
+    meta_description: "EkoMetChem — internationales Handelsunternehmen: metallurgische Abfälle, Sekundärrohstoffe, Chemieprodukte und Nichteisenmetalle in ganz Europa.",
     hero_lede: "EkoMetChem ist ein internationales Handelsunternehmen, spezialisiert auf An- und Verkauf sowie Lieferorganisation von metallurgischen Abfällen, Sekundärrohstoffen, chemischen Rohstoffen, Produkten der chemischen Industrie, Nichteisenmetallen und speziellen Industriematerialien.",
     hero_cta_primary: "Angebot anfragen",
     hero_cta_ghost: "Marketplace ansehen",
@@ -431,6 +435,7 @@ const I18N = {
 
     hero_eyebrow: "Commercio di materie prime metallurgiche, chimiche e industriali",
     hero_h1: "Partner affidabile per l'industria metallurgica e chimica europea",
+    meta_description: "EkoMetChem — azienda commerciale internazionale: scarti metallurgici, materie prime seconde, prodotti chimici e metalli non ferrosi in tutta Europa.",
     hero_lede: "EkoMetChem è un'azienda commerciale internazionale specializzata nell'acquisto, vendita e organizzazione delle forniture di scarti metallurgici, materie prime seconde, materie prime chimiche, prodotti dell'industria chimica, metalli non ferrosi e materiali industriali speciali.",
     hero_cta_primary: "Richiedi un preventivo",
     hero_cta_ghost: "Vedi il marketplace",
@@ -536,6 +541,7 @@ const I18N = {
 
     hero_eyebrow: "Négoce de matières premières métallurgiques, chimiques et industrielles",
     hero_h1: "Partenaire fiable de l'industrie métallurgique et chimique en Europe",
+    meta_description: "EkoMetChem — société de négoce internationale : déchets métallurgiques, matières premières secondaires, produits chimiques et métaux non ferreux en Europe.",
     hero_lede: "EkoMetChem est une société de négoce internationale spécialisée dans l'achat, la vente et l'organisation des livraisons de déchets métallurgiques, matières premières secondaires, matières premières chimiques, produits de l'industrie chimique, métaux non ferreux et matériaux industriels spéciaux.",
     hero_cta_primary: "Demander un devis",
     hero_cta_ghost: "Voir la marketplace",

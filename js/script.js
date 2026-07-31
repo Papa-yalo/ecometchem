@@ -25,6 +25,11 @@ function applyLang(lang) {
   document.documentElement.setAttribute("lang", lang);
 
   const dict = I18N[lang];
+
+  document.title = `EkoMetChem — ${dict.hero_h1}`;
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc && dict.meta_description) metaDesc.setAttribute("content", dict.meta_description);
+
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     const key = el.getAttribute("data-i18n");
     if (dict[key] !== undefined) el.textContent = dict[key];

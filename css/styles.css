@@ -523,7 +523,9 @@ body.lightbox-open { overflow: hidden; }
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  transition: border-color 0.15s ease, transform 0.15s ease;
 }
+.dyn-card:hover { border-color: var(--amber); transform: translateY(-2px); }
 .dyn-card.pinned { border-color: var(--amber); }
 .dyn-card .pin-badge {
   position: absolute;
