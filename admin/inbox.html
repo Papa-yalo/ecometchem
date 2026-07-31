@@ -111,10 +111,29 @@
 
   async function loadRecords() {
     const user = netlifyIdentity.currentUser();
-    const res = await fetch("/.netlify/functions/crm-list", {
-      headers: { Authorization: `Bearer ${user.token.access_token}` },
-    });
-    records = await res.json();
+    try {
+      const res = await fetch("/.netlify/functions/crm-list", {
+        headers: { Authorization: `Bearer ${user.token.access_token}` },
+      });
+
+      if (!res.ok) {
+        const text = await res.text();
+        console.error("crm-list error:", res.status, text);
+        records = [];
+        document.getElementById("list").innerHTML =
+          `<p class="empty">Не удалось загрузить заявки (код ${res.status}). Попробуйте перезайти.</p>`;
+        return;
+      }
+
+      const data = await res.json();
+      records = Array.isArray(data) ? data : [];
+    } catch (err) {
+      console.error("crm-list fetch failed:", err);
+      records = [];
+      document.getElementById("list").innerHTML =
+        '<p class="empty">Не удалось загрузить заявки. Проверьте консоль (F12).</p>';
+      return;
+    }
     render();
   }
 
