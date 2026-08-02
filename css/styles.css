@@ -293,6 +293,12 @@ body::before {
   overflow: hidden;
 }
 .video-section-tall { padding: 130px 0; }
+.section-video-contain { object-fit: contain; }
+.section-video-blurbg {
+  object-fit: cover;
+  filter: blur(30px) brightness(0.55) saturate(1.1);
+  transform: scale(1.15);
+}
 .section-video {
   position: absolute;
   inset: 0;
