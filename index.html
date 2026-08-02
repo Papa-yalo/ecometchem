@@ -50,7 +50,9 @@
 <header class="site-header">
   <div class="container header-inner">
     <a href="#top" class="brand">
-      <img src="assets/logo.png" class="brand-logo-img" alt="EkoMetChem">
+      <video class="brand-logo-video" autoplay muted loop playsinline aria-label="EkoMetChem">
+        <source src="assets/video/logo-anim.mp4" type="video/mp4">
+      </video>
     </a>
 
     <nav class="nav" id="mainNav">
@@ -110,7 +112,12 @@
 </section>
 
 <!-- ============================== ABOUT ============================== -->
-<section class="alt-bg" id="about">
+<section class="alt-bg video-section" id="about">
+  <video class="section-video" autoplay muted loop playsinline aria-hidden="true">
+    <source src="assets/video/about-loop.mp4" type="video/mp4">
+  </video>
+  <div class="section-video-overlay" aria-hidden="true"></div>
+
   <div class="container about-grid">
     <div class="reveal">
       <p class="eyebrow" data-i18n="about_eyebrow">Who we are</p>
@@ -230,7 +237,12 @@
 </section>
 
 <!-- ============================== LOGISTICS ============================== -->
-<section class="alt-bg" id="logistics">
+<section class="alt-bg video-section" id="logistics">
+  <video class="section-video" autoplay muted loop playsinline aria-hidden="true">
+    <source src="assets/video/logistics-loop.mp4" type="video/mp4">
+  </video>
+  <div class="section-video-overlay" aria-hidden="true"></div>
+
   <div class="container logistics-inner">
     <div class="reveal">
       <p class="eyebrow" data-i18n="log_eyebrow">Logistics</p>
@@ -262,7 +274,12 @@
 </section>
 
 <!-- ============================== CONTACT ============================== -->
-<section id="contact">
+<section class="video-section" id="contact">
+  <video class="section-video" autoplay muted loop playsinline aria-hidden="true">
+    <source src="assets/video/contact-loop.mp4" type="video/mp4">
+  </video>
+  <div class="section-video-overlay" aria-hidden="true"></div>
+
   <div class="container contact-grid">
     <div class="contact-info reveal">
       <p class="eyebrow" data-i18n="contact_eyebrow">Get in touch</p>

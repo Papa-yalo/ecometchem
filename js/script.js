@@ -473,6 +473,50 @@ function openOfferDetail(e) {
   document.body.classList.add("lightbox-open");
 }
 
+/* ---------------------------------------------------------------
+   3b) AUTO-TRANSLATE — the "Услуги и партнёрство" list items are typed
+   freely by staff in the admin panel (usually in Russian) and aren't
+   part of the static i18n dictionary. For non-Russian visitors we
+   translate them on the fly via a free API and cache the result so we
+   don't re-translate the same text twice.
+   --------------------------------------------------------------- */
+let translationCache = {};
+try {
+  translationCache = JSON.parse(localStorage.getItem("emc_translations") || "{}");
+} catch {
+  translationCache = {};
+}
+
+function saveTranslationCache() {
+  try {
+    localStorage.setItem("emc_translations", JSON.stringify(translationCache));
+  } catch {
+    /* storage full or unavailable — not critical, just skip caching */
+  }
+}
+
+async function translateText(text, targetLang) {
+  if (!text || targetLang === "ru") return text;
+  const key = `${targetLang}::${text}`;
+  if (translationCache[key]) return translationCache[key];
+
+  try {
+    const res = await fetch(
+      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=ru|${targetLang}`
+    );
+    const data = await res.json();
+    const translated = data && data.responseData && data.responseData.translatedText;
+    if (translated && data.responseStatus === 200) {
+      translationCache[key] = translated;
+      saveTranslationCache();
+      return translated;
+    }
+  } catch {
+    /* translation service unreachable — fall back to original text below */
+  }
+  return text;
+}
+
 function renderSimpleList(containerId, entries) {
   const list = document.getElementById(containerId);
   if (!list) return;
@@ -484,14 +528,22 @@ function renderSimpleList(containerId, entries) {
   }
 
   list.innerHTML = "";
-  visible.forEach((e) => {
+  visible.forEach((e, idx) => {
     const row = document.createElement("div");
     row.className = "dyn-list-item" + (e.pinned ? " pinned" : "");
+    const titleId = `dynTitle-${containerId}-${idx}`;
     row.innerHTML = `
-      <span class="txt">${e.pinned ? `<span class="pin-badge" style="position:static; margin-right:8px;">${I18N[currentLang].dyn_pinned}</span>` : ""}${e.title || ""}</span>
+      <span class="txt">${e.pinned ? `<span class="pin-badge" style="position:static; margin-right:8px;">${I18N[currentLang].dyn_pinned}</span>` : ""}<span id="${titleId}">${e.title || ""}</span></span>
       <span class="dyn-date">${formatEntryDate(e.date)}</span>
     `;
     list.appendChild(row);
+
+    if (currentLang !== "ru" && e.title) {
+      translateText(e.title, currentLang).then((translated) => {
+        const el = document.getElementById(titleId);
+        if (el) el.textContent = translated;
+      });
+    }
   });
 }
 
