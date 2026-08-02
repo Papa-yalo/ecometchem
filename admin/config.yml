@@ -78,7 +78,11 @@ collections:
     slug: "{{year}}{{month}}{{day}}-{{slug}}"
     summary: "{{title}} — {{date}}"
     fields:
-      - { label: "Текст", name: "title", widget: "string", hint: "Например: Принимаем на утилизацию — деревянные железнодорожные шпалы" }
+      - { label: "Название", name: "title", widget: "string", hint: "Например: Утилизация деревянных ж/д шпал" }
+      - { label: "Описание", name: "description", widget: "text", required: false }
+      - { label: "Фото", name: "photo", widget: "image", required: false }
+      - { label: "Количество / объём", name: "quantity", widget: "string", required: false }
+      - { label: "Страна", name: "country", widget: "string", required: false }
       - { label: "Дата публикации", name: "date", widget: "datetime", default: "" }
       - { label: "Закрепить вверху", name: "pinned", widget: "boolean", default: false }
       - { label: "Скрыть (не удаляя)", name: "hidden", widget: "boolean", default: false }
@@ -94,7 +98,11 @@ collections:
     slug: "{{year}}{{month}}{{day}}-{{slug}}"
     summary: "{{title}} — {{date}}"
     fields:
-      - { label: "Текст", name: "title", widget: "string", hint: "Например: Требуется — ADR Transport" }
+      - { label: "Название", name: "title", widget: "string", hint: "Например: Требуется — ADR Transport" }
+      - { label: "Описание", name: "description", widget: "text", required: false }
+      - { label: "Фото", name: "photo", widget: "image", required: false }
+      - { label: "Количество / объём", name: "quantity", widget: "string", required: false }
+      - { label: "Страна", name: "country", widget: "string", required: false }
       - { label: "Дата публикации", name: "date", widget: "datetime", default: "" }
       - { label: "Закрепить вверху", name: "pinned", widget: "boolean", default: false }
       - { label: "Скрыть (не удаляя)", name: "hidden", widget: "boolean", default: false }

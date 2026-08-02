@@ -432,16 +432,24 @@ function renderOfferList(containerId, entries) {
   }
 
   list.innerHTML = "";
-  visible.forEach((e) => {
+  visible.forEach((e, idx) => {
     const row = document.createElement("div");
     row.className = "dyn-list-item" + (e.pinned ? " pinned" : "");
+    const titleId = `dynOfferTitle-${containerId}-${idx}`;
     row.innerHTML = `
-      <span class="txt">${e.pinned ? `<span class="pin-badge" style="position:static; margin-right:8px;">${I18N[currentLang].dyn_pinned}</span>` : ""}${e.title || ""}</span>
+      <span class="txt">${e.pinned ? `<span class="pin-badge" style="position:static; margin-right:8px;">${I18N[currentLang].dyn_pinned}</span>` : ""}<span id="${titleId}">${e.title || ""}</span></span>
       <span class="dyn-date">${formatEntryDate(e.date)}</span>
       <button type="button" class="btn btn-ghost btn-sm">${I18N[currentLang].dyn_more}</button>
     `;
     row.querySelector("button").addEventListener("click", () => openOfferDetail(e));
     list.appendChild(row);
+
+    if (currentLang !== "ru" && e.title) {
+      translateText(e.title, currentLang).then((translated) => {
+        const el = document.getElementById(titleId);
+        if (el) el.textContent = translated;
+      });
+    }
   });
 }
 
@@ -463,11 +471,23 @@ function openOfferDetail(e) {
   if (e.country) metaParts.push(`${I18N[currentLang].dyn_country}: <span class="mark">${e.country}</span>`);
 
   lightboxItems.innerHTML = `
-    ${e.description ? `<p style="margin:0 0 12px;">${e.description}</p>` : ""}
+    ${e.description ? `<p id="lightboxDesc" style="margin:0 0 12px;">${e.description}</p>` : ""}
     ${metaParts.length ? `<p style="margin:0 0 12px;">${metaParts.join(" · ")}</p>` : ""}
     <p style="margin:0 0 16px; opacity:.7;">${formatEntryDate(e.date)}</p>
     <a class="btn btn-primary" href="${e.link || "#contact"}" ${e.link ? 'target="_blank" rel="noopener"' : ""}>${I18N[currentLang].hero_cta_primary}</a>
   `;
+
+  if (currentLang !== "ru") {
+    if (e.title) {
+      translateText(e.title, currentLang).then((t) => { lightboxTitle.textContent = t; });
+    }
+    if (e.description) {
+      translateText(e.description, currentLang).then((t) => {
+        const el = document.getElementById("lightboxDesc");
+        if (el) el.textContent = t;
+      });
+    }
+  }
 
   lightbox.hidden = false;
   document.body.classList.add("lightbox-open");
@@ -517,36 +537,6 @@ async function translateText(text, targetLang) {
   return text;
 }
 
-function renderSimpleList(containerId, entries) {
-  const list = document.getElementById(containerId);
-  if (!list) return;
-  const visible = sortEntries(entries);
-
-  if (visible.length === 0) {
-    list.innerHTML = `<p class="dyn-status">${I18N[currentLang].dyn_empty}</p>`;
-    return;
-  }
-
-  list.innerHTML = "";
-  visible.forEach((e, idx) => {
-    const row = document.createElement("div");
-    row.className = "dyn-list-item" + (e.pinned ? " pinned" : "");
-    const titleId = `dynTitle-${containerId}-${idx}`;
-    row.innerHTML = `
-      <span class="txt">${e.pinned ? `<span class="pin-badge" style="position:static; margin-right:8px;">${I18N[currentLang].dyn_pinned}</span>` : ""}<span id="${titleId}">${e.title || ""}</span></span>
-      <span class="dyn-date">${formatEntryDate(e.date)}</span>
-    `;
-    list.appendChild(row);
-
-    if (currentLang !== "ru" && e.title) {
-      translateText(e.title, currentLang).then((translated) => {
-        const el = document.getElementById(titleId);
-        if (el) el.textContent = translated;
-      });
-    }
-  });
-}
-
 let dynamicDataCache = null;
 
 async function loadDynamicBlocks() {
@@ -569,8 +559,8 @@ function renderDynamicBlocks() {
 
   renderOfferList("offersGrid", offers);
   renderOfferList("procurementGrid", procurement);
-  renderSimpleList("servicesActiveList", servicesActive);
-  renderSimpleList("servicesNeededList", servicesNeeded);
+  renderOfferList("servicesActiveList", servicesActive);
+  renderOfferList("servicesNeededList", servicesNeeded);
 }
 
 /* ---------------------------------------------------------------
