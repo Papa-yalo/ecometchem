@@ -292,6 +292,7 @@ body::before {
   position: relative;
   overflow: hidden;
 }
+.video-section-tall { padding: 130px 0; }
 .section-video {
   position: absolute;
   inset: 0;
