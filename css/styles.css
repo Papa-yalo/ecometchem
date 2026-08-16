@@ -826,39 +826,6 @@ body.lightbox-open { overflow: hidden; }
   overflow: hidden;
 }
 
-/* ---------- ticker ---------- */
-.ticker-wrap {
-  background: rgba(26, 32, 36, 0.7);
-  backdrop-filter: blur(6px);
-  border-bottom: 1px solid var(--line);
-  padding: 10px 0 4px;
-}
-.metals-ticker {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 6px 28px;
-  padding: 0 16px;
-}
-.metals-ticker .ticker-loading { color: var(--ink-muted); font-size: 0.8rem; }
-.metal-item {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-}
-.metal-item .metal-name { color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.04em; font-size: 0.7rem; }
-.metal-item .metal-price { color: var(--ink); font-weight: 600; }
-.ticker-caption {
-  text-align: center;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  color: var(--ink-muted);
-  margin: 4px 0 0;
-  opacity: 0.75;
-}
-
 /* ---------- news ---------- */
 .news-grid {
   display: grid;

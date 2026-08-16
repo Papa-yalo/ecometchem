@@ -47,7 +47,6 @@ function applyLang(lang) {
   renderCategories();
   if (typeof loadNews === "function") loadNews();
   if (typeof renderDynamicBlocks === "function") renderDynamicBlocks();
-  if (typeof renderMetalsTicker === "function") renderMetalsTicker();
 }
 
 /* dropdown open/close + selection */
@@ -307,64 +306,6 @@ function renderNews(items) {
     `;
     grid.appendChild(card);
   });
-}
-
-/* ---------------------------------------------------------------
-   6b) LME METALS TICKER — same caching pattern as the news block
-   --------------------------------------------------------------- */
-const METAL_LABELS = {
-  aluminium: { en: "Aluminium", ru: "Алюминий", pl: "Aluminium", de: "Aluminium", it: "Alluminio", fr: "Aluminium" },
-  copper: { en: "Copper", ru: "Медь", pl: "Miedź", de: "Kupfer", it: "Rame", fr: "Cuivre" },
-  zinc: { en: "Zinc", ru: "Цинк", pl: "Cynk", de: "Zink", it: "Zinco", fr: "Zinc" },
-  lead: { en: "Lead", ru: "Свинец", pl: "Ołów", de: "Blei", it: "Piombo", fr: "Plomb" },
-  nickel: { en: "Nickel", ru: "Никель", pl: "Nikiel", de: "Nickel", it: "Nichel", fr: "Nickel" },
-  tin: { en: "Tin", ru: "Олово", pl: "Cyna", de: "Zinn", it: "Stagno", fr: "Étain" },
-};
-
-let metalsCache = null;
-
-async function loadMetalsTicker() {
-  const ticker = document.getElementById("metalsTicker");
-  if (!ticker) return;
-
-  if (!metalsCache) {
-    try {
-      const res = await fetch("/.netlify/functions/get-metals");
-      metalsCache = await res.json();
-    } catch {
-      metalsCache = { prices: {}, updatedAt: null };
-    }
-  }
-  renderMetalsTicker();
-}
-
-function renderMetalsTicker() {
-  const ticker = document.getElementById("metalsTicker");
-  const caption = document.getElementById("tickerCaption");
-  if (!ticker || !metalsCache) return;
-
-  const entries = Object.entries(metalsCache.prices || {});
-  if (entries.length === 0) {
-    ticker.innerHTML = `<span class="ticker-loading">${I18N[currentLang].dyn_empty}</span>`;
-    return;
-  }
-
-  ticker.innerHTML = entries
-    .map(([metal, price]) => {
-      const label = (METAL_LABELS[metal] && METAL_LABELS[metal][currentLang]) || metal;
-      return `<span class="metal-item"><span class="metal-name">${label}</span><span class="metal-price">$${price.toLocaleString("en-US")}/t</span></span>`;
-    })
-    .join("");
-
-  if (caption) {
-    const localeMap = { ru: "ru-RU", pl: "pl-PL", de: "de-DE", it: "it-IT", fr: "fr-FR", en: "en-GB" };
-    const updated = metalsCache.updatedAt
-      ? new Date(metalsCache.updatedAt).toLocaleString(localeMap[currentLang] || "en-GB", {
-          day: "numeric", month: "short", hour: "2-digit", minute: "2-digit",
-        })
-      : "—";
-    caption.textContent = `${I18N[currentLang].market_note} ${I18N[currentLang].market_updated}: ${updated}`;
-  }
 }
 
 /* ---------------------------------------------------------------
@@ -642,5 +583,4 @@ document.getElementById("catSearch")?.addEventListener("input", (e) => {
 applyLang(currentLang);
 loadNews();
 loadDynamicBlocks();
-loadMetalsTicker();
 initConsent();
