@@ -86,7 +86,10 @@ menuToggle?.addEventListener("click", () => {
 });
 
 document.querySelectorAll(".nav-links a").forEach((link) => {
-  link.addEventListener("click", () => navEl.classList.remove("open"));
+  link.addEventListener("click", () => {
+    navEl.classList.remove("open");
+    menuToggle?.setAttribute("aria-expanded", "false");
+  });
 });
 
 /* ---------------------------------------------------------------

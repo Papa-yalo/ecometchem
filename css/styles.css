@@ -68,7 +68,7 @@ p { margin: 0 0 1em; color: var(--ink-muted); }
   font-size: 0.78rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--green-deep);
+  color: #6FD09A;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -284,7 +284,7 @@ body::before {
     linear-gradient(100deg, rgba(18,22,26,0.94) 0%, rgba(18,22,26,0.82) 42%, rgba(18,22,26,0.55) 75%, rgba(18,22,26,0.35) 100%),
     linear-gradient(180deg, rgba(18,22,26,0.15) 0%, rgba(18,22,26,0.75) 100%);
 }
-.hero-inner { position: relative; z-index: 2; max-width: 720px; }
+.hero-inner { position: relative; z-index: 2; max-width: 860px; }
 
 /* ---------- reusable background video sections (About / Logistics / Contact) ---------- */
 .video-section {
@@ -315,8 +315,8 @@ body::before {
     linear-gradient(180deg, rgba(18,22,26,0.25) 0%, rgba(18,22,26,0.85) 100%);
 }
 .video-section .container { position: relative; z-index: 2; }
-.hero h1 { font-size: clamp(2.1rem, 4.6vw, 3.4rem); }
-.hero .lede { font-size: 1.1rem; max-width: 560px; }
+.hero h1 { font-size: clamp(2rem, 4vw, 3.2rem); text-wrap: balance; }
+.hero .lede { font-size: 1.1rem; max-width: 640px; }
 .hero-cta { display: flex; gap: 14px; margin-top: 28px; flex-wrap: wrap; }
 
 /* ---------- generic section ---------- */
@@ -448,8 +448,14 @@ section { padding: 88px 0; }
 
 .element-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
+}
+@media (max-width: 1000px) { .element-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 640px) {
+  .element-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .element-grid .element-tile { padding: 14px 12px; min-height: 120px; }
+  .element-grid .element-tile .sym { font-size: 0.84rem; }
 }
 .element-tile {
   position: relative;
@@ -457,7 +463,7 @@ section { padding: 88px 0; }
   border: 1.5px solid var(--line);
   border-radius: var(--radius);
   padding: 18px 16px;
-  height: 132px;
+  min-height: 132px;
   display: flex;
   flex-direction: column;
   cursor: pointer;
@@ -482,10 +488,8 @@ section { padding: 88px 0; }
   color: var(--ink);
   margin-top: 8px;
   line-height: 1.3;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 /* ---------- lightbox ---------- */
