@@ -7,7 +7,7 @@
 <meta name="description" content="EkoMetChem's standing services: sourcing, international logistics, laboratory analysis, deal support, regulatory consulting and recycling guidance.">
 <link rel="canonical" href="https://ekometchem.com/services.html">
 
-<link rel="icon" href="assets/logo.png" type="image/png">
+<link rel="icon" href="assets/favicon.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -19,7 +19,7 @@
 <header class="site-header">
   <div class="container header-inner">
     <a href="index.html" class="brand">
-      <img src="assets/logo.png" class="brand-logo-img" alt="EkoMetChem">
+      <picture><source srcset="assets/logo-400.webp" type="image/webp"><img src="assets/logo-400.png" class="brand-logo-img" alt="EkoMetChem" width="122" height="84"></picture>
     </a>
 
     <nav class="nav" id="mainNav">
@@ -96,9 +96,33 @@
 
 <!-- ============================== FOOTER ============================== -->
 <footer class="site-footer">
-  <div class="container footer-inner">
-    <img src="assets/logo.png" class="footer-logo-img" alt="EkoMetChem">
-    <p>© <span id="year"></span> EkoMetChem. <span data-i18n="footer_rights">All rights reserved.</span> · <a href="privacy.html" data-i18n="footer_privacy">Privacy Policy</a></p>
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <picture><source srcset="assets/logo-400.webp" type="image/webp"><img src="assets/logo-400.png" class="footer-logo-img" alt="EkoMetChem" width="122" height="84" loading="lazy"></picture>
+      <p class="footer-tagline" data-i18n="footer_tagline">International trading of metallurgical waste, secondary raw materials, chemicals and fertilizers.</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer_requisites">Company details</h4>
+      <ul class="footer-list footer-mono">
+        <li>EkoMetChem Sp. z o.o.</li>
+        <li>VAT ID: PL6332253651</li>
+        <li>BDO: 000672484</li>
+        <li>EORI: PL633225365100000</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer_contact">Contact</h4>
+      <ul class="footer-list">
+        <li>str. Harcerska 5, 44-335 Jastrzębie-Zdrój, Poland</li>
+        <li><a href="mailto:info@ekometchem.com">info@ekometchem.com</a></li>
+        <li><a href="mailto:ekometchem@gmail.com">ekometchem@gmail.com</a></li>
+        <li><a href="tel:+48453618543">+48 453 618 543</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>© <span id="year"></span> EkoMetChem. <span data-i18n="footer_rights">All rights reserved.</span></p>
+    <p><a href="services.html" data-i18n="footer_services">Standing Services</a> · <a href="privacy.html" data-i18n="footer_privacy">Privacy Policy</a></p>
   </div>
 </footer>
 

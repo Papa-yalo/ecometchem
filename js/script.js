@@ -402,6 +402,7 @@ function openOfferDetail(e) {
     const img = document.createElement("img");
     img.src = e.photo;
     img.alt = e.title || "";
+    img.decoding = "async";
     lightboxGrid.appendChild(img);
   } else {
     lightboxGrid.classList.remove("single");
@@ -584,3 +585,80 @@ applyLang(currentLang);
 loadNews();
 loadDynamicBlocks();
 initConsent();
+
+/* ============================================================
+   VIDEO PERFORMANCE: play only when visible, load lazily
+   ============================================================ */
+(function initVideos() {
+  const videos = document.querySelectorAll("video.hero-video, video.section-video");
+  if (!videos.length) return;
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce || !("IntersectionObserver" in window)) {
+    videos.forEach((v) => v.pause && v.pause());
+    return;
+  }
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((en) => {
+        const v = en.target;
+        if (en.isIntersecting) {
+          const p = v.play();
+          if (p && p.catch) p.catch(() => {});
+        } else {
+          v.pause();
+        }
+      });
+    },
+    { rootMargin: "300px 0px" }
+  );
+  videos.forEach((v) => io.observe(v));
+})();
+
+/* ============================================================
+   UI POLISH: glass header, active menu, back-to-top
+   ============================================================ */
+(function initUiPolish() {
+  const header = document.querySelector(".site-header");
+  const links = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
+  const toTop = document.createElement("button");
+  toTop.className = "to-top";
+  toTop.type = "button";
+  toTop.setAttribute("aria-label", "Back to top");
+  toTop.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>';
+  toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  document.body.appendChild(toTop);
+
+  let ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const y = window.scrollY;
+      if (header) header.classList.toggle("scrolled", y > 20);
+      toTop.classList.toggle("show", y > 700);
+      ticking = false;
+    });
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  if ("IntersectionObserver" in window && links.length) {
+    const map = new Map();
+    links.forEach((a) => {
+      const sec = document.querySelector(a.getAttribute("href"));
+      if (sec) map.set(sec, a);
+    });
+    const spy = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) {
+            links.forEach((l) => l.classList.remove("active"));
+            map.get(en.target)?.classList.add("active");
+          }
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    map.forEach((_, sec) => spy.observe(sec));
+  }
+})();

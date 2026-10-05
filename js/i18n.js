@@ -107,6 +107,9 @@ const I18N = {
     footer_rights: "All rights reserved.",
     footer_privacy: "Privacy Policy",
     footer_services: "Standing Services",
+    footer_requisites: "Company details",
+    footer_contact: "Contact",
+    footer_tagline: "International trading of metallurgical waste, secondary raw materials, chemicals and fertilizers.",
 
     svcpage_eyebrow: "What we always do",
     svcpage_h1: "Standing services",
@@ -235,6 +238,9 @@ const I18N = {
     footer_rights: "Все права защищены.",
     footer_privacy: "Политика конфиденциальности",
     footer_services: "Постоянные услуги",
+    footer_requisites: "Реквизиты",
+    footer_contact: "Контакты",
+    footer_tagline: "Международная торговля металлургическими отходами, вторичным сырьём, химией и удобрениями.",
 
     svcpage_eyebrow: "Чем мы занимаемся всегда",
     svcpage_h1: "Постоянные услуги",
@@ -363,6 +369,9 @@ const I18N = {
     footer_rights: "Wszelkie prawa zastrzeżone.",
     footer_privacy: "Polityka prywatności",
     footer_services: "Usługi stałe",
+    footer_requisites: "Dane firmy",
+    footer_contact: "Kontakt",
+    footer_tagline: "Międzynarodowy handel odpadami hutniczymi, surowcami wtórnymi, chemikaliami i nawozami.",
 
     svcpage_eyebrow: "Czym zajmujemy się zawsze",
     svcpage_h1: "Usługi stałe",
@@ -491,6 +500,9 @@ const I18N = {
     footer_rights: "Alle Rechte vorbehalten.",
     footer_privacy: "Datenschutzerklärung",
     footer_services: "Ständige Leistungen",
+    footer_requisites: "Firmendaten",
+    footer_contact: "Kontakt",
+    footer_tagline: "Internationaler Handel mit metallurgischen Abfällen, Sekundärrohstoffen, Chemikalien und Düngemitteln.",
 
     svcpage_eyebrow: "Was wir immer tun",
     svcpage_h1: "Ständige Leistungen",
@@ -619,6 +631,9 @@ const I18N = {
     footer_rights: "Tutti i diritti riservati.",
     footer_privacy: "Informativa sulla privacy",
     footer_services: "Servizi permanenti",
+    footer_requisites: "Dati aziendali",
+    footer_contact: "Contatti",
+    footer_tagline: "Commercio internazionale di scorie metallurgiche, materie prime secondarie, prodotti chimici e fertilizzanti.",
 
     svcpage_eyebrow: "Cosa facciamo sempre",
     svcpage_h1: "Servizi permanenti",
@@ -747,6 +762,9 @@ const I18N = {
     footer_rights: "Tous droits réservés.",
     footer_privacy: "Politique de confidentialité",
     footer_services: "Services permanents",
+    footer_requisites: "Données société",
+    footer_contact: "Contact",
+    footer_tagline: "Négoce international de déchets métallurgiques, matières premières secondaires, produits chimiques et engrais.",
 
     svcpage_eyebrow: "Ce que nous faisons toujours",
     svcpage_h1: "Services permanents",
