@@ -54,22 +54,7 @@
  },{passive:true});
  document.addEventListener('pointerout',e=>{if(target&&!target.contains(e.relatedTarget))reset();});
  document.addEventListener('keydown',reset);window.addEventListener('blur',reset);
- async function intro(){
-  let seen=true;try{seen=sessionStorage.getItem('emc_intro_v2')==='1';sessionStorage.setItem('emc_intro_v2','1');}catch{return;}
-  if(seen||lite()||location.hash||document.hidden)return;
-  const overlay=document.createElement('div');overlay.className='emc2-intro';
-  const v=document.createElement('video');v.muted=true;v.playsInline=true;v.preload='none';v.poster='assets/fx/intro-poster.webp';v.setAttribute('aria-hidden','true');
-  const skip=document.createElement('button');skip.type='button';
-  const labels={ru:'Пропустить',en:'Skip',pl:'Pomiń',de:'Überspringen',it:'Salta',fr:'Passer',tr:'Atla',es:'Omitir'};skip.textContent=labels[document.documentElement.lang]||labels.en;
-  overlay.append(v,skip);document.body.append(overlay);
-  const focusBefore=document.activeElement;skip.focus({preventScroll:true});
-  let done=false,timer;
-  const finish=()=>{if(done)return;done=true;clearTimeout(timer);v.pause();overlay.classList.add('emc2-leave');document.removeEventListener('keydown',escape);document.removeEventListener('visibilitychange',hide);if(document.activeElement===skip){if(focusBefore?.isConnected&&focusBefore!==document.body)focusBefore.focus({preventScroll:true});else skip.blur();}setTimeout(()=>{v.removeAttribute('src');v.load();overlay.remove();},300);};
-  const escape=e=>{if(e.key==='Escape'||e.key==='Tab')finish();},hide=()=>{if(document.hidden)finish();};
-  document.addEventListener('keydown',escape);document.addEventListener('visibilitychange',hide);skip.addEventListener('click',finish);v.addEventListener('ended',finish,{once:true});v.addEventListener('error',finish,{once:true});
-  timer=setTimeout(finish,2100);v.src='assets/fx/intro.mp4';try{await v.play();}catch{finish();}
- }
- backgrounds();initLogos();controls();sync();intro();
+ backgrounds();initLogos();controls();sync();
  // Observe only containers with async controls, never the animated layers.
  for(const id of ['categoryGrid','offersGrid','procurementGrid','servicesActiveList','servicesNeededList']){const root=document.getElementById(id);if(root)new MutationObserver(controls).observe(root,{childList:true});}
  document.addEventListener('visibilitychange',()=>{reset();sync();});reduce.addEventListener('change',()=>{reset();sync();});fine.addEventListener('change',reset);connection?.addEventListener?.('change',sync);
