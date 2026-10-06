@@ -1,0 +1,485 @@
+--- a/index.html
++++ b/index.html
+@@ -23,6 +23,7 @@
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="css/styles.css">
++<link rel="stylesheet" href="css/emc-upgrade.css">
+ 
+ <script type="application/ld+json">
+ {
+@@ -45,6 +46,7 @@
+ </script>
+ </head>
+ <body>
++<noscript><style>.dyn-status{display:none}.nav-links{display:flex!important;flex-wrap:wrap}.menu-toggle{display:none!important}</style><p style="padding:16px;text-align:center">For current offers and services, <a href="#contact">contact EkoMetChem</a>.</p></noscript>
+ 
+ <!-- ============================== HEADER ============================== -->
+ <header class="site-header">
+@@ -93,12 +95,12 @@
+   <div class="hero-video-overlay" aria-hidden="true"></div>
+ 
+   <div class="container hero-inner reveal">
+-    <p class="eyebrow" data-i18n="hero_eyebrow">Metallurgical waste & secondary metals trading</p>
+-    <h1 data-i18n="hero_h1">Connecting Europe's metal supply chain</h1>
+-    <p class="lede" data-i18n="hero_lede">EkoMetChem is an international trading company...</p>
++    <p class="eyebrow" data-i18n="hero_eyebrow">Metallurgical, chemical &amp; industrial raw materials trading</p>
++    <h1 data-i18n="hero_h1">Connecting Europe&#x27;s metal &amp; chemical supply chain</h1>
++    <p class="lede" data-i18n="hero_lede">EkoMetChem is a reliable international partner for the metallurgical, chemical and recycling industries — trading metallurgical waste, secondary raw materials, chemical raw materials, non-ferrous metals and special industrial materials.</p>
+     <div class="hero-cta">
+       <a href="#contact" class="btn btn-primary" data-i18n="hero_cta_primary">Request a quote</a>
+-      <a href="#materials" class="btn btn-ghost" data-i18n="hero_cta_ghost">View materials</a>
++      <a href="#materials" class="btn btn-ghost" data-i18n="hero_cta_ghost">View product catalog</a>
+     </div>
+   </div>
+ </section>
+@@ -113,19 +115,19 @@
+   <div class="container about-grid">
+     <div class="reveal">
+       <p class="eyebrow" data-i18n="about_eyebrow">Who we are</p>
+-      <h2 data-i18n="about_h2">A bridge between producers and consumers</h2>
+-      <p data-i18n="about_p">We cooperate with metallurgical plants...</p>
++      <h2 data-i18n="about_h2">A reliable partner for metallurgical, chemical and recycling industries</h2>
++      <p data-i18n="about_p">EkoMetChem operates at the intersection of metallurgy and chemistry, structuring reliable cross-border supply chains for secondary raw materials and industrial inputs. We work directly with producers, recyclers and end users across Europe — managing sourcing, logistics and compliance so our partners can focus on their core business.</p>
+       <ul class="about-list">
+-        <li><span class="dot"></span><span data-i18n="about_li1">—</span></li>
+-        <li><span class="dot"></span><span data-i18n="about_li2">—</span></li>
+-        <li><span class="dot"></span><span data-i18n="about_li3">—</span></li>
+-        <li><span class="dot"></span><span data-i18n="about_li4">—</span></li>
++        <li><span class="dot"></span><span data-i18n="about_li1">International trade in metallurgical, chemical and industrial raw materials</span></li>
++        <li><span class="dot"></span><span data-i18n="about_li2">Building partnerships with producers, recyclers and industrial consumers</span></li>
++        <li><span class="dot"></span><span data-i18n="about_li3">Organization of export–import deliveries and international logistics</span></li>
++        <li><span class="dot"></span><span data-i18n="about_li4">Full deal support and individual solutions for long-term cooperation</span></li>
+       </ul>
+     </div>
+     <div class="reveal">
+       <div class="goal-box">
+         <p class="eyebrow" style="margin-bottom:10px" data-i18n="about_goal_label">Our goal</p>
+-        <p style="color:var(--ink); font-size:1.05rem; margin:0;" data-i18n="about_goal">—</p>
++        <p style="color:var(--ink); font-size:1.05rem; margin:0;" data-i18n="about_goal">Building long-term, mutually beneficial partnerships — connecting producers, recyclers and industrial consumers into one efficient international supply chain for metallurgical waste, secondary raw materials, chemical raw materials and special industrial materials, supporting resource efficiency, the circular economy and environmental protection.</p>
+       </div>
+     </div>
+   </div>
+@@ -135,7 +137,7 @@
+ <section id="materials" data-emc-bg="materials">
+   <div class="container">
+     <div class="section-head reveal">
+-      <p class="eyebrow" data-i18n="mat_eyebrow">Materials & Products</p>
++      <p class="eyebrow" data-i18n="mat_eyebrow">Materials &amp; Products</p>
+       <h2 data-i18n="mat_h2">Our product catalog</h2>
+     </div>
+ 
+@@ -144,7 +146,20 @@
+       <div class="cat-search-results" id="catSearchResults" hidden></div>
+     </div>
+ 
+-    <div class="element-grid reveal" id="categoryGrid"></div>
++    <div class="element-grid reveal" id="categoryGrid">
++<a class="element-tile" href="#contact"><div class="num">No. 01</div><div class="sym">Metallurgical Waste</div></a>
++<a class="element-tile" href="#contact"><div class="num">No. 02</div><div class="sym">Ash, Dust &amp; Sludge</div></a>
++<a class="element-tile" href="#contact"><div class="num">No. 03</div><div class="sym">Non-Ferrous &amp; Special Metal Scrap</div></a>
++<a class="element-tile" href="#contact"><div class="num">No. 04</div><div class="sym">Metals &amp; Alloys</div></a>
++<a class="element-tile" href="#contact"><div class="num">No. 05</div><div class="sym">Ferroalloys</div></a>
++<a class="element-tile" href="#contact"><div class="num">No. 06</div><div class="sym">Industrial Chemical Products</div></a>
++<a class="element-tile" href="#contact"><div class="num">No. 07</div><div class="sym">Mineral Fertilizers</div></a>
++<a class="element-tile" href="#contact"><div class="num">No. 08</div><div class="sym">Petroleum Products &amp; Petrochemical Feedstock</div></a>
++<a class="element-tile" href="#contact"><div class="num">No. 09</div><div class="sym">Metal Powders &amp; Granules</div></a>
++<a class="element-tile" href="#contact"><div class="num">No. 10</div><div class="sym">Secondary Industrial Raw Materials</div></a>
++<a class="element-tile" href="#contact"><div class="num">No. 11</div><div class="sym">International Logistics</div></a>
++<a class="element-tile" href="#contact"><div class="num">No. 12</div><div class="sym">Laboratory &amp; Related Services</div></a>
++</div>
+   </div>
+ </section>
+ 
+@@ -155,7 +170,7 @@
+     <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close">✕</button>
+     <h3 class="lightbox-title" id="lightboxTitle"></h3>
+     <div class="lightbox-grid" id="lightboxGrid"></div>
+-    <p class="lightbox-items" id="lightboxItems"></p>
++    <div class="lightbox-items" id="lightboxItems"></div>
+   </div>
+ </div>
+ 
+@@ -190,13 +205,13 @@
+   <div class="container">
+     <div class="section-head reveal">
+       <p class="eyebrow" data-i18n="serv_eyebrow">What we do</p>
+-      <h2 data-i18n="serv_h2">Partnership & Services</h2>
++      <h2 data-i18n="serv_h2">Services &amp; Partnership</h2>
+     </div>
+ 
+     <!-- 🟠 Актуальные услуги -->
+     <div class="dyn-subhead reveal">
+       <span class="dot dot-orange"></span>
+-      <h3 data-i18n="services_active_h3">We offer right now</h3>
++      <h3 data-i18n="services_active_h3">We offer</h3>
+     </div>
+     <div class="dyn-list reveal" id="servicesActiveList">
+       <p class="dyn-status" data-i18n="dyn_loading">Loading...</p>
+@@ -205,7 +220,7 @@
+     <!-- 🟣 Требуются услуги -->
+     <div class="dyn-subhead reveal">
+       <span class="dot dot-purple"></span>
+-      <h3 data-i18n="services_needed_h3">We are looking for right now</h3>
++      <h3 data-i18n="services_needed_h3">We are looking for</h3>
+     </div>
+     <div class="dyn-list reveal" id="servicesNeededList">
+       <p class="dyn-status" data-i18n="dyn_loading">Loading...</p>
+@@ -221,9 +236,9 @@
+       <h2 data-i18n="why_h2">Built on reliability and long-term partnership</h2>
+     </div>
+     <div class="why-grid reveal">
+-      <div class="why-card"><h3 data-i18n="why1_h">International experience</h3><p data-i18n="why1_p">—</p></div>
+-      <div class="why-card"><h3 data-i18n="why2_h">Wide partner network</h3><p data-i18n="why2_p">—</p></div>
+-      <div class="why-card"><h3 data-i18n="why3_h">Comprehensive support</h3><p data-i18n="why3_p">—</p></div>
++      <div class="why-card"><h3 data-i18n="why1_h">International experience</h3><p data-i18n="why1_p">Operating across multiple European markets with cross-border expertise.</p></div>
++      <div class="why-card"><h3 data-i18n="why2_h">Wide partner network</h3><p data-i18n="why2_p">A broad network of suppliers, recyclers and consumers throughout Europe.</p></div>
++      <div class="why-card"><h3 data-i18n="why3_h">Comprehensive support</h3><p data-i18n="why3_p">End-to-end accompaniment of every deal, from first contact to delivery.</p></div>
+     </div>
+   </div>
+ </section>
+@@ -239,7 +254,7 @@
+     <div class="reveal" style="max-width:560px;">
+       <p class="eyebrow" data-i18n="log_eyebrow">Logistics</p>
+       <h2 data-i18n="log_h2">Transport you can rely on</h2>
+-      <p data-i18n="log_p">—</p>
++      <p data-i18n="log_p">We work with trusted European transport companies to organize road delivery of metallurgical materials, including the transport of hazardous goods, in full compliance with international regulations.</p>
+       <div class="adr-badge">▲ <span data-i18n="log_adr">ADR-compliant hazardous goods transport</span></div>
+     </div>
+   </div>
+@@ -250,7 +265,7 @@
+   <div class="container">
+     <div class="section-head reveal">
+       <p class="eyebrow" data-i18n="news_eyebrow">Industry pulse</p>
+-      <h2 data-i18n="news_h2">Metallurgy & metals news</h2>
++      <h2 data-i18n="news_h2">Metallurgy &amp; metals news</h2>
+     </div>
+     <div class="news-grid reveal" id="newsGrid">
+       <p class="news-status" id="newsStatus" data-i18n="news_loading">Loading latest headlines...</p>
+@@ -268,8 +283,8 @@
+   <div class="container contact-grid">
+     <div class="contact-info reveal">
+       <p class="eyebrow" data-i18n="contact_eyebrow">Get in touch</p>
+-      <h2 data-i18n="contact_h2">Let's discuss your supply chain</h2>
+-      <p data-i18n="contact_p">—</p>
++      <h2 data-i18n="contact_h2">Get in touch with us</h2>
++      <p data-i18n="contact_p">Tell us what you&#x27;re looking to buy, sell or move — we&#x27;ll get back to you shortly.</p>
+       <dl>
+         <div><dt data-i18n="contact_company">Company</dt><dd>EkoMetChem</dd></div>
+         <div><dt data-i18n="contact_email">Email</dt><dd>info@ekometchem.com</dd></div>
+@@ -338,7 +353,7 @@
+ <!-- ============================== COOKIE CONSENT ============================== -->
+ <div class="cookie-banner" id="cookieBanner" hidden>
+   <div class="cookie-banner-inner">
+-    <p data-i18n="cookie_text">We use cookies for basic analytics to understand how visitors use this site. You can accept or decline.</p>
++    <p data-i18n="cookie_text">We use cookies for basic analytics to understand how visitors use this site. No personal profiling, no ad tracking.</p>
+     <div class="cookie-actions">
+       <button type="button" class="btn btn-ghost" id="cookieDecline" data-i18n="cookie_decline">Decline</button>
+       <button type="button" class="btn btn-primary" id="cookieAccept" data-i18n="cookie_accept">Accept</button>
+@@ -360,5 +375,6 @@
+ </script>
+ <script src="js/i18n.js"></script>
+ <script src="js/script.js"></script>
++<script src="js/emc-upgrade.js"></script>
+ </body>
+ </html>
+--- a/css/styles.css
++++ b/css/styles.css
+@@ -1004,46 +1004,3 @@
+ /* Chrome fix: no inset shadow / extra compositing over video sections */
+ section.alt-bg.video-section { box-shadow: none; }
+ .section-video, .hero-video { transform: translateZ(0); backface-visibility: hidden; }
+-
+-
+-/* ============================================================
+-   SECTION BACKGROUNDS (stage 5, from audit kit)
+-   ============================================================ */
+-/* EkoMetChem backgrounds v1 — production CSS, isolated namespace */
+-.emc-fx-host { position: relative; isolation: isolate; }
+-.emc-fx { position: absolute; inset: 0; overflow: hidden; border-radius: inherit;
+-  pointer-events: none; user-select: none; z-index: -1;
+-  --emc-green: #67bd71; --emc-blue: #489ecb; }
+-.emc-fx svg { display: block; width: 100%; height: 100%; }
+-.emc-fx .base { fill: none; stroke: var(--emc-blue); stroke-width: 1; opacity: .10; }
+-.emc-fx .green { stroke: var(--emc-green); }
+-.emc-fx .node { fill: var(--emc-green); opacity: .32; }
+-.emc-fx .trace { fill: none; stroke: var(--emc-blue); stroke-width: 1.4; opacity: .42;
+-  stroke-dasharray: 35 1400; animation: emc-trace 19s linear infinite; }
+-.emc-fx .trace.green { stroke: var(--emc-green); }
+-.emc-fx .trace.second { animation-delay: -9s; animation-duration: 27s; }
+-.emc-fx .float { transform-origin: center; animation: emc-float 32s ease-in-out infinite alternate; }
+-.emc-fx .breath { animation: emc-breath 9s ease-in-out infinite alternate; }
+-.emc-fx .scan { animation: emc-scan 26s linear infinite; }
+-.emc-fx .halo { position: absolute; width: 60%; height: 90%; left: -12%; top: -20%;
+-  background: radial-gradient(ellipse, rgba(68,158,203,.07), transparent 68%);
+-  animation: emc-halo 36s ease-in-out infinite alternate; }
+-.emc-fx .halo.second { left: auto; right: -15%; top: 30%;
+-  background: radial-gradient(ellipse, rgba(103,189,113,.06), transparent 68%);
+-  animation-delay: -18s; }
+-.emc-fx *, .emc-fx::before, .emc-fx::after { animation-play-state: paused !important; }
+-.emc-fx-host.emc-fx-active .emc-fx *, .emc-fx-host.emc-fx-active .emc-fx::before,
+-.emc-fx-host.emc-fx-active .emc-fx::after { animation-play-state: running !important; }
+-@keyframes emc-trace { from { stroke-dashoffset: 1435; } to { stroke-dashoffset: 0; } }
+-@keyframes emc-float { from { transform: translate(0,0); } to { transform: translate(12px,-9px); } }
+-@keyframes emc-breath { from { opacity: .14; } to { opacity: .40; } }
+-@keyframes emc-scan { from { transform: translateY(-500px); } to { transform: translateY(500px); } }
+-@keyframes emc-halo { from { transform: translate(0,0); } to { transform: translate(8%,7%); } }
+-@media (max-width: 700px) {
+-  .emc-fx .secondary { display: none; }
+-  .emc-fx .halo, .emc-fx .float, .emc-fx .breath { animation: none; }
+-  .emc-fx .trace { opacity: .28; animation-duration: 30s; }
+-}
+-@media (prefers-reduced-motion: reduce) {
+-  .emc-fx *, .emc-fx::before, .emc-fx::after { animation: none !important; }
+-}
+--- a/js/script.js
++++ b/js/script.js
+@@ -10,7 +10,8 @@
+    1) LANGUAGE — auto-detect on first visit, then remember choice
+    --------------------------------------------------------------- */
+ function detectLang() {
+-  const saved = localStorage.getItem("emc_lang");
++  let saved;
++  try { saved = localStorage.getItem("emc_lang"); } catch {}
+   if (saved && LANGS.includes(saved)) return saved;
+ 
+   const browserLang = (navigator.language || "en").slice(0, 2).toLowerCase();
+@@ -21,7 +22,7 @@
+ 
+ function applyLang(lang) {
+   currentLang = lang;
+-  localStorage.setItem("emc_lang", lang);
++  try { localStorage.setItem("emc_lang", lang); } catch {}
+   document.documentElement.setAttribute("lang", lang);
+ 
+   const dict = I18N[lang];
+@@ -124,7 +125,17 @@
+ function openCategory(cat) {
+   lightboxTitle.textContent = I18N[currentLang][cat.titleKey];
+   lightboxGrid.innerHTML = "";
+-  lightboxItems.innerHTML = cat.items.join(" · ") + " · " + I18N[currentLang].mat_more_items;
++  lightboxItems.replaceChildren();
++  const items = document.createElement("ul");
++  items.className = "emc2-items";
++  cat.items.forEach((name) => {
++    const li = document.createElement("li");
++    li.textContent = name;
++    items.appendChild(li);
++  });
++  const note = document.createElement("p");
++  note.textContent = I18N[currentLang].mat_more_items;
++  lightboxItems.append(items, note);
+   lightbox.hidden = false;
+   document.body.classList.add("lightbox-open");
+ }
+@@ -187,6 +198,7 @@
+ /* ---------------------------------------------------------------
+    4) REVEAL ON SCROLL
+    --------------------------------------------------------------- */
++if ("IntersectionObserver" in window) {
+ const revealObserver = new IntersectionObserver(
+   (entries) => {
+     entries.forEach((entry) => {
+@@ -200,6 +212,10 @@
+ );
+ 
+ document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
++} else {
++ document.querySelectorAll(".reveal").forEach(el => el.classList.add("in"));
++}
++
+ 
+ /* ---------------------------------------------------------------
+    5) CONTACT FORM — submits to Netlify Forms (built into this hosting,
+@@ -361,7 +377,7 @@
+   if (!dateStr) return "";
+   const localeMap = { ru: "ru-RU", pl: "pl-PL", de: "de-DE", it: "it-IT", fr: "fr-FR", tr: "tr-TR", es: "es-ES", en: "en-GB" };
+   return new Date(dateStr).toLocaleDateString(localeMap[currentLang] || "en-GB", {
+-    day: "numeric", month: "short", year: "numeric",
++    day: "numeric", month: "short", year: "numeric", timeZone: "Europe/Warsaw",
+   });
+ }
+ 
+@@ -665,98 +681,3 @@
+     map.forEach((_, sec) => spy.observe(sec));
+   }
+ })();
+-
+-
+-/* ============================================================
+-   SECTION BACKGROUNDS (stage 5, from audit kit)
+-   ============================================================ */
+-/* EkoMetChem backgrounds v1 — no dependencies, no animation JS loop */
+-(() => {
+-  if (window.EMCBackgrounds) { window.EMCBackgrounds.init(); return; }
+-  const hosts = new Set();
+-  const near = new WeakSet();
+-  const svg = body => `<svg viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">${body}</svg>`;
+-  const path = (d, cls='base') => `<path class="${cls}" d="${d}"/>`;
+-  const grid = (step, start=0) => {
+-    let s='';
+-    for (let x=start; x<=1200; x+=step) s+=path(`M${x} 0V500`);
+-    for (let y=0; y<=500; y+=step) s+=path(`M0 ${y}H1200`);
+-    return s;
+-  };
+-  const templates = {
+-    materials() {
+-      let points='';
+-      [[90,120],[265,325],[440,145],[620,360],[800,90],[1020,280]].forEach(([x,y],i) => {
+-        points+=`<circle class="node ${i>2?'secondary':''}" cx="${x}" cy="${y}" r="1.6"/>`;
+-      });
+-      return `<div class="halo"></div><div class="halo second secondary"></div>`+
+-        svg(grid(80)+`<g class="float">${points}</g>`);
+-    },
+-    trade() {
+-      const a='M-80 380H190L350 220H600L770 90H1280';
+-      const b='M-80 90H240L430 330H720L920 220H1280';
+-      const nodes=[[190,380],[350,220],[600,220],[770,90],[430,330],[720,330],[920,220]];
+-      return svg(grid(120)+path(a)+path(b,'base green secondary')+
+-        path(a,'trace')+path(b,'trace green second secondary')+
+-        nodes.map(([x,y],i)=>`<circle class="node ${i>3?'secondary':''}" cx="${x}" cy="${y}" r="2.4"/>`).join(''));
+-    },
+-    services() {
+-      let s='';
+-      for(let i=0;i<9;i++) {
+-        const y=-80+i*75;
+-        s+=path(`M-100 ${y+160}C120 ${y-90} 380 ${y+310} 620 ${y+100}S1000 ${y-100} 1350 ${y+160}`,`base ${i%2?'green secondary':''}`);
+-      }
+-      return `<div class="halo secondary"></div>`+svg(`<g class="float">${s}</g>`);
+-    },
+-    network() {
+-      const pts=[[120,130],[280,310],[430,100],[610,250],[800,120],[1000,330],[1110,80],[740,430]];
+-      const edges=[[0,1],[0,2],[1,3],[2,3],[2,4],[3,4],[3,7],[4,5],[4,6],[5,6],[5,7]];
+-      let s=edges.map(([a,b])=>path(`M${pts[a][0]} ${pts[a][1]}L${pts[b][0]} ${pts[b][1]}`)).join('');
+-      s+=path('M120 130L430 100L610 250L800 120L1000 330','trace green');
+-      s+=pts.map(([x,y],i)=>`<g><circle class="base green ${i%2?'breath secondary':''}" cx="${x}" cy="${y}" r="11"/><circle class="node" cx="${x}" cy="${y}" r="2.5"/></g>`).join('');
+-      return svg(s);
+-    },
+-    news() {
+-      let ticks='';
+-      for(let i=0;i<15;i++) {
+-        const x=80+i*80, y=100+(i*73)%280;
+-        ticks+=path(`M${x} ${y-15}V${y+15}`,`base green ${i%2?'secondary':''}`);
+-        ticks+=`<rect x="${x-2}" y="${y-5}" width="4" height="10" fill="#67bd71" opacity=".13" class="${i%2?'secondary':''}"/>`;
+-      }
+-      return svg(grid(100)+ticks+`<g class="scan"><path d="M0 250H1200" fill="none" stroke="#489ecb" stroke-width="1" opacity=".22"/><path d="M80 240H190M540 260H630M960 240H1040" fill="none" stroke="#67bd71" stroke-width="2" opacity=".25"/></g>`);
+-    }
+-  };
+-  const sync = host => host.classList.toggle('emc-fx-active', near.has(host) && !document.hidden);
+-  const observer = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+-    entries.forEach(({target,isIntersecting}) => {
+-      if(isIntersecting) near.add(target); else near.delete(target);
+-      sync(target);
+-    });
+-  }, {rootMargin:'0px',threshold:0}) : null;
+-  function init(root=document) {
+-    const list=[...(root.matches?.('[data-emc-bg]')?[root]:[]),...root.querySelectorAll('[data-emc-bg]')];
+-    list.forEach(host => {
+-      if(hosts.has(host)) return;
+-      const kind=host.dataset.emcBg;
+-      if(!templates[kind]) return;
+-      // Existing video sections are deliberately excluded.
+-      if(host.querySelector('video')) return;
+-      const layer=document.createElement('div');
+-      layer.className='emc-fx'; layer.setAttribute('aria-hidden','true');
+-      layer.innerHTML=templates[kind]();
+-      host.classList.add('emc-fx-host'); host.prepend(layer); hosts.add(host);
+-      if(observer) observer.observe(host); // If unavailable, backgrounds remain static.
+-    });
+-  }
+-  document.addEventListener('visibilitychange',()=>hosts.forEach(sync));
+-  window.EMCBackgrounds={init,destroy() {
+-    hosts.forEach(host=>{
+-      observer?.unobserve(host); near.delete(host);
+-      [...host.children].find(child=>child.classList.contains('emc-fx'))?.remove();
+-      host.classList.remove('emc-fx-host','emc-fx-active');
+-    });
+-    hosts.clear();
+-  }};
+-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>init(),{once:true});
+-  else init();
+-})();
+--- a/js/i18n.js
++++ b/js/i18n.js
+@@ -14,7 +14,7 @@
+     meta_description: "EkoMetChem — international trading company for metallurgical waste, secondary raw materials, chemicals and non-ferrous metals across Europe.",
+     hero_lede: "EkoMetChem is a reliable international partner for the metallurgical, chemical and recycling industries — trading metallurgical waste, secondary raw materials, chemical raw materials, non-ferrous metals and special industrial materials.",
+     hero_cta_primary: "Request a quote",
+-    hero_cta_ghost: "View marketplace",
++    hero_cta_ghost: "View product catalog",
+ 
+     about_eyebrow: "Who we are",
+     about_h2: "A reliable partner for metallurgical, chemical and recycling industries",
+@@ -145,7 +145,7 @@
+     meta_description: "EkoMetChem — международная торговая компания: металлургические отходы, вторичное сырьё, химическая продукция и цветные металлы по всей Европе.",
+     hero_lede: "EkoMetChem — международная торговая компания, специализирующаяся на закупке, продаже и организации поставок металлургических отходов, вторичного сырья, химического сырья, продукции химической промышленности, цветных металлов и специальных промышленных материалов.",
+     hero_cta_primary: "Запросить предложение",
+-    hero_cta_ghost: "Открыть маркетплейс",
++    hero_cta_ghost: "Открыть каталог продукции",
+ 
+     about_eyebrow: "Кто мы",
+     about_h2: "Надёжный партнёр для металлургической, химической и перерабатывающей промышленности",
+@@ -276,7 +276,7 @@
+     meta_description: "EkoMetChem — międzynarodowa firma handlowa: odpady metalurgiczne, surowce wtórne, produkty chemiczne i metale nieżelazne w całej Europie.",
+     hero_lede: "EkoMetChem to międzynarodowa firma handlowa specjalizująca się w skupie, sprzedaży i organizacji dostaw odpadów metalurgicznych, surowców wtórnych, surowców chemicznych, produktów przemysłu chemicznego, metali nieżelaznych i specjalnych materiałów przemysłowych.",
+     hero_cta_primary: "Zapytaj o ofertę",
+-    hero_cta_ghost: "Zobacz marketplace",
++    hero_cta_ghost: "Zobacz katalog produktów",
+ 
+     about_eyebrow: "Kim jesteśmy",
+     about_h2: "Zaufany partner dla przemysłu metalurgicznego, chemicznego i recyklingowego",
+@@ -407,7 +407,7 @@
+     meta_description: "EkoMetChem — internationales Handelsunternehmen: metallurgische Abfälle, Sekundärrohstoffe, Chemieprodukte und Nichteisenmetalle in ganz Europa.",
+     hero_lede: "EkoMetChem ist ein internationales Handelsunternehmen, spezialisiert auf An- und Verkauf sowie Lieferorganisation von metallurgischen Abfällen, Sekundärrohstoffen, chemischen Rohstoffen, Produkten der chemischen Industrie, Nichteisenmetallen und speziellen Industriematerialien.",
+     hero_cta_primary: "Angebot anfragen",
+-    hero_cta_ghost: "Marketplace ansehen",
++    hero_cta_ghost: "Produktkatalog ansehen",
+ 
+     about_eyebrow: "Wer wir sind",
+     about_h2: "Verlässlicher Partner für Metallurgie-, Chemie- und Recyclingindustrie",
+@@ -538,7 +538,7 @@
+     meta_description: "EkoMetChem — azienda commerciale internazionale: scarti metallurgici, materie prime seconde, prodotti chimici e metalli non ferrosi in tutta Europa.",
+     hero_lede: "EkoMetChem è un'azienda commerciale internazionale specializzata nell'acquisto, vendita e organizzazione delle forniture di scarti metallurgici, materie prime seconde, materie prime chimiche, prodotti dell'industria chimica, metalli non ferrosi e materiali industriali speciali.",
+     hero_cta_primary: "Richiedi un preventivo",
+-    hero_cta_ghost: "Vedi il marketplace",
++    hero_cta_ghost: "Visualizza il catalogo prodotti",
+ 
+     about_eyebrow: "Chi siamo",
+     about_h2: "Partner affidabile per l'industria metallurgica, chimica e del riciclo",
+@@ -669,7 +669,7 @@
+     meta_description: "EkoMetChem — société de négoce internationale : déchets métallurgiques, matières premières secondaires, produits chimiques et métaux non ferreux en Europe.",
+     hero_lede: "EkoMetChem est une société de négoce internationale spécialisée dans l'achat, la vente et l'organisation des livraisons de déchets métallurgiques, matières premières secondaires, matières premières chimiques, produits de l'industrie chimique, métaux non ferreux et matériaux industriels spéciaux.",
+     hero_cta_primary: "Demander un devis",
+-    hero_cta_ghost: "Voir la marketplace",
++    hero_cta_ghost: "Voir le catalogue de produits",
+ 
+     about_eyebrow: "Qui sommes-nous",
+     about_h2: "Partenaire fiable pour les industries métallurgique, chimique et du recyclage",
+@@ -800,7 +800,7 @@
+     meta_description: "EkoMetChem — Avrupa genelinde metalurjik atık, ikincil hammadde, kimyasal ve demir dışı metal ticareti yapan uluslararası ticaret şirketi.",
+     hero_lede: "EkoMetChem; metalurji, kimya ve geri dönüşüm sektörleri için güvenilir bir uluslararası ortaktır — metalurjik atık, ikincil hammadde, kimyasal hammadde, demir dışı metaller ve özel endüstriyel malzemeler ticareti yapıyoruz.",
+     hero_cta_primary: "Teklif isteyin",
+-    hero_cta_ghost: "Pazaryerini görün",
++    hero_cta_ghost: "Ürün kataloğunu görüntüle",
+ 
+     about_eyebrow: "Biz kimiz",
+     about_h2: "Metalurji, kimya ve geri dönüşüm sektörleri için güvenilir bir ortak",
+@@ -931,7 +931,7 @@
+     meta_description: "EkoMetChem — empresa comercial internacional de residuos metalúrgicos, materias primas secundarias, productos químicos y metales no ferrosos en toda Europa.",
+     hero_lede: "EkoMetChem es un socio internacional fiable para las industrias metalúrgica, química y del reciclaje: comercializamos residuos metalúrgicos, materias primas secundarias, materias primas químicas, metales no ferrosos y materiales industriales especiales.",
+     hero_cta_primary: "Solicitar presupuesto",
+-    hero_cta_ghost: "Ver el mercado",
++    hero_cta_ghost: "Ver el catálogo de productos",
+ 
+     about_eyebrow: "Quiénes somos",
+     about_h2: "Un socio fiable para las industrias metalúrgica, química y del reciclaje",
+--- a/admin/index.html
++++ b/admin/index.html
+@@ -7,6 +7,7 @@
+   <link rel="icon" href="../assets/logo.png" type="image/png">
+ </head>
+ <body>
++  <a href="/admin/refresh.html" style="position:fixed;right:16px;bottom:16px;z-index:99999;padding:12px 18px;border-radius:10px;background:#143b2b;color:white;font:15px system-ui;text-decoration:none">Актуализация офферов</a>
+   <!-- Netlify Identity + Git Gateway based CMS. See README.md "Админка" section
+        for one-time setup steps (Identity, Git Gateway, inviting users). -->
+   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>

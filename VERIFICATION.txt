@@ -1,0 +1,7 @@
+2026-10-06
+PASS: Node syntax checks (four JS files).
+PASS: unified patch applies cleanly to ecometchem(2).zip base.
+PASS: mock admin tests: exact date-only replacement, Unicode/Base64, nested fields, allowed paths, SHA/branch, absent session, conflict.
+Media verified: MP4 H264 1280x720 30fps 2.533s; animated WebP 400x267 40 frames x 50ms.
+No production writes, form submissions or deployment performed.
+Browser/physical-device checks pending: Chromium unavailable.

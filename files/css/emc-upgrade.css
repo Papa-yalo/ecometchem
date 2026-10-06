@@ -1,0 +1,53 @@
+/* EkoMetChem v2. Deliberately scoped; no changes to layout or video sections. */
+.emc2-host{position:relative;isolation:isolate}
+.emc2-bg{position:absolute;inset:0;overflow:hidden;z-index:-1;pointer-events:none;user-select:none;contain:paint}
+.emc2-bg svg{width:100%;height:100%;display:block}
+.emc2-base{fill:none;stroke:#489ecb;stroke-width:1;opacity:.14}
+.emc2-green{stroke:#67bd71}
+.emc2-track{fill:none;stroke:#55bddd;stroke-width:1.5;opacity:.42;stroke-dasharray:28 1172;animation:emc2-current 20s linear infinite}
+.emc2-track.emc2-green{stroke:#78cc84;animation-duration:26s;animation-delay:-11s}
+.emc2-node{fill:#67bd71;opacity:.28}
+.emc2-ring{fill:none;stroke:#67bd71;stroke-width:1;opacity:.22;animation:emc2-breathe 7s ease-in-out infinite alternate}
+.emc2-plane{transform-origin:center;animation:emc2-drift 24s ease-in-out infinite alternate}
+.emc2-halo{position:absolute;width:65%;height:80%;top:-15%;left:-15%;background:radial-gradient(ellipse,rgba(72,158,203,.08),transparent 68%);animation:emc2-drift 30s ease-in-out infinite alternate}
+.emc2-halo:nth-child(2){top:30%;left:55%;background:radial-gradient(ellipse,rgba(103,189,113,.065),transparent 68%);animation-delay:-15s}
+.emc2-bg *{animation-play-state:paused!important}
+.emc2-running .emc2-bg *{animation-play-state:running!important}
+@keyframes emc2-current{to{stroke-dashoffset:-1200}}
+@keyframes emc2-breathe{to{opacity:.4}}
+@keyframes emc2-drift{to{transform:translate(10px,-8px)}}
+/* Only controls which actually perform an action receive this class. */
+.emc2-control{--emc2-rx:0deg;--emc2-ry:0deg;--emc2-x:50%;--emc2-y:50%;transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+.emc2-control:focus-visible{outline:2px solid #6fd09a;outline-offset:4px}
+@media(hover:hover) and (pointer:fine){
+ .emc2-control:hover{transform:perspective(800px) translateY(-2px) rotateX(var(--emc2-rx)) rotateY(var(--emc2-ry));border-color:rgba(111,208,154,.55);box-shadow:0 8px 24px rgba(0,0,0,.14),0 0 14px rgba(72,158,203,.09)}
+ .element-tile.emc2-control:hover,.service-tile.emc2-control:hover{background-image:radial-gradient(circle at var(--emc2-x) var(--emc2-y),rgba(85,189,221,.085),transparent 65%)}
+ .nav-links a:hover{color:#6fd09a;text-shadow:0 0 12px rgba(111,208,154,.22)}
+}
+.emc2-control:active{transform:scale(.987)}
+.emc2-logo{filter:drop-shadow(0 0 5px rgba(72,158,203,.24));transition:filter .3s ease;object-fit:contain}
+a:hover .emc2-logo{filter:drop-shadow(0 0 9px rgba(103,189,113,.34))}
+.emc2-intro{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;background:#071015;opacity:1;transition:opacity .28s ease;isolation:isolate}
+.emc2-intro video{width:100%;height:100%;object-fit:contain;position:absolute;inset:0}
+.emc2-intro button{position:absolute;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));border:1px solid #54746e;border-radius:24px;background:#071015;color:#dcf5e7;padding:10px 18px;cursor:pointer;z-index:1}
+.emc2-intro.emc2-leave{opacity:0;pointer-events:none}
+.emc2-items{display:flex;gap:9px;flex-wrap:wrap;list-style:none;padding:0;margin:16px 0}
+.emc2-items li{padding:7px 12px;border:1px solid rgba(103,189,113,.25);border-radius:10px;background:rgba(72,158,203,.045);overflow-wrap:anywhere;color:var(--ink)}
+/* Content stays visible if the enhancement script fails. */
+.reveal{opacity:1;transform:none}
+@media(max-width:700px){
+ .emc2-detail{display:none}
+ .emc2-bg .emc2-track{opacity:.32;stroke-dasharray:18 382;animation-duration:30s}
+ .emc2-bg .emc2-plane{animation-duration:34s}
+ .emc2-bg .emc2-ring{animation:none}
+ .emc2-bg .emc2-halo{animation:none}
+ .emc2-control:active{box-shadow:0 0 12px rgba(103,189,113,.2);border-color:#6fd09a}
+}
+html.emc2-lite .emc2-detail{display:none}
+html.emc2-lite .emc2-bg *{animation:none!important}
+@media(prefers-reduced-motion:reduce){
+ .emc2-bg *{animation:none!important}
+ .emc2-control,.emc2-control:hover,.emc2-control:active{transform:none!important;transition:none!important}
+ .emc2-logo{transition:none}
+ .reveal.in .element-tile,.reveal.in .dyn-list-item,.reveal.in .service-tile{animation:none!important}
+}
