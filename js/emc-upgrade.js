@@ -67,7 +67,7 @@
   const finish=()=>{if(done)return;done=true;clearTimeout(timer);v.pause();overlay.classList.add('emc2-leave');document.removeEventListener('keydown',escape);document.removeEventListener('visibilitychange',hide);if(document.activeElement===skip){if(focusBefore?.isConnected&&focusBefore!==document.body)focusBefore.focus({preventScroll:true});else skip.blur();}setTimeout(()=>{v.removeAttribute('src');v.load();overlay.remove();},300);};
   const escape=e=>{if(e.key==='Escape'||e.key==='Tab')finish();},hide=()=>{if(document.hidden)finish();};
   document.addEventListener('keydown',escape);document.addEventListener('visibilitychange',hide);skip.addEventListener('click',finish);v.addEventListener('ended',finish,{once:true});v.addEventListener('error',finish,{once:true});
-  timer=setTimeout(finish,2900);v.src='assets/fx/intro.mp4';try{await v.play();}catch{finish();}
+  timer=setTimeout(finish,2100);v.src='assets/fx/intro.mp4';try{await v.play();}catch{finish();}
  }
  backgrounds();initLogos();controls();sync();intro();
  // Observe only containers with async controls, never the animated layers.
