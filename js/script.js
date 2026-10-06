@@ -10,7 +10,8 @@ const LANGS = ["en", "ru", "pl", "de", "it", "fr", "tr", "es"];
    1) LANGUAGE — auto-detect on first visit, then remember choice
    --------------------------------------------------------------- */
 function detectLang() {
-  const saved = localStorage.getItem("emc_lang");
+  let saved;
+  try { saved = localStorage.getItem("emc_lang"); } catch {}
   if (saved && LANGS.includes(saved)) return saved;
 
   const browserLang = (navigator.language || "en").slice(0, 2).toLowerCase();
@@ -21,7 +22,7 @@ let currentLang = detectLang();
 
 function applyLang(lang) {
   currentLang = lang;
-  localStorage.setItem("emc_lang", lang);
+  try { localStorage.setItem("emc_lang", lang); } catch {}
   document.documentElement.setAttribute("lang", lang);
 
   const dict = I18N[lang];
@@ -124,7 +125,17 @@ const lightboxBackdrop = document.getElementById("lightboxBackdrop");
 function openCategory(cat) {
   lightboxTitle.textContent = I18N[currentLang][cat.titleKey];
   lightboxGrid.innerHTML = "";
-  lightboxItems.innerHTML = cat.items.join(" · ") + " · " + I18N[currentLang].mat_more_items;
+  lightboxItems.replaceChildren();
+  const items = document.createElement("ul");
+  items.className = "emc2-items";
+  cat.items.forEach((name) => {
+    const li = document.createElement("li");
+    li.textContent = name;
+    items.appendChild(li);
+  });
+  const note = document.createElement("p");
+  note.textContent = I18N[currentLang].mat_more_items;
+  lightboxItems.append(items, note);
   lightbox.hidden = false;
   document.body.classList.add("lightbox-open");
 }
@@ -187,6 +198,7 @@ document.addEventListener("click", (e) => {
 /* ---------------------------------------------------------------
    4) REVEAL ON SCROLL
    --------------------------------------------------------------- */
+if ("IntersectionObserver" in window) {
 const revealObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -200,6 +212,10 @@ const revealObserver = new IntersectionObserver(
 );
 
 document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
+} else {
+ document.querySelectorAll(".reveal").forEach(el => el.classList.add("in"));
+}
+
 
 /* ---------------------------------------------------------------
    5) CONTACT FORM — submits to Netlify Forms (built into this hosting,
@@ -361,7 +377,7 @@ function formatEntryDate(dateStr) {
   if (!dateStr) return "";
   const localeMap = { ru: "ru-RU", pl: "pl-PL", de: "de-DE", it: "it-IT", fr: "fr-FR", tr: "tr-TR", es: "es-ES", en: "en-GB" };
   return new Date(dateStr).toLocaleDateString(localeMap[currentLang] || "en-GB", {
-    day: "numeric", month: "short", year: "numeric",
+    day: "numeric", month: "short", year: "numeric", timeZone: "Europe/Warsaw",
   });
 }
 
@@ -664,99 +680,4 @@ initConsent();
     );
     map.forEach((_, sec) => spy.observe(sec));
   }
-})();
-
-
-/* ============================================================
-   SECTION BACKGROUNDS (stage 5, from audit kit)
-   ============================================================ */
-/* EkoMetChem backgrounds v1 — no dependencies, no animation JS loop */
-(() => {
-  if (window.EMCBackgrounds) { window.EMCBackgrounds.init(); return; }
-  const hosts = new Set();
-  const near = new WeakSet();
-  const svg = body => `<svg viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">${body}</svg>`;
-  const path = (d, cls='base') => `<path class="${cls}" d="${d}"/>`;
-  const grid = (step, start=0) => {
-    let s='';
-    for (let x=start; x<=1200; x+=step) s+=path(`M${x} 0V500`);
-    for (let y=0; y<=500; y+=step) s+=path(`M0 ${y}H1200`);
-    return s;
-  };
-  const templates = {
-    materials() {
-      let points='';
-      [[90,120],[265,325],[440,145],[620,360],[800,90],[1020,280]].forEach(([x,y],i) => {
-        points+=`<circle class="node ${i>2?'secondary':''}" cx="${x}" cy="${y}" r="1.6"/>`;
-      });
-      return `<div class="halo"></div><div class="halo second secondary"></div>`+
-        svg(grid(80)+`<g class="float">${points}</g>`);
-    },
-    trade() {
-      const a='M-80 380H190L350 220H600L770 90H1280';
-      const b='M-80 90H240L430 330H720L920 220H1280';
-      const nodes=[[190,380],[350,220],[600,220],[770,90],[430,330],[720,330],[920,220]];
-      return svg(grid(120)+path(a)+path(b,'base green secondary')+
-        path(a,'trace')+path(b,'trace green second secondary')+
-        nodes.map(([x,y],i)=>`<circle class="node ${i>3?'secondary':''}" cx="${x}" cy="${y}" r="2.4"/>`).join(''));
-    },
-    services() {
-      let s='';
-      for(let i=0;i<9;i++) {
-        const y=-80+i*75;
-        s+=path(`M-100 ${y+160}C120 ${y-90} 380 ${y+310} 620 ${y+100}S1000 ${y-100} 1350 ${y+160}`,`base ${i%2?'green secondary':''}`);
-      }
-      return `<div class="halo secondary"></div>`+svg(`<g class="float">${s}</g>`);
-    },
-    network() {
-      const pts=[[120,130],[280,310],[430,100],[610,250],[800,120],[1000,330],[1110,80],[740,430]];
-      const edges=[[0,1],[0,2],[1,3],[2,3],[2,4],[3,4],[3,7],[4,5],[4,6],[5,6],[5,7]];
-      let s=edges.map(([a,b])=>path(`M${pts[a][0]} ${pts[a][1]}L${pts[b][0]} ${pts[b][1]}`)).join('');
-      s+=path('M120 130L430 100L610 250L800 120L1000 330','trace green');
-      s+=pts.map(([x,y],i)=>`<g><circle class="base green ${i%2?'breath secondary':''}" cx="${x}" cy="${y}" r="11"/><circle class="node" cx="${x}" cy="${y}" r="2.5"/></g>`).join('');
-      return svg(s);
-    },
-    news() {
-      let ticks='';
-      for(let i=0;i<15;i++) {
-        const x=80+i*80, y=100+(i*73)%280;
-        ticks+=path(`M${x} ${y-15}V${y+15}`,`base green ${i%2?'secondary':''}`);
-        ticks+=`<rect x="${x-2}" y="${y-5}" width="4" height="10" fill="#67bd71" opacity=".13" class="${i%2?'secondary':''}"/>`;
-      }
-      return svg(grid(100)+ticks+`<g class="scan"><path d="M0 250H1200" fill="none" stroke="#489ecb" stroke-width="1" opacity=".22"/><path d="M80 240H190M540 260H630M960 240H1040" fill="none" stroke="#67bd71" stroke-width="2" opacity=".25"/></g>`);
-    }
-  };
-  const sync = host => host.classList.toggle('emc-fx-active', near.has(host) && !document.hidden);
-  const observer = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
-    entries.forEach(({target,isIntersecting}) => {
-      if(isIntersecting) near.add(target); else near.delete(target);
-      sync(target);
-    });
-  }, {rootMargin:'0px',threshold:0}) : null;
-  function init(root=document) {
-    const list=[...(root.matches?.('[data-emc-bg]')?[root]:[]),...root.querySelectorAll('[data-emc-bg]')];
-    list.forEach(host => {
-      if(hosts.has(host)) return;
-      const kind=host.dataset.emcBg;
-      if(!templates[kind]) return;
-      // Existing video sections are deliberately excluded.
-      if(host.querySelector('video')) return;
-      const layer=document.createElement('div');
-      layer.className='emc-fx'; layer.setAttribute('aria-hidden','true');
-      layer.innerHTML=templates[kind]();
-      host.classList.add('emc-fx-host'); host.prepend(layer); hosts.add(host);
-      if(observer) observer.observe(host); // If unavailable, backgrounds remain static.
-    });
-  }
-  document.addEventListener('visibilitychange',()=>hosts.forEach(sync));
-  window.EMCBackgrounds={init,destroy() {
-    hosts.forEach(host=>{
-      observer?.unobserve(host); near.delete(host);
-      [...host.children].find(child=>child.classList.contains('emc-fx'))?.remove();
-      host.classList.remove('emc-fx-host','emc-fx-active');
-    });
-    hosts.clear();
-  }};
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>init(),{once:true});
-  else init();
 })();
