@@ -14,16 +14,18 @@
 <meta property="og:url" content="https://ekometchem.com/">
 <meta property="og:image" content="https://ekometchem.com/assets/og-image.png">
 <meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#12161A">
 <meta name="twitter:title" content="EkoMetChem — Metallurgical Waste & Secondary Metals Trading">
 <meta name="twitter:description" content="International trading company for metallurgical waste, secondary raw materials and non-ferrous metals across Europe.">
 <meta name="twitter:image" content="https://ekometchem.com/assets/og-image.png">
 
 <link rel="icon" href="assets/favicon.png" type="image/png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/fonts/space-grotesk-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/fonts.css">
 <link rel="stylesheet" href="css/styles.css">
 <link rel="stylesheet" href="css/emc-upgrade.css">
+<link rel="stylesheet" href="css/emc-polish.css">
 
 <script type="application/ld+json">
 {
@@ -41,11 +43,18 @@
     "addressCountry": "PL"
   },
   "email": "info@ekometchem.com",
-  "telephone": "+48453618543"
+  "telephone": "+48453618543",
+  "vatID": "PL6332253651",
+  "identifier": [
+    { "@type": "PropertyValue", "name": "BDO", "value": "000672484" },
+    { "@type": "PropertyValue", "name": "EORI", "value": "PL633225365100000" }
+  ]
 }
 </script>
 </head>
 <body>
+<a class="emc-skip" href="#top" data-i18n="p_skip">Skip to content</a>
+<p class="emc-sr" id="emcLive" role="status" aria-live="polite"></p>
 <noscript><style>.dyn-status{display:none}.nav-links{display:flex!important;flex-wrap:wrap}.menu-toggle{display:none!important}</style><p style="padding:16px;text-align:center">For current offers and services, <a href="#contact">contact EkoMetChem</a>.</p></noscript>
 
 <!-- ============================== HEADER ============================== -->
@@ -89,9 +98,7 @@
 
 <!-- ============================== HERO ============================== -->
 <section class="hero" id="top">
-  <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="assets/video/hero-poster.webp" aria-hidden="true">
-    <source src="assets/video/hero-loop.mp4" type="video/mp4">
-  </video>
+  <video class="hero-video" muted loop playsinline preload="none" poster="assets/video/hero-poster.webp" aria-hidden="true" data-src="assets/video/hero-loop.mp4"></video>
   <div class="hero-video-overlay" aria-hidden="true"></div>
 
   <div class="container hero-inner reveal">
@@ -107,9 +114,7 @@
 
 <!-- ============================== ABOUT ============================== -->
 <section class="alt-bg video-section" id="about">
-  <video class="section-video" muted loop playsinline preload="metadata" poster="assets/video/about-poster.webp" aria-hidden="true">
-    <source src="assets/video/about-loop.mp4" type="video/mp4">
-  </video>
+  <video class="section-video" muted loop playsinline preload="none" poster="assets/video/about-poster.webp" aria-hidden="true" data-src="assets/video/about-loop.mp4"></video>
   <div class="section-video-overlay" aria-hidden="true"></div>
 
   <div class="container about-grid">
@@ -245,9 +250,7 @@
 
 <!-- ============================== LOGISTICS ============================== -->
 <section class="alt-bg video-section" id="logistics">
-  <video class="section-video" muted loop playsinline preload="metadata" poster="assets/video/logistics-poster.webp" aria-hidden="true">
-    <source src="assets/video/logistics-loop.mp4" type="video/mp4">
-  </video>
+  <video class="section-video" muted loop playsinline preload="none" poster="assets/video/logistics-poster.webp" aria-hidden="true" data-src="assets/video/logistics-loop.mp4"></video>
   <div class="section-video-overlay" aria-hidden="true"></div>
 
   <div class="container">
@@ -270,14 +273,13 @@
     <div class="news-grid reveal" id="newsGrid">
       <p class="news-status" id="newsStatus" data-i18n="news_loading">Loading latest headlines...</p>
     </div>
+    <div class="news-more"><button type="button" class="btn btn-ghost" id="newsMore" hidden aria-controls="newsGrid" aria-expanded="false"></button></div>
   </div>
 </section>
 
 <!-- ============================== CONTACT ============================== -->
 <section class="video-section" id="contact">
-  <video class="section-video" muted loop playsinline preload="metadata" poster="assets/video/contact-poster.webp" aria-hidden="true">
-    <source src="assets/video/contact-loop.mp4" type="video/mp4">
-  </video>
+  <video class="section-video" muted loop playsinline preload="none" poster="assets/video/contact-poster.webp" aria-hidden="true" data-src="assets/video/contact-loop.mp4"></video>
   <div class="section-video-overlay" aria-hidden="true"></div>
 
   <div class="container contact-grid">
@@ -297,22 +299,22 @@
       <p class="hp-field"><label>Don't fill this out: <input name="bot-field"></label></p>
       <div class="form-field">
         <label for="f-name" data-i18n="form_name">Your name</label>
-        <input id="f-name" name="name" type="text" required>
+        <input id="f-name" name="name" type="text" autocomplete="name" required>
       </div>
       <div class="form-field">
         <label for="f-email" data-i18n="form_email">Email</label>
-        <input id="f-email" name="email" type="email" required>
+        <input id="f-email" name="email" type="email" autocomplete="email" required>
       </div>
       <div class="form-field">
         <label for="f-company" data-i18n="form_company">Company</label>
-        <input id="f-company" name="company" type="text">
+        <input id="f-company" name="company" type="text" autocomplete="organization">
       </div>
       <div class="form-field">
         <label for="f-message" data-i18n="form_message">What are you looking for?</label>
         <textarea id="f-message" name="message" required></textarea>
       </div>
       <button type="submit" class="btn btn-primary" data-i18n="form_submit">Send message</button>
-      <p class="form-status" id="formStatus"></p>
+      <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
     </form>
   </div>
 </section>
@@ -328,10 +330,11 @@
       <h4 data-i18n="footer_requisites">Company details</h4>
       <ul class="footer-list footer-mono">
         <li>EkoMetChem</li>
-        <li>VAT ID: PL6332253651</li>
-        <li>BDO: 000672484</li>
-        <li>EORI: PL633225365100000</li>
+        <li><span>VAT ID: PL6332253651</span><button type="button" class="emc-copy" data-emc-copy="PL6332253651" aria-label="Copy: PL6332253651"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></button></li>
+        <li><span>BDO: 000672484</span><button type="button" class="emc-copy" data-emc-copy="000672484" aria-label="Copy: 000672484"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></button></li>
+        <li><span>EORI: PL633225365100000</span><button type="button" class="emc-copy" data-emc-copy="PL633225365100000" aria-label="Copy: PL633225365100000"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></button></li>
       </ul>
+      <p class="emc-status" id="emcCopyStatus" role="status" aria-live="polite"></p>
     </div>
     <div class="footer-col">
       <h4 data-i18n="footer_contact">Contact</h4>
@@ -374,7 +377,11 @@
   }
 </script>
 <script src="js/i18n.js"></script>
+<script src="js/i18n-polish.js"></script>
+<script src="js/emc-content.js"></script>
 <script src="js/script.js"></script>
 <script src="js/emc-upgrade.js"></script>
+<script src="js/emc-media.js"></script>
+<script src="js/emc-polish.js"></script>
 </body>
 </html>

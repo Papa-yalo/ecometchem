@@ -1,0 +1,99 @@
+[hidden] { display: none !important; }
+.element-tile, .dyn-list-item, .service-tile, .dyn-list-item .txt { min-width: 0; }
+.element-tile .sym, .dyn-list-item .txt, .service-tile h3 {
+  hyphens: none; word-break: normal; overflow-wrap: anywhere;
+}
+.emc-shine { position:absolute; inset:0; overflow:hidden; border-radius:inherit;
+  pointer-events:none; opacity:0; }
+.emc-shine::before { content:""; position:absolute; inset:0;
+  background:linear-gradient(105deg,transparent 35%,rgba(79,179,224,.10) 50%,transparent 65%);
+  transform:translateX(-120%); }
+@media (hover:hover) and (pointer:fine) {
+  .emc2-control:hover > .emc-shine { opacity:1; }
+  .emc2-control:hover > .emc-shine::before { animation:emc-polish-shine .6s ease-out both; }
+}
+@keyframes emc-polish-shine { to { transform:translateX(120%); } }
+.emc-scroll-progress { position:fixed; inset:0 0 auto; height:2px; z-index:150;
+  background:linear-gradient(90deg,#55B77C,#4FB3E0); transform:scaleX(0);
+  transform-origin:left; pointer-events:none; }
+.emc-skip { position:fixed; left:12px; top:12px; z-index:10000;
+  padding:12px 16px; background:#143b2b; color:#fff; transform:translateY(-180%); }
+.emc-skip:focus { transform:none; outline:2px solid #6fd09a; outline-offset:3px; }
+input:focus-visible, textarea:focus-visible { outline:2px solid #6fd09a; outline-offset:3px; }
+.emc-text-description { white-space:pre-line; }
+.emc-status { font-size:.9rem; line-height:1.5; }
+.emc-thumb { width:48px; height:48px; object-fit:cover; flex-shrink:0; border-radius:6px; }
+#contactForm[data-state="error"] .form-status { color:#ffd3b5; }
+#contactForm[data-state="success"] .form-status { color:#bff0d2; }
+#contactForm[data-state="sending"] button[type="submit"] { cursor:progress; }
+.emc-copy { font:inherit; color:inherit; border:1px solid var(--line);
+  background:transparent; padding:8px 12px; cursor:pointer; }
+#contact { scroll-margin-top:120px; }
+@media(prefers-reduced-motion:reduce) {
+  .emc-shine { display:none; } .emc-scroll-progress { display:none; }
+}
+html.emc2-lite .emc-shine, html.emc2-lite .emc-scroll-progress { display:none; }
+
+/* ---- release additions ---- */
+.emc-sr { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+/* Offer / procurement / service rows: one real button as the main click area */
+.dyn-list-item { position:relative; }
+.dyn-list-item .dyn-open {
+  display:flex; align-items:center; flex-wrap:wrap; gap:12px; width:100%;
+  background:none; border:0; padding:0; margin:0; color:inherit; font:inherit;
+  text-align:left; cursor:pointer;
+}
+.dyn-list-item .dyn-open:focus-visible { outline-offset:6px; }
+.dyn-list-item .dyn-open .txt { overflow-wrap:anywhere; }
+.emc-thumb { width:52px; height:52px; }
+.emc-status-actions { display:flex; gap:10px; flex-wrap:wrap; }
+.emc-status { padding:4px 0; }
+.news-card { position:relative; }
+.news-more { margin-top:22px; text-align:center; }
+
+/* Request buttons in the material window */
+.emc2-items li { display:inline-flex; align-items:center; gap:10px; }
+.emc-ask {
+  font:inherit; font-size:.78rem; padding:3px 10px; cursor:pointer; color:#6FD09A;
+  background:transparent; border:1px solid rgba(111,208,154,.45); border-radius:8px;
+}
+.emc-ask:hover, .emc-ask:focus-visible { background:rgba(111,208,154,.12); border-color:#6FD09A; }
+.emc-actions { display:flex; gap:12px; flex-wrap:wrap; }
+
+/* Footer: copy buttons next to registration numbers */
+.footer-mono li { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.emc-copy {
+  display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; padding:0;
+  color:var(--ink-muted); border:1px solid var(--line); border-radius:6px; background:transparent; cursor:pointer;
+}
+.emc-copy:hover, .emc-copy:focus-visible { color:#6FD09A; border-color:#6FD09A; }
+.emc-copy svg { width:14px; height:14px; }
+#emcCopyStatus { min-height:1.2em; margin:8px 0 0; color:#6FD09A; }
+
+/* Green section labels: very soft static glow in logo colours + light 3D */
+.eyebrow {
+  color:#6FD09A;
+  text-shadow:
+    0 -1px 0 rgba(255,255,255,.16),
+    1px 1px 0 rgba(8,36,24,.95),
+    2px 2px 1px rgba(0,0,0,.45),
+    0 0 7px rgba(111,208,154,.20),
+    0 0 14px rgba(72,158,203,.12);
+}
+.eyebrow::before {
+  height:2px; border-radius:1px;
+  box-shadow:0 -1px 0 rgba(255,255,255,.18), 1px 2px 0 rgba(0,0,0,.55);
+}
+/* Headlines: a thin dark edge gives depth over video and flat backgrounds */
+h1, h2 { text-shadow:0 1px 0 rgba(0,0,0,.55), 0 2px 16px rgba(0,0,0,.35); }
+
+@media (max-width:640px) { .emc-thumb { width:44px; height:44px; } }
+/* rows: let the title keep whole words; date and button wrap under it on narrow screens */
+.dyn-list-item .dyn-open .txt { flex:1 1 150px; min-width:min(150px,100%); overflow-wrap:break-word; }
+@media (max-width:640px) {
+  .dyn-list-item .dyn-open { gap:10px 12px; }
+  .dyn-list-item .dyn-open .txt { flex-basis:calc(100% - 70px); }
+  .dyn-list-item .dyn-open .dyn-date { margin-left:56px; }
+  .dyn-list-item .dyn-open .btn-sm { margin-left:auto; }
+}

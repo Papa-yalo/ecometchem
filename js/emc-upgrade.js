@@ -41,8 +41,12 @@
    logos.add(img);io?.observe(img);img.src=img.dataset.static;
   });
  }
- const selector='.element-tile,.dyn-list-item,.service-tile,a.btn,button.btn,.lang-current,.menu-toggle';
- function controls(){document.querySelectorAll(selector).forEach(el=>el.classList.add('emc2-control'));}
+ const selector='.element-tile,.dyn-list-item,.service-tile,.news-card,a.btn,button.btn,.lang-current,.menu-toggle';
+ const shineHosts='.element-tile,.dyn-list-item,.service-tile,.news-card';
+ function controls(){document.querySelectorAll(selector).forEach(el=>{el.classList.add('emc2-control');
+  // one short hover shine layer (a span, so the existing glow pseudo-elements stay untouched)
+  if(el.matches(shineHosts)&&!el.querySelector(':scope > .emc-shine')){const s=document.createElement('span');s.className='emc-shine';s.setAttribute('aria-hidden','true');el.prepend(s);}
+ });}
  // Delegation also covers asynchronously rendered offers and category cards.
  let pending=0, target=null, latest=null;
  function reset(){if(target){target.style.removeProperty('--emc2-rx');target.style.removeProperty('--emc2-ry');}target=null;latest=null;cancelAnimationFrame(pending);pending=0;}
@@ -56,6 +60,6 @@
  document.addEventListener('keydown',reset);window.addEventListener('blur',reset);
  backgrounds();initLogos();controls();sync();
  // Observe only containers with async controls, never the animated layers.
- for(const id of ['categoryGrid','offersGrid','procurementGrid','servicesActiveList','servicesNeededList']){const root=document.getElementById(id);if(root)new MutationObserver(controls).observe(root,{childList:true});}
+ for(const id of ['categoryGrid','offersGrid','procurementGrid','servicesActiveList','servicesNeededList','newsGrid']){const root=document.getElementById(id);if(root)new MutationObserver(controls).observe(root,{childList:true});}
  document.addEventListener('visibilitychange',()=>{reset();sync();});reduce.addEventListener('change',()=>{reset();sync();});fine.addEventListener('change',reset);connection?.addEventListener?.('change',sync);
 })();

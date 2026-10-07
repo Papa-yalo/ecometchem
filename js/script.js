@@ -1,10 +1,26 @@
 /* ==========================================================================
    EkoMetChem — site behaviour
-   Sections: 1) language  2) mobile nav  3) materials grid  4) reveal-on-scroll
-   5) contact form (demo)
+   Sections: 0) safe URL helper  1) language  2) mobile nav  3) catalog + modal
+   4) reveal  5) contact form  6) news  7) dynamic blocks (offers etc.)
+   8) analytics/consent  9) UI polish. Video control lives in js/emc-media.js.
    ========================================================================== */
 
 const LANGS = ["en", "ru", "pl", "de", "it", "fr", "tr", "es"];
+const LOCALES = { ru: "ru-RU", pl: "pl-PL", de: "de-DE", it: "it-IT", fr: "fr-FR", tr: "tr-TR", es: "es-ES", en: "en-GB" };
+
+/* 0) Only plain http(s) links and local /assets images are ever used from CMS/RSS data. */
+function emcSafeUrl(value, { image = false } = {}) {
+  if (typeof value !== "string") return null;
+  const raw = value.trim();
+  if (!raw || /[\u0000-\u001f\u007f\\]/.test(raw) || raw.startsWith("//")) return null;
+  if (/^[a-z][a-z0-9+.-]*:/i.test(raw) && !/^https?:\/\//i.test(raw)) return null;
+  try {
+    const url = new URL(raw, location.origin);
+    if (!["https:", "http:"].includes(url.protocol) || url.username || url.password) return null;
+    if (image && (url.origin !== location.origin || !url.pathname.startsWith("/assets/"))) return null;
+    return url.href;
+  } catch { return null; }
+}
 
 /* ---------------------------------------------------------------
    1) LANGUAGE — auto-detect on first visit, then remember choice
@@ -39,15 +55,22 @@ function applyLang(lang) {
     const key = el.getAttribute("data-i18n-placeholder");
     if (dict[key] !== undefined) el.setAttribute("placeholder", dict[key]);
   });
+  document.querySelectorAll("[data-emc-copy]").forEach((el) => {
+    el.setAttribute("aria-label", `${dict.p_copy}: ${el.dataset.emcCopy}`);
+  });
+  document.querySelector(".to-top")?.setAttribute("aria-label", dict.p_top);
 
-  document.getElementById("langCurrentLabel").textContent = lang.toUpperCase();
+  const label = document.getElementById("langCurrentLabel");
+  if (label) label.textContent = lang.toUpperCase();
   document.querySelectorAll(".lang-options button").forEach((btn) => {
     btn.classList.toggle("active", btn.dataset.lang === lang);
   });
 
   renderCategories();
-  if (typeof loadNews === "function") loadNews();
-  if (typeof renderDynamicBlocks === "function") renderDynamicBlocks();
+  renderNews();
+  renderDynamicBlocks();
+  renderFormState();
+  refreshLightbox();
 }
 
 /* dropdown open/close + selection */
@@ -94,62 +117,154 @@ document.querySelectorAll(".nav-links a").forEach((link) => {
 });
 
 /* ---------------------------------------------------------------
-   3) MATERIALS CATALOG (12 categories) + SEARCH + LIGHTBOX
+   3) MATERIALS CATALOG (12 categories) + SEARCH + ACCESSIBLE MODAL
    --------------------------------------------------------------- */
 function renderCategories() {
   const grid = document.getElementById("categoryGrid");
-  if (!grid) return;
+  if (!grid || typeof CATEGORIES === "undefined") return;
 
-  grid.innerHTML = "";
-
+  grid.replaceChildren();
   CATEGORIES.forEach((cat) => {
     const tile = document.createElement("button");
     tile.type = "button";
     tile.className = "element-tile";
-    tile.innerHTML = `
-      <div class="num">No. ${cat.code}</div>
-      <div class="sym">${I18N[currentLang][cat.titleKey]}</div>
-    `;
+    const num = document.createElement("div");
+    num.className = "num";
+    num.textContent = `No. ${cat.code}`;
+    const sym = document.createElement("div");
+    sym.className = "sym";
+    sym.textContent = I18N[currentLang][cat.titleKey];
+    tile.append(num, sym);
     tile.addEventListener("click", () => openCategory(cat));
     grid.appendChild(tile);
   });
 }
 
 const lightbox = document.getElementById("lightbox");
+const lightboxPanel = lightbox?.querySelector(".lightbox-panel");
 const lightboxGrid = document.getElementById("lightboxGrid");
 const lightboxTitle = document.getElementById("lightboxTitle");
 const lightboxItems = document.getElementById("lightboxItems");
 const lightboxClose = document.getElementById("lightboxClose");
 const lightboxBackdrop = document.getElementById("lightboxBackdrop");
 
-function openCategory(cat) {
-  lightboxTitle.textContent = I18N[currentLang][cat.titleKey];
-  lightboxGrid.innerHTML = "";
+let lbView = null;        // what is currently shown: {type:"cat",cat} or {type:"detail",entry,kind}
+let lbEpoch = 0;          // invalidates late translation answers
+let lbReturnFocus = null; // element that had focus before the dialog opened
+let lbInert = [];         // [element, previous inert value]
+
+if (lightboxPanel) {
+  lightboxPanel.setAttribute("role", "dialog");
+  lightboxPanel.setAttribute("aria-modal", "true");
+  lightboxPanel.setAttribute("aria-labelledby", "lightboxTitle");
+}
+
+function lbOpen(returnEl) {
+  if (!lightbox) return;
+  if (lightbox.hidden) {
+    lbReturnFocus = returnEl || document.activeElement;
+    lbInert = [];
+    [...document.body.children].forEach((el) => {
+      if (el === lightbox || el.tagName === "SCRIPT" || el.tagName === "NOSCRIPT") return;
+      lbInert.push([el, el.inert]);
+      el.inert = true;
+    });
+    lightbox.hidden = false;
+    document.body.classList.add("lightbox-open");
+    lightboxClose?.focus({ preventScroll: true });
+  }
+}
+
+function closeLightbox({ restoreFocus = true } = {}) {
+  if (!lightbox || lightbox.hidden) return;
+  lbEpoch++;
+  lbView = null;
+  lightbox.hidden = true;
+  document.body.classList.remove("lightbox-open");
+  lbInert.forEach(([el, prev]) => { el.inert = prev; });
+  lbInert = [];
+  const target = lbReturnFocus;
+  lbReturnFocus = null;
+  if (!restoreFocus) return;
+  if (target && target.isConnected && target.getClientRects().length) target.focus({ preventScroll: true });
+  else if (target && catSearchResults?.contains(target)) catSearchInput?.focus({ preventScroll: true });
+}
+
+lightboxClose?.addEventListener("click", () => closeLightbox());
+lightboxBackdrop?.addEventListener("click", () => closeLightbox());
+document.addEventListener("keydown", (e) => {
+  if (!lightbox || lightbox.hidden) return;
+  if (e.key === "Escape") { closeLightbox(); return; }
+  if (e.key === "Tab") {
+    const nodes = [...lightboxPanel.querySelectorAll('a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"])')]
+      .filter((n) => n.getClientRects().length);
+    if (!nodes.length) return;
+    const first = nodes[0], last = nodes[nodes.length - 1];
+    if (e.shiftKey && (document.activeElement === first || !lightboxPanel.contains(document.activeElement))) {
+      e.preventDefault(); last.focus();
+    } else if (!e.shiftKey && (document.activeElement === last || !lightboxPanel.contains(document.activeElement))) {
+      e.preventDefault(); first.focus();
+    }
+  }
+});
+
+function refreshLightbox() {
+  if (!lightbox || lightbox.hidden || !lbView) return;
+  if (lbView.type === "cat") renderCategoryView(lbView.cat);
+  else renderDetailView(lbView.entry, lbView.kind);
+}
+
+function openCategory(cat, returnEl) {
+  if (!lightbox) return;
+  lbView = { type: "cat", cat };
+  renderCategoryView(cat);
+  lbOpen(returnEl);
+}
+
+function renderCategoryView(cat) {
+  const t = I18N[currentLang];
+  lbEpoch++;
+  lightboxTitle.textContent = t[cat.titleKey];
+  lightboxGrid.replaceChildren();
+  lightboxGrid.classList.remove("single");
   lightboxItems.replaceChildren();
   const items = document.createElement("ul");
   items.className = "emc2-items";
   cat.items.forEach((name) => {
     const li = document.createElement("li");
-    li.textContent = name;
+    const label = document.createElement("span");
+    label.textContent = name;
+    const ask = document.createElement("button");
+    ask.type = "button";
+    ask.className = "emc-ask";
+    ask.textContent = t.p_request;
+    ask.setAttribute("aria-label", `${t.p_request}: ${name}`);
+    ask.addEventListener("click", () => emcStartInquiry(name, "catalog"));
+    li.append(label, ask);
     items.appendChild(li);
   });
   const note = document.createElement("p");
-  note.textContent = I18N[currentLang].mat_more_items;
+  note.textContent = t.mat_more_items;
   lightboxItems.append(items, note);
-  lightbox.hidden = false;
-  document.body.classList.add("lightbox-open");
 }
 
-function closeLightbox() {
-  lightbox.hidden = true;
-  document.body.classList.remove("lightbox-open");
+/* Put the chosen position into the contact form message and jump to the form. */
+function emcStartInquiry(title, kind = "catalog") {
+  const field = document.getElementById("f-message");
+  if (!field) return;
+  const t = I18N[currentLang];
+  const key = { offers: "p_buy", procurement: "p_supply", servicesActive: "p_service",
+    servicesNeeded: "p_partner", catalog: "p_inquiry" }[kind] || "p_inquiry";
+  const context = `${t[key]}: ${String(title || "").trim()}`;
+  if (!field.value.split(/\r?\n/).some((line) => line.trim() === context))
+    field.value = field.value.trimEnd() + (field.value.trim() ? "\n\n" : "") + context + "\n";
+  closeLightbox({ restoreFocus: false });
+  document.getElementById("contact")?.scrollIntoView({
+    behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start"
+  });
+  field.focus({ preventScroll: true });
+  field.dispatchEvent(new Event("input", { bubbles: true }));
 }
-
-lightboxClose?.addEventListener("click", closeLightbox);
-lightboxBackdrop?.addEventListener("click", closeLightbox);
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && lightbox && !lightbox.hidden) closeLightbox();
-});
 
 /* ---- catalog search: matches item names across all 12 categories ---- */
 const catSearchInput = document.getElementById("catSearch");
@@ -159,7 +274,7 @@ catSearchInput?.addEventListener("input", () => {
   const q = catSearchInput.value.trim().toLowerCase();
   if (q.length < 2) {
     catSearchResults.hidden = true;
-    catSearchResults.innerHTML = "";
+    catSearchResults.replaceChildren();
     return;
   }
 
@@ -170,18 +285,24 @@ catSearchInput?.addEventListener("input", () => {
     });
   });
 
-  catSearchResults.innerHTML = "";
+  catSearchResults.replaceChildren();
   if (matches.length === 0) {
-    catSearchResults.innerHTML = `<div class="cat-search-empty">${I18N[currentLang].mat_no_results}</div>`;
+    const empty = document.createElement("div");
+    empty.className = "cat-search-empty";
+    empty.textContent = I18N[currentLang].mat_no_results;
+    catSearchResults.appendChild(empty);
   } else {
     matches.slice(0, 12).forEach(({ item, cat }) => {
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.innerHTML = `${item}<span>${I18N[currentLang][cat.titleKey]}</span>`;
+      btn.append(document.createTextNode(item));
+      const span = document.createElement("span");
+      span.textContent = I18N[currentLang][cat.titleKey];
+      btn.appendChild(span);
       btn.addEventListener("click", () => {
         catSearchResults.hidden = true;
         catSearchInput.value = "";
-        openCategory(cat);
+        openCategory(cat, catSearchInput);
       });
       catSearchResults.appendChild(btn);
     });
@@ -216,250 +337,396 @@ document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el))
  document.querySelectorAll(".reveal").forEach(el => el.classList.add("in"));
 }
 
-
 /* ---------------------------------------------------------------
-   5) CONTACT FORM — submits to Netlify Forms (built into this hosting,
-   no external service needed). Netlify's build bot detects the
-   data-netlify="true" attribute on the <form> in index.html and starts
-   accepting submissions automatically after deploy — nothing to
-   configure here. Submissions show up in the Netlify dashboard under
-   the "Forms" tab; enable email notifications there
-   (Site configuration → Forms → Form notifications).
+   5) CONTACT FORM — Netlify Forms (detected by data-netlify="true").
+   Explicit states: idle | sending | success | error. No automatic retry
+   (a repeated POST could create a duplicate request).
    --------------------------------------------------------------- */
 const contactForm = document.getElementById("contactForm");
 const formStatus = document.getElementById("formStatus");
 const submitBtn = contactForm?.querySelector("button[type=submit]");
+let formState = "idle";
+let formErrorKind = "error"; // "error" = server refused, "unknown" = could not confirm
 
-function encodeFormData(form) {
-  return new URLSearchParams(new FormData(form)).toString();
+function renderFormState() {
+  if (!contactForm || !submitBtn) return;
+  const t = I18N[currentLang];
+  contactForm.dataset.state = formState;
+  submitBtn.textContent = formState === "sending" ? t.form_sending : t.form_submit;
+  submitBtn.disabled = formState === "sending";
+  submitBtn.setAttribute("aria-busy", formState === "sending" ? "true" : "false");
+  let text = "";
+  if (formState === "sending") text = t.form_sending;
+  else if (formState === "success") text = t.p_success;
+  else if (formState === "error") text = formErrorKind === "unknown" ? t.p_send_unknown : t.form_error;
+  formStatus.textContent = text;
+  formStatus.classList.toggle("show", !!text);
 }
 
 contactForm?.addEventListener("submit", async (e) => {
   e.preventDefault();
+  if (formState === "sending") return;
+  if (!contactForm.checkValidity()) { contactForm.reportValidity(); return; }
 
-  const originalLabel = submitBtn.textContent;
-  submitBtn.disabled = true;
-  submitBtn.textContent = I18N[currentLang].form_sending;
-  formStatus.classList.remove("show");
+  const body = new URLSearchParams(new FormData(contactForm)).toString();
+  const fields = [...contactForm.querySelectorAll("input:not([type=hidden]):not([type=checkbox]), textarea")];
+  fields.forEach((f) => { f.readOnly = true; });
+  formState = "sending";
+  renderFormState();
 
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 20000);
   try {
     const response = await fetch("/", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encodeFormData(contactForm),
+      body,
+      signal: controller.signal,
     });
-
     if (response.ok) {
-      formStatus.textContent = I18N[currentLang].form_success;
+      formState = "success";
       contactForm.reset();
+      trackEvent("generate_lead", { form: "contact" });
     } else {
-      formStatus.textContent = I18N[currentLang].form_error;
+      formState = "error";
+      formErrorKind = "error";
     }
   } catch (err) {
-    formStatus.textContent = I18N[currentLang].form_error;
+    formState = "error";
+    formErrorKind = "unknown";
+  } finally {
+    clearTimeout(timer);
+    fields.forEach((f) => { f.readOnly = false; });
+    renderFormState();
   }
-
-  formStatus.classList.add("show");
-  submitBtn.disabled = false;
-  submitBtn.textContent = originalLabel;
 });
 
 /* ---------------------------------------------------------------
-   6) INDUSTRY NEWS — reads the pre-fetched cache from our own
-   Netlify Function (netlify/functions/get-news.js). The function itself
-   pulls from Mining.com, Kitco News and Google News on a schedule
-   (see update-news.js) — the browser never talks to those sites directly,
-   and never re-fetches on every visit.
+   6) INDUSTRY NEWS — pre-fetched cache from our Netlify Function
+   (get-news → update-news). One request at a time, 10 s timeout,
+   first 3 items, "show more" up to 9. If there is nothing to show
+   the whole news section is hidden.
    --------------------------------------------------------------- */
-let newsCache = null;
+let newsItems = null;
+let newsDone = false;
+let newsPromise = null;
+let newsExpanded = false;
+const NEWS_MIN = 3, NEWS_MAX = 9;
 
-async function loadNews() {
+function loadNews() {
+  if (!document.getElementById("newsGrid")) return Promise.resolve();
+  if (newsItems) return Promise.resolve();
+  if (newsPromise) return newsPromise;
+  newsPromise = (async () => {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10000);
+    try {
+      const res = await fetch("/.netlify/functions/get-news", { signal: controller.signal });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      if (!data || !Array.isArray(data.items)) throw new Error("schema");
+      const clean = data.items
+        .filter((i) => i && typeof i.title === "string" && i.title.trim() && emcSafeUrl(i.link))
+        .slice(0, NEWS_MAX);
+      if (!clean.length) throw new Error("empty");
+      newsItems = clean;
+    } catch (err) {
+      newsItems = null;
+    } finally {
+      clearTimeout(timer);
+      newsPromise = null;
+      newsDone = true;
+      renderNews();
+    }
+  })();
+  return newsPromise;
+}
+
+function renderNews() {
   const grid = document.getElementById("newsGrid");
-  const status = document.getElementById("newsStatus");
+  const section = document.getElementById("news");
   if (!grid) return;
+  const status = document.getElementById("newsStatus");
+  const more = document.getElementById("newsMore");
+  const t = I18N[currentLang];
 
-  if (newsCache) {
-    renderNews(newsCache);
+  if (!newsItems) {
+    if (!newsDone) {                // not finished yet: show the loading line
+      if (status) { status.textContent = t.news_loading; status.style.display = "block"; }
+    } else if (section) {           // finished with nothing usable: hide the block
+      section.hidden = true;
+    }
+    if (more) more.hidden = true;
     return;
   }
 
-  status.textContent = I18N[currentLang].news_loading;
-  status.style.display = "block";
-
-  try {
-    const res = await fetch("/.netlify/functions/get-news");
-    const data = await res.json();
-
-    if (!data.items || data.items.length === 0) throw new Error("empty cache");
-
-    newsCache = data.items;
-    renderNews(data.items);
-  } catch (err) {
-    status.textContent = I18N[currentLang].news_error;
-    status.style.display = "block";
-  }
-}
-
-function renderNews(items) {
-  const grid = document.getElementById("newsGrid");
-  const status = document.getElementById("newsStatus");
-  status.style.display = "none";
-
+  if (section) section.hidden = false;
+  if (status) status.style.display = "none";
   grid.querySelectorAll(".news-card").forEach((el) => el.remove());
 
-  items.slice(0, 9).forEach((item) => {
+  const shown = newsExpanded ? newsItems : newsItems.slice(0, NEWS_MIN);
+  shown.forEach((item) => {
     const card = document.createElement("a");
     card.className = "news-card";
-    card.href = item.link;
+    card.href = emcSafeUrl(item.link);
     card.target = "_blank";
     card.rel = "noopener noreferrer";
-
-    const localeMap = { ru: "ru-RU", pl: "pl-PL", de: "de-DE", it: "it-IT", fr: "fr-FR", tr: "tr-TR", es: "es-ES", en: "en-GB" };
-    const date = new Date(item.pubDate).toLocaleDateString(localeMap[currentLang] || "en-GB", {
-      day: "numeric", month: "short",
-    });
-
-    card.innerHTML = `
-      <div class="news-meta">${item.source} · ${date}</div>
-      <h3>${item.title}</h3>
-    `;
+    const d = new Date(item.pubDate);
+    const date = Number.isFinite(d.getTime())
+      ? d.toLocaleDateString(LOCALES[currentLang] || "en-GB", { day: "numeric", month: "short" }) : "";
+    const meta = document.createElement("div");
+    meta.className = "news-meta";
+    meta.textContent = [item.source, date].filter(Boolean).join(" · ");
+    const title = document.createElement("h3");
+    title.textContent = item.title;
+    card.append(meta, title);
     grid.appendChild(card);
   });
-}
 
-/* ---------------------------------------------------------------
-   7) DYNAMIC BLOCKS — Актуальные предложения/закупки/услуги/требуются
-   Content is managed by staff through the admin panel at /admin
-   (Decap CMS) and stored as JSON files in this GitHub repo. The page
-   reads that content straight from GitHub at load time — no backend,
-   no database, no build step needed.
-   --------------------------------------------------------------- */
-const GITHUB_REPO = "Papa-yalo/ecometchem";
-const GITHUB_BRANCH = "main";
-
-async function fetchCollection(folder) {
-  try {
-    const listRes = await fetch(
-      `https://api.github.com/repos/${GITHUB_REPO}/contents/content/${folder}?ref=${GITHUB_BRANCH}`
-    );
-    if (!listRes.ok) return []; // folder doesn't exist yet = no entries yet
-    const files = await listRes.json();
-    if (!Array.isArray(files)) return [];
-
-    const entries = await Promise.all(
-      files
-        .filter((f) => f.name.endsWith(".json"))
-        .map(async (f) => {
-          try {
-            const res = await fetch(f.download_url);
-            return await res.json();
-          } catch {
-            return null;
-          }
-        })
-    );
-    return entries.filter(Boolean);
-  } catch {
-    return [];
+  if (more) {
+    more.hidden = newsItems.length <= NEWS_MIN;
+    more.textContent = newsExpanded ? t.p_less_news : t.p_more_news;
+    more.setAttribute("aria-expanded", newsExpanded ? "true" : "false");
   }
 }
 
+document.getElementById("newsMore")?.addEventListener("click", () => {
+  newsExpanded = !newsExpanded;
+  renderNews();
+});
+
+/* ---------------------------------------------------------------
+   7) DYNAMIC BLOCKS — offers / procurement / services lists.
+   Data comes from /content/index.json (built on every deploy from the
+   CMS files) through js/emc-content.js. Everything is inserted as text.
+   --------------------------------------------------------------- */
+const DYN_BLOCKS = {
+  offersGrid: "offers",
+  procurementGrid: "procurement",
+  servicesActiveList: "servicesActive",
+  servicesNeededList: "servicesNeeded",
+};
+let renderEpoch = 0;
+
 function sortEntries(entries) {
+  const time = (e) => { const v = Date.parse(e.date || ""); return Number.isFinite(v) ? v : -Infinity; };
   return entries
     .filter((e) => !e.hidden)
+    .slice()
     .sort((a, b) => {
       if (!!a.pinned !== !!b.pinned) return a.pinned ? -1 : 1;
-      return new Date(b.date || 0) - new Date(a.date || 0);
+      const ta = time(a), tb = time(b);
+      if (ta === tb) return 0;
+      return tb > ta ? 1 : -1;
     });
 }
 
 function formatEntryDate(dateStr) {
-  if (!dateStr) return "";
-  const localeMap = { ru: "ru-RU", pl: "pl-PL", de: "de-DE", it: "it-IT", fr: "fr-FR", tr: "tr-TR", es: "es-ES", en: "en-GB" };
-  return new Date(dateStr).toLocaleDateString(localeMap[currentLang] || "en-GB", {
+  const v = new Date(dateStr);
+  if (!dateStr || !Number.isFinite(v.getTime())) return "—";
+  return v.toLocaleDateString(LOCALES[currentLang] || "en-GB", {
     day: "numeric", month: "short", year: "numeric", timeZone: "Europe/Warsaw",
   });
 }
 
-function renderOfferList(containerId, entries) {
+function formatFetchedAt(ts) {
+  return new Date(ts).toLocaleString(LOCALES[currentLang] || "en-GB", {
+    day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Warsaw",
+  });
+}
+
+function dynMessage(list, text, withRetry) {
+  const wrap = document.createElement("div");
+  wrap.className = "dyn-status emc-status";
+  const p = document.createElement("p");
+  p.textContent = text;
+  p.style.margin = "0 0 8px";
+  wrap.appendChild(p);
+  if (withRetry) {
+    const t = I18N[currentLang];
+    const retry = document.createElement("button");
+    retry.type = "button";
+    retry.className = "btn btn-ghost btn-sm";
+    retry.textContent = t.p_retry;
+    retry.addEventListener("click", () => window.EMCContent?.load());
+    const contact = document.createElement("a");
+    contact.className = "btn btn-ghost btn-sm";
+    contact.href = "#contact";
+    contact.textContent = t.nav_contact;
+    const row = document.createElement("div");
+    row.className = "emc-status-actions";
+    row.append(retry, contact);
+    wrap.appendChild(row);
+  }
+  return wrap;
+}
+
+function renderOfferList(containerId, entries, kind, staleState) {
   const list = document.getElementById(containerId);
   if (!list) return;
+  const t = I18N[currentLang];
+  const token = renderEpoch, lang = currentLang;
   const visible = sortEntries(entries);
+  list.setAttribute("aria-busy", "false");
+  list.replaceChildren();
 
+  if (staleState) {
+    const note = dynMessage(list, `${t.p_stale} · ${formatFetchedAt(staleState.fetchedAt)}`, true);
+    list.appendChild(note);
+  }
   if (visible.length === 0) {
-    list.innerHTML = `<p class="dyn-status">${I18N[currentLang].dyn_empty}</p>`;
+    const empty = document.createElement("p");
+    empty.className = "dyn-status";
+    empty.textContent = t.p_empty;
+    list.appendChild(empty);
     return;
   }
 
-  list.innerHTML = "";
-  visible.forEach((e, idx) => {
+  visible.forEach((e) => {
     const row = document.createElement("div");
     row.className = "dyn-list-item" + (e.pinned ? " pinned" : "");
-    const titleId = `dynOfferTitle-${containerId}-${idx}`;
-    row.innerHTML = `
-      <span class="txt">${e.pinned ? `<span class="pin-badge" style="position:static; margin-right:8px;">${I18N[currentLang].dyn_pinned}</span>` : ""}<span id="${titleId}">${e.title || ""}</span></span>
-      <span class="dyn-date">${formatEntryDate(e.date)}</span>
-      <button type="button" class="btn btn-ghost btn-sm">${I18N[currentLang].dyn_more}</button>
-    `;
-    row.querySelector("button").addEventListener("click", () => openOfferDetail(e));
+
+    const open = document.createElement("button");
+    open.type = "button";
+    open.className = "dyn-open";
+
+    const photo = emcSafeUrl(e.photo, { image: true });
+    if (photo) {
+      const img = document.createElement("img");
+      img.className = "emc-thumb";
+      img.src = photo;
+      img.alt = "";
+      img.width = 52; img.height = 52;
+      img.loading = "lazy"; img.decoding = "async";
+      open.appendChild(img);
+    }
+
+    const txt = document.createElement("span");
+    txt.className = "txt";
+    if (e.pinned) {
+      const pin = document.createElement("span");
+      pin.className = "pin-badge";
+      pin.style.cssText = "position:static; margin-right:8px;";
+      pin.textContent = t.dyn_pinned;
+      txt.appendChild(pin);
+    }
+    const titleEl = document.createElement("span");
+    titleEl.textContent = e.title || "";
+    txt.appendChild(titleEl);
+
+    const date = document.createElement("span");
+    date.className = "dyn-date";
+    date.textContent = formatEntryDate(e.date);
+
+    const more = document.createElement("span");
+    more.className = "btn btn-ghost btn-sm";
+    more.setAttribute("aria-hidden", "true");
+    more.textContent = t.dyn_more;
+
+    open.setAttribute("aria-label", `${e.title || ""}: ${t.dyn_more}`);
+    open.append(txt, date, more);
+    open.addEventListener("click", () => openOfferDetail(e, kind, open));
+    row.appendChild(open);
     list.appendChild(row);
 
     if (currentLang !== "ru" && e.title) {
-      translateText(e.title, currentLang).then((translated) => {
-        const el = document.getElementById(titleId);
-        if (el) el.textContent = translated;
+      translateText(e.title, lang).then((translated) => {
+        if (token !== renderEpoch || lang !== currentLang || !titleEl.isConnected) return;
+        titleEl.textContent = translated;
+        open.setAttribute("aria-label", `${translated}: ${I18N[lang].dyn_more}`);
       });
     }
   });
 }
 
-function openOfferDetail(e) {
+function openOfferDetail(e, kind, returnEl) {
+  if (!lightbox) return;
+  lbView = { type: "detail", entry: e, kind };
+  renderDetailView(e, kind);
+  lbOpen(returnEl);
+}
+
+function renderDetailView(e, kind) {
+  const t = I18N[currentLang];
+  const lang = currentLang;
+  const epoch = ++lbEpoch;
   lightboxTitle.textContent = e.title || "";
-  lightboxGrid.innerHTML = "";
-  if (e.photo) {
-    lightboxGrid.classList.add("single");
+  lightboxGrid.replaceChildren();
+  const photo = emcSafeUrl(e.photo, { image: true });
+  lightboxGrid.classList.toggle("single", !!photo);
+  if (photo) {
     const img = document.createElement("img");
-    img.src = e.photo;
+    img.src = photo;
     img.alt = e.title || "";
     img.decoding = "async";
     lightboxGrid.appendChild(img);
-  } else {
-    lightboxGrid.classList.remove("single");
   }
 
-  const metaParts = [];
-  if (e.quantity) metaParts.push(`${I18N[currentLang].dyn_qty}: <span class="mark">${e.quantity}</span>`);
-  if (e.country) metaParts.push(`${I18N[currentLang].dyn_country}: <span class="mark">${e.country}</span>`);
-
-  lightboxItems.innerHTML = `
-    ${e.description ? `<p id="lightboxDesc" style="margin:0 0 12px;">${e.description}</p>` : ""}
-    ${metaParts.length ? `<p style="margin:0 0 12px;">${metaParts.join(" · ")}</p>` : ""}
-    <p style="margin:0 0 16px; opacity:.7;">${formatEntryDate(e.date)}</p>
-    <a class="btn btn-primary" href="${e.link || "#contact"}" ${e.link ? 'target="_blank" rel="noopener"' : ""}>${I18N[currentLang].hero_cta_primary}</a>
-  `;
-
-  if (currentLang !== "ru") {
-    if (e.title) {
-      translateText(e.title, currentLang).then((t) => { lightboxTitle.textContent = t; });
-    }
-    if (e.description) {
-      translateText(e.description, currentLang).then((t) => {
-        const el = document.getElementById("lightboxDesc");
-        if (el) el.textContent = t;
-      });
-    }
+  lightboxItems.replaceChildren();
+  let descEl = null;
+  if (e.description) {
+    descEl = document.createElement("p");
+    descEl.className = "emc-text-description";
+    descEl.style.margin = "0 0 12px";
+    descEl.textContent = e.description;
+    lightboxItems.appendChild(descEl);
   }
+  const meta = [];
+  if (e.quantity) meta.push([t.dyn_qty, e.quantity]);
+  if (e.country) meta.push([t.dyn_country, e.country]);
+  if (meta.length) {
+    const p = document.createElement("p");
+    p.style.margin = "0 0 12px";
+    meta.forEach(([label, value], i) => {
+      if (i) p.append(" · ");
+      p.append(`${label}: `);
+      const mark = document.createElement("span");
+      mark.className = "mark";
+      mark.textContent = value;
+      p.appendChild(mark);
+    });
+    lightboxItems.appendChild(p);
+  }
+  const dateP = document.createElement("p");
+  dateP.style.cssText = "margin:0 0 16px; opacity:.7;";
+  dateP.textContent = formatEntryDate(e.date);
+  lightboxItems.appendChild(dateP);
 
-  lightbox.hidden = false;
-  document.body.classList.add("lightbox-open");
+  const actions = document.createElement("div");
+  actions.className = "emc-actions";
+  const ask = document.createElement("button");
+  ask.type = "button";
+  ask.className = "btn btn-primary";
+  ask.textContent = t.hero_cta_primary;
+  ask.addEventListener("click", () => emcStartInquiry(e.title, kind || "catalog"));
+  actions.appendChild(ask);
+  const href = emcSafeUrl(e.link);
+  if (href) {
+    const ext = document.createElement("a");
+    ext.className = "btn btn-ghost";
+    ext.href = href;
+    ext.target = "_blank";
+    ext.rel = "noopener noreferrer";
+    ext.textContent = t.dyn_more;
+    actions.appendChild(ext);
+  }
+  lightboxItems.appendChild(actions);
+
+  if (lang !== "ru") {
+    if (e.title) translateText(e.title, lang).then((tr) => {
+      if (epoch === lbEpoch && lang === currentLang) lightboxTitle.textContent = tr;
+    });
+    if (e.description && descEl) translateText(e.description, lang).then((tr) => {
+      if (epoch === lbEpoch && lang === currentLang && descEl.isConnected) descEl.textContent = tr;
+    });
+  }
 }
 
 /* ---------------------------------------------------------------
-   3b) AUTO-TRANSLATE — the "Услуги и партнёрство" list items are typed
-   freely by staff in the admin panel (usually in Russian) and aren't
-   part of the static i18n dictionary. For non-Russian visitors we
-   translate them on the fly via a free API and cache the result so we
-   don't re-translate the same text twice.
+   7b) AUTO-TRANSLATE — CMS texts are typed in Russian; for other
+   languages they are translated on the fly (MyMemory) and cached.
+   Duplicate requests share one promise; 8 s timeout; on any failure
+   the original text is shown.
    --------------------------------------------------------------- */
 let translationCache = {};
 try {
@@ -467,61 +734,83 @@ try {
 } catch {
   translationCache = {};
 }
+const translationPending = new Map();
 
 function saveTranslationCache() {
   try {
     localStorage.setItem("emc_translations", JSON.stringify(translationCache));
   } catch {
-    /* storage full or unavailable — not critical, just skip caching */
+    /* storage full or unavailable — not critical */
   }
 }
 
-async function translateText(text, targetLang) {
-  if (!text || targetLang === "ru") return text;
+function translateText(text, targetLang) {
+  if (!text || targetLang === "ru") return Promise.resolve(text);
   const key = `${targetLang}::${text}`;
-  if (translationCache[key]) return translationCache[key];
+  if (translationCache[key]) return Promise.resolve(translationCache[key]);
+  if (translationPending.has(key)) return translationPending.get(key);
 
-  try {
-    const res = await fetch(
-      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=ru|${targetLang}`
-    );
-    const data = await res.json();
-    const translated = data && data.responseData && data.responseData.translatedText;
-    if (translated && data.responseStatus === 200) {
-      translationCache[key] = translated;
-      saveTranslationCache();
-      return translated;
+  const job = (async () => {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 8000);
+    try {
+      const res = await fetch(
+        `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=ru|${targetLang}`,
+        { signal: controller.signal }
+      );
+      const data = await res.json();
+      const translated = data && data.responseData && data.responseData.translatedText;
+      if (typeof translated === "string" && translated && data.responseStatus === 200) {
+        translationCache[key] = translated;
+        saveTranslationCache();
+        return translated;
+      }
+    } catch {
+      /* translation service unreachable — fall back to original text */
+    } finally {
+      clearTimeout(timer);
+      translationPending.delete(key);
     }
-  } catch {
-    /* translation service unreachable — fall back to original text below */
-  }
-  return text;
-}
-
-let dynamicDataCache = null;
-
-async function loadDynamicBlocks() {
-  if (!document.getElementById("offersGrid")) return;
-
-  const [offers, procurement, servicesActive, servicesNeeded] = await Promise.all([
-    fetchCollection("offers"),
-    fetchCollection("procurement"),
-    fetchCollection("services-active"),
-    fetchCollection("services-needed"),
-  ]);
-
-  dynamicDataCache = { offers, procurement, servicesActive, servicesNeeded };
-  renderDynamicBlocks();
+    return text;
+  })();
+  translationPending.set(key, job);
+  return job;
 }
 
 function renderDynamicBlocks() {
-  if (!dynamicDataCache) return;
-  const { offers, procurement, servicesActive, servicesNeeded } = dynamicDataCache;
+  renderEpoch++;
+  const state = window.EMCContent?.getState();
+  if (!state) return;
+  const t = I18N[currentLang];
+  const live = document.getElementById("emcLive");
+  let announce = "";
 
-  renderOfferList("offersGrid", offers);
-  renderOfferList("procurementGrid", procurement);
-  renderOfferList("servicesActiveList", servicesActive);
-  renderOfferList("servicesNeededList", servicesNeeded);
+  for (const [id, key] of Object.entries(DYN_BLOCKS)) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+    if (state.data && state.status !== "error") {
+      renderOfferList(id, state.data[key], key, state.status === "stale" ? state : null);
+    } else if (state.status === "error") {
+      el.setAttribute("aria-busy", "false");
+      el.replaceChildren(dynMessage(el, t.p_load_error, true));
+      announce = t.p_load_error;
+    } else {
+      el.setAttribute("aria-busy", "true");
+      if (!el.querySelector(".dyn-list-item")) {
+        const p = document.createElement("p");
+        p.className = "dyn-status";
+        p.textContent = t.p_loading;
+        el.replaceChildren(p);
+      }
+    }
+  }
+  if (state.status === "stale") announce = t.p_stale;
+  if (live) live.textContent = announce;
+}
+
+function loadDynamicBlocks() {
+  if (!Object.keys(DYN_BLOCKS).some((id) => document.getElementById(id))) return;
+  window.EMCContent?.load();
 }
 
 /* ---------------------------------------------------------------
@@ -534,8 +823,10 @@ function renderDynamicBlocks() {
    --------------------------------------------------------------- */
 const GA_MEASUREMENT_ID = "G-FHP1K3Q7DT";
 
+let gaLoaded = false;
 function loadGoogleAnalytics() {
-  if (GA_MEASUREMENT_ID.includes("XXXXXXXXXX")) return; // not configured yet
+  if (gaLoaded || GA_MEASUREMENT_ID.includes("XXXXXXXXXX")) return; // once only
+  gaLoaded = true;
 
   const script = document.createElement("script");
   script.async = true;
@@ -559,7 +850,8 @@ const CONSENT_KEY = "emc_cookie_consent";
 
 function initConsent() {
   if (!cookieBanner) return;
-  const saved = localStorage.getItem(CONSENT_KEY);
+  let saved = null;
+  try { saved = localStorage.getItem(CONSENT_KEY); } catch {}
   if (saved === "accepted") {
     loadGoogleAnalytics();
   } else if (saved !== "declined") {
@@ -568,13 +860,13 @@ function initConsent() {
 }
 
 cookieAccept?.addEventListener("click", () => {
-  localStorage.setItem(CONSENT_KEY, "accepted");
+  try { localStorage.setItem(CONSENT_KEY, "accepted"); } catch {}
   cookieBanner.hidden = true;
   loadGoogleAnalytics();
 });
 
 cookieDecline?.addEventListener("click", () => {
-  localStorage.setItem(CONSENT_KEY, "declined");
+  try { localStorage.setItem(CONSENT_KEY, "declined"); } catch {}
   cookieBanner.hidden = true;
 });
 
@@ -601,37 +893,13 @@ document.getElementById("catSearch")?.addEventListener("input", (e) => {
    init
    --------------------------------------------------------------- */
 applyLang(currentLang);
+window.EMCContent?.subscribe((state) => {
+  renderDynamicBlocks();
+  if (state.status === "ready" || state.status === "stale") document.dispatchEvent(new Event("emc:data"));
+});
 loadNews();
 loadDynamicBlocks();
 initConsent();
-
-/* ============================================================
-   VIDEO PERFORMANCE: play only when visible, load lazily
-   ============================================================ */
-(function initVideos() {
-  const videos = document.querySelectorAll("video.hero-video, video.section-video");
-  if (!videos.length) return;
-  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduce || !("IntersectionObserver" in window)) {
-    videos.forEach((v) => v.pause && v.pause());
-    return;
-  }
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((en) => {
-        const v = en.target;
-        if (en.isIntersecting) {
-          const p = v.play();
-          if (p && p.catch) p.catch(() => {});
-        } else {
-          v.pause();
-        }
-      });
-    },
-    { rootMargin: "300px 0px" }
-  );
-  videos.forEach((v) => io.observe(v));
-})();
 
 /* ============================================================
    UI POLISH: glass header, active menu, back-to-top
@@ -642,7 +910,7 @@ initConsent();
   const toTop = document.createElement("button");
   toTop.className = "to-top";
   toTop.type = "button";
-  toTop.setAttribute("aria-label", "Back to top");
+  toTop.setAttribute("aria-label", I18N[currentLang].p_top);
   toTop.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>';
   toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
   document.body.appendChild(toTop);

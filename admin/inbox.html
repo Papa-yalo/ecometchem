@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+  <meta name="robots" content="noindex,nofollow">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Заявки — EkoMetChem</title>
@@ -55,6 +56,11 @@
   let records = [];
   let activeFilter = "all";
 
+  // Visitor text is untrusted: always escape before putting it into HTML.
+  function esc(v) {
+    return String(v == null ? "" : v).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+
   function fmtDate(iso) {
     return new Date(iso).toLocaleString("ru-RU", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
   }
@@ -74,16 +80,16 @@
       <div class="card">
         <div class="row">
           <div>
-            <div class="name">${r.name || "(без имени)"}</div>
-            <div class="meta">${r.email || ""}${r.company ? " · " + r.company : ""} · ${fmtDate(r.createdAt)}</div>
+            <div class="name">${esc(r.name) || "(без имени)"}</div>
+            <div class="meta">${esc(r.email)}${r.company ? " · " + esc(r.company) : ""} · ${fmtDate(r.createdAt)}</div>
           </div>
-          <select data-id="${r.id}">
+          <select data-id="${esc(r.id)}">
             ${Object.entries(STATUS_LABELS)
               .map(([val, label]) => `<option value="${val}" ${r.status === val ? "selected" : ""}>${label}</option>`)
               .join("")}
           </select>
         </div>
-        ${r.message ? `<div class="msg">${r.message}</div>` : ""}
+        ${r.message ? `<div class="msg">${esc(r.message)}</div>` : ""}
       </div>
     `
       )
